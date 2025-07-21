@@ -1,39 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
 public class FishingMiniGame : MonoBehaviour
 {
-    #region 레퍼런스
-    [Header("Button")]
+    #region UI 요소
+    [Header("낚시 시작 버튼")]
     [SerializeField] private Button _startFishingButton;
 
-    [Header("Coroutine")]
+    #endregion
+
+    #region 상태 관리
+    [Header("코루틴")]
     private Coroutine _fishingCoroutine;
 
-    [Header("Checking")]
-    private bool _isFishing = false;
-    private bool _isBobberHit = false;
+    [Header("상태 플래그")]
+    private bool _isFishing = false;        // 찌가 물고기를 기다리는 중
+    private bool _isBobberHit = false;      // 물고기가 찌를 무는 이벤트 발생
 
-    [Header("TestBox")]
-    private RectTransform _currentRedRect;
-    private RectTransform _currentTargetRect;
+    #endregion
 
-    [Header("FishingBar")]
+    #region 미니게임 박스 (노란/빨간 박스)
+    [Header("박스 정보")]
+    private RectTransform _currentRedRect;     // 움직이는 빨간 박스
+    private RectTransform _currentTargetRect;  // 고정된 노란 타겟 박스
+
+    #endregion
+
+    #region 낚시 미니게임 바
+    [Header("낚시 바 설정")]
     [SerializeField] private GameObject _barObj;
-    [SerializeField] private List<RectTransform> _targetPositions;
+    [SerializeField] private List<RectTransform> _targetPositions; // 노란 타겟이 스폰될 위치들
     [SerializeField] private GameObject _targetBoxPrefab;
 
-    [Header("RedIndicator")]
-    [SerializeField] private GameObject _redBoxPrefab;
-    [SerializeField, Range(10f, 1000f)] private float _moveSpeed = 300f;
+    #endregion
 
-    [Header("Gizmos")]
-    [SerializeField] private bool drawGizmoLine = false;
-    [SerializeField] private float gizmoLineLength = 200f;
+    #region 빨간 바 움직임
+    [Header("빨간 박스")]
+    [SerializeField] private GameObject _redBoxPrefab;
+    [SerializeField, Range(10f, 1000f)] private float _moveSpeed = 300f; // 낮을수록 빠름
+
+    #endregion
+
+    #region 디버그 기즈모 (선 표시)
+    [Header("기즈모 설정")]
+    [SerializeField] private bool _drawGizmoLine = false;
+    [SerializeField] private float _gizmoLineLength = 200f;
 
     #endregion
 
@@ -41,21 +55,20 @@ public class FishingMiniGame : MonoBehaviour
     void Start()
     {
         _startFishingButton.onClick.AddListener(StartFishing);
-
-        _barObj.SetActive(false);
+        _barObj.SetActive(false); // 시작 시 바는 비활성화
     }
 
     void Update()
     {
-        Handle();
+        Handle(); // 스페이스 입력 처리
     }
 
     #endregion
 
-    #region 낚시 미니게임
+    #region 낚시 흐름
     private void StartFishing()
     {
-        _startFishingButton.gameObject.SetActive(false);
+        _startFishingButton.gameObject.SetActive(false); // 버튼 숨기기
 
         if (_fishingCoroutine == null)
         {
@@ -63,6 +76,7 @@ public class FishingMiniGame : MonoBehaviour
         }
     }
 
+    // 찌가 물고기를 기다리는 시간
     private IEnumerator FishingRoutine()
     {
         _isFishing = true;
@@ -75,10 +89,10 @@ public class FishingMiniGame : MonoBehaviour
         _isFishing = false;
         _isBobberHit = true;
 
-        // 플레이어 입력을 기다림 (2초 내 입력 없으면 놓침)
         yield return StartCoroutine(WaitForPlayerInput());
     }
 
+    // 2초 안에 스페이스바 입력 기다림
     private IEnumerator WaitForPlayerInput()
     {
         float timer = 2f;
@@ -98,8 +112,8 @@ public class FishingMiniGame : MonoBehaviour
 
         if (inputReceived)
         {
-            SpawnTargetInBar();
-            MovingRedBox();
+            SpawnTargetInBar();   // 노란 박스 생성
+            MovingRedBox();       // 빨간 박스 움직임 시작
         }
         else
         {
@@ -111,6 +125,10 @@ public class FishingMiniGame : MonoBehaviour
         _fishingCoroutine = null;
     }
 
+    #endregion
+
+    #region 타겟 & 인디케이터 생성
+    // 노란 박스를 특정 위치에 랜덤 생성
     private void SpawnTargetInBar()
     {
         if (_targetPositions == null || _targetPositions.Count == 0) return;
@@ -124,6 +142,7 @@ public class FishingMiniGame : MonoBehaviour
         _currentTargetRect = targetBox.GetComponent<RectTransform>();
     }
 
+    // 빨간 박스를 좌우로 이동시킴
     private void MovingRedBox()
     {
         GameObject redBox = Instantiate(_redBoxPrefab, _barObj.transform);
@@ -148,18 +167,18 @@ public class FishingMiniGame : MonoBehaviour
 
     #endregion
 
-    #region 컨트롤
+    #region 입력 판정 & 종료 처리
     private void Handle()
     {
-        // 미니게임 상태가 아니면 무시
+        // 미니게임이 진행 중이 아닐 때는 입력 무시
         if (!_isFishing && !_isBobberHit && !_barObj.activeSelf) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // 찌를 물고 아직 미니게임 시작 전이면 입력 처리 막기 (WaitForPlayerInput에서 처리하므로)
+            // 찌 반응 상태에서는 입력 처리 X (2초 안에만 판단됨)
             if (_isBobberHit) return;
 
-            // 실제 미니게임 중일 때만 판정
+            // 미니게임 시작된 후만 판정 가능
             if (_currentRedRect == null || _currentTargetRect == null) return;
 
             bool isHit = CheckHit();
@@ -177,6 +196,7 @@ public class FishingMiniGame : MonoBehaviour
         }
     }
 
+    // 미니게임 종료 처리
     private void EndMiniGame()
     {
         _barObj.SetActive(false);
@@ -199,17 +219,19 @@ public class FishingMiniGame : MonoBehaviour
     #endregion
 
     #region 기즈모
+    // 외부에서 기즈모 On/Off
     public void DrawGizmosLine(bool isOn)
     {
-        drawGizmoLine = isOn;
+        _drawGizmoLine = isOn;
     }
 
+    // Scene에서 디버그 선 표시
     private void OnDrawGizmos()
     {
-        if (!drawGizmoLine || _currentRedRect == null || _currentTargetRect == null) return;
+        if (!_drawGizmoLine || _currentRedRect == null || _currentTargetRect == null) return;
 
         Vector3 redCenter = _currentRedRect.position;
-        Vector3 lineEnd = redCenter + Vector3.down * gizmoLineLength;
+        Vector3 lineEnd = redCenter + Vector3.down * _gizmoLineLength;
 
         bool isHit = CheckHit();
 
@@ -217,11 +239,13 @@ public class FishingMiniGame : MonoBehaviour
         Gizmos.DrawLine(redCenter, lineEnd);
     }
 
+    // 충돌 판정 (빨간선이 노란 박스를 통과하고 있는지)
     private bool CheckHit()
     {
         if (_currentRedRect == null || _currentTargetRect == null) return false;
 
         Vector3 redCenter = _currentRedRect.position;
+
         Rect yellowRect = new Rect(
             _currentTargetRect.position.x - _currentTargetRect.rect.width * 0.5f,
             _currentTargetRect.position.y - _currentTargetRect.rect.height * 0.5f,

@@ -1070,8 +1070,8 @@ MonoBehaviour:
   _redBoxPrefab: {fileID: 358953790986429840, guid: cdb2079125ee34e4381c2bdaba50548a,
     type: 3}
   _moveSpeed: 500
-  drawGizmoLine: 1
-  gizmoLineLength: 120
+  _drawGizmoLine: 1
+  _gizmoLineLength: 120
 --- !u!1 &955700225
 GameObject:
   m_ObjectHideFlags: 0

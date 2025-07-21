@@ -68,16 +68,46 @@ public class FishingMiniGame : MonoBehaviour
         _isFishing = true;
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
-        float waitTime = Random.Range(5f, 15f);
+        float waitTime = Random.Range(1f, 2f);
         yield return new WaitForSeconds(waitTime);
 
         Debug.Log("물고기가 찌를 물었다!");
         _isFishing = false;
         _isBobberHit = true;
-        
-        SpawnTargetInBar();
-        MovingRedBox();
 
+        // 플레이어 입력을 기다림 (2초 내 입력 없으면 놓침)
+        yield return StartCoroutine(WaitForPlayerInput());
+    }
+
+    private IEnumerator WaitForPlayerInput()
+    {
+        float timer = 2f;
+        bool inputReceived = false;
+
+        while (timer > 0f)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                inputReceived = true;
+                break;
+            }
+
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (inputReceived)
+        {
+            SpawnTargetInBar();
+            MovingRedBox();
+        }
+        else
+        {
+            Debug.Log("놓쳤다..");
+            _startFishingButton.gameObject.SetActive(true);
+        }
+
+        _isBobberHit = false;
         _fishingCoroutine = null;
     }
 
@@ -121,8 +151,17 @@ public class FishingMiniGame : MonoBehaviour
     #region 컨트롤
     private void Handle()
     {
+        // 미니게임 상태가 아니면 무시
+        if (!_isFishing && !_isBobberHit && !_barObj.activeSelf) return;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            // 찌를 물고 아직 미니게임 시작 전이면 입력 처리 막기 (WaitForPlayerInput에서 처리하므로)
+            if (_isBobberHit) return;
+
+            // 실제 미니게임 중일 때만 판정
+            if (_currentRedRect == null || _currentTargetRect == null) return;
+
             bool isHit = CheckHit();
 
             if (isHit)
@@ -133,7 +172,28 @@ public class FishingMiniGame : MonoBehaviour
             {
                 Debug.Log("실패!");
             }
+
+            EndMiniGame();
         }
+    }
+
+    private void EndMiniGame()
+    {
+        _barObj.SetActive(false);
+
+        if (_currentRedRect != null)
+        {
+            Destroy(_currentRedRect.gameObject);
+            _currentRedRect = null;
+        }
+
+        if (_currentTargetRect != null)
+        {
+            Destroy(_currentTargetRect.gameObject);
+            _currentTargetRect = null;
+        }
+
+        _startFishingButton.gameObject.SetActive(true);
     }
 
     #endregion

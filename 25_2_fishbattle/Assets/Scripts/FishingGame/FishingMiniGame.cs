@@ -40,7 +40,8 @@ public class FishingMiniGame : MonoBehaviour
     #region 빨간 바 움직임
     [Header("빨간 박스")]
     [SerializeField] private GameObject _redBoxPrefab;
-    [SerializeField, Range(10f, 1000f)] private float _moveSpeed = 300f; // 낮을수록 빠름
+    [SerializeField] private float _height = 100f;                              // 빨간 화살표 높이  
+    [SerializeField, Range(10f, 1000f)] private float _moveSpeed = 300f;        // 빨간 화살표 속도 조절
 
     #endregion
 
@@ -159,7 +160,7 @@ public class FishingMiniGame : MonoBehaviour
 
         float duration = distance / _moveSpeed;
 
-        _currentRedRect.anchoredPosition = new Vector2(minX, 400f);
+        _currentRedRect.anchoredPosition = new Vector2(minX, _height);
         _currentRedRect.DOAnchorPosX(maxX, duration)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo);

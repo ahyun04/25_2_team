@@ -1,18 +1,16 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class FishingMiniGame : MonoBehaviour
 {
-    #region UI 요소
+    #region 레퍼런스
     [Header("낚시 시작 버튼")]
     [SerializeField] private Button _startFishingButton;
 
-    #endregion
-
-    #region 상태 관리
     [Header("코루틴")]
     private Coroutine _fishingCoroutine;
 
@@ -20,32 +18,20 @@ public class FishingMiniGame : MonoBehaviour
     private bool _isFishing = false;        // 찌가 물고기를 기다리는 중
     private bool _isBobberHit = false;      // 물고기가 찌를 무는 이벤트 발생
 
-    #endregion
-
-    #region 미니게임 박스 (노란/빨간 박스)
     [Header("박스 정보")]
     private RectTransform _currentRedRect;     // 움직이는 빨간 박스
     private RectTransform _currentTargetRect;  // 고정된 노란 타겟 박스
 
-    #endregion
-
-    #region 낚시 미니게임 바
     [Header("낚시 바 설정")]
     [SerializeField] private GameObject _barObj;
     [SerializeField] private List<RectTransform> _targetPositions; // 노란 타겟이 스폰될 위치들
     [SerializeField] private GameObject _targetBoxPrefab;
 
-    #endregion
-
-    #region 빨간 바 움직임
     [Header("빨간 박스")]
     [SerializeField] private GameObject _redBoxPrefab;
     [SerializeField] private float _height = 100f;                              // 빨간 화살표 높이  
     [SerializeField, Range(10f, 1000f)] private float _moveSpeed = 300f;        // 빨간 화살표 속도 조절
 
-    #endregion
-
-    #region 디버그 기즈모 (선 표시)
     [Header("기즈모 설정")]
     [SerializeField] private bool _drawGizmoLine = false;
     [SerializeField] private float _gizmoLineLength = 200f;
@@ -83,7 +69,7 @@ public class FishingMiniGame : MonoBehaviour
         _isFishing = true;
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
-        float waitTime = Random.Range(5f, 15f);
+        float waitTime = Random.Range(1f, 2f);
         yield return new WaitForSeconds(waitTime);
 
         Debug.Log("물고기가 찌를 물었다!");
@@ -125,6 +111,56 @@ public class FishingMiniGame : MonoBehaviour
         _isBobberHit = false;
         _fishingCoroutine = null;
     }
+
+    // 물고기SO가 들어오기 전 테스트용 함수
+    private string GetRandomFish()
+    {
+        Dictionary<string, float> fishTable = new()
+        {
+            { "송어", 35f },
+            { "블루길", 27f },
+            { "배스", 18f },
+            { "월아이", 15f },
+            { "가물치", 5f }
+        };
+
+        float totalWeight = fishTable.Values.Sum();
+        float roll = Random.Range(0f, totalWeight);
+        float accumulator = 0f;
+
+        foreach (var pair in fishTable)
+        {
+            accumulator += pair.Value;
+            if (roll <= accumulator)
+            {
+                return pair.Key;
+            }
+        }
+
+        // fallback (혹시 모를 상황 대비)
+        return fishTable.Keys.First();
+    }
+
+    // 이건 물고기SO가 들어오면 테스트 해볼 코드 지금은 신경X
+    /*public FishSO GetRandomFishByHabitat(FishHabitat habitat)
+    {
+        var filtered = fishDatabase.fishList
+            .Where(fish => fish.habitats.Contains(habitat))
+            .ToList();
+
+        float totalWeight = filtered.Sum(fish => fish.weight);
+        float roll = Random.Range(0f, totalWeight);
+        float accumulator = 0f;
+
+        foreach (var fish in filtered)
+        {
+            accumulator += fish.weight;
+            if (roll <= accumulator)
+                return fish;
+        }
+
+        return filtered.FirstOrDefault();
+    }*/
 
     #endregion
 
@@ -187,6 +223,9 @@ public class FishingMiniGame : MonoBehaviour
             if (isHit)
             {
                 Debug.Log("성공!");
+
+                string caughtFish = GetRandomFish();
+                Debug.Log($"획득한 물고기: {caughtFish}");
             }
             else
             {

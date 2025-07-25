@@ -69,7 +69,7 @@ public class FishingMiniGame : MonoBehaviour
         _isFishing = true;
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
-        float waitTime = Random.Range(5f, 15f);
+        float waitTime = Random.Range(1f, 2f);
         yield return new WaitForSeconds(waitTime);
 
         Debug.Log("물고기가 찌를 물었다!");
@@ -113,16 +113,9 @@ public class FishingMiniGame : MonoBehaviour
     }
 
     // 물고기SO가 들어오기 전 테스트용 함수
-    private string GetRandomFish()
+    public string GetRandomFish()
     {
-        Dictionary<string, float> fishTable = new()
-        {
-            { "송어", 35f },
-            { "블루길", 27f },
-            { "배스", 18f },
-            { "월아이", 15f },
-            { "가물치", 5f }
-        };
+        Dictionary<string, float> fishTable = GetFishTableForScene();
 
         float totalWeight = fishTable.Values.Sum();
         float roll = Random.Range(0f, totalWeight);
@@ -137,8 +130,53 @@ public class FishingMiniGame : MonoBehaviour
             }
         }
 
-        // fallback (혹시 모를 상황 대비)
-        return fishTable.Keys.First();
+        // 예외 상황 대비: 첫 번째 키 반환
+        return fishTable.Keys.FirstOrDefault();
+    }
+
+    private Dictionary<string, float> GetFishTableForScene()
+    {
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+        switch (sceneName)
+        {
+            case "LakeMiniGameScene":
+                return new Dictionary<string, float>
+                {
+                    { "송어", 35f },
+                    { "블루길", 27f },
+                    { "배스", 18f },
+                    { "월아이", 15f },
+                    { "가물치", 5f }
+                };
+
+            case "RIverMiniGameScene":
+                return new Dictionary<string, float>
+                {
+                    { "붕어", 40f },
+                    { "잉어", 28f },
+                    { "메기", 18f },
+                    { "피라냐", 11f },
+                    { "연어", 3f }
+                };
+
+            case "OceanMiniGameScene":
+                return new Dictionary<string, float>
+                {
+                    { "고등어", 47f },
+                    { "광어", 27f },
+                    { "참다랑어", 15f },
+                    { "꽁치", 9f },
+                    { "멸치", 2f }
+                };
+
+            default:
+                Debug.LogWarning($"[FishSpawner] 알 수 없는 씬 이름: {sceneName}");
+                return new Dictionary<string, float>
+                {
+                    { "???", 100f } // fallback 물고기
+                };
+        }
     }
 
     // 이건 물고기SO가 들어오면 테스트 해볼 코드 지금은 신경X
@@ -201,7 +239,8 @@ public class FishingMiniGame : MonoBehaviour
         _currentRedRect.anchoredPosition = new Vector2(minX, _height);
         _currentRedRect.DOAnchorPosX(maxX, duration)
             .SetEase(Ease.InOutSine)
-            .SetLoops(-1, LoopType.Yoyo);
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetUpdate(false);
     }
 
     #endregion

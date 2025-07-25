@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/MenuScene.unity"
+    guid: ae16c1893f8355343bcedbe2b9efdc08
+  - enabled: 1
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/LakeMiniGameScene.unity"
+    guid: 1939622ca93a9c143a8964139968e9a7
+  - enabled: 1
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/RIverMiniGameScene.unity"
+    guid: a73a6f915f3e0c548ac911739d0c70c4
+  - enabled: 1
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/OceanMiniGameScene.unity"
+    guid: bc758eea90b63974db2acf07ca15bb6b
   m_configObjects: {}

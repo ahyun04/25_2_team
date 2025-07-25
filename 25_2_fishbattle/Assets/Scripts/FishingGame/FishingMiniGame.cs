@@ -144,10 +144,12 @@ public class FishingMiniGame : MonoBehaviour
     // 이건 물고기SO가 들어오면 테스트 해볼 코드 지금은 신경X
     /*public FishSO GetRandomFishByHabitat(FishHabitat habitat)
     {
+        // habitats = 살 수 있는 장소
         var filtered = fishDatabase.fishList
             .Where(fish => fish.habitats.Contains(habitat))
             .ToList();
 
+        // weight = 확률 가중치
         float totalWeight = filtered.Sum(fish => fish.weight);
         float roll = Random.Range(0f, totalWeight);
         float accumulator = 0f;

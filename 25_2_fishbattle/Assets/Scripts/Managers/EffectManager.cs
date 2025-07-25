@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EffectManager : MonoBehaviour
+public class EffectManager : SingletonMono<EffectManager>
 {
     #region 클래스
     // 개별 이펙트 설정 정보
@@ -31,8 +31,7 @@ public class EffectManager : MonoBehaviour
     #endregion
 
     #region 레퍼런스
-    [Header("Instance")]
-    public static EffectManager instance;
+    protected override bool DontDestroy => true;
 
     [Header("References")]
     public Effect[] effects; // 인스펙터에서 설정된 이펙트 목록
@@ -41,19 +40,9 @@ public class EffectManager : MonoBehaviour
     #endregion
 
     #region 초기화
-    private void Awake()
+    protected override void Awake()
     {
-        // 싱글톤 패턴 구성 및 초기화
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴 방지
-            InitializeEffectPools();       // 이펙트 풀 초기화
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
     }
 
     #endregion

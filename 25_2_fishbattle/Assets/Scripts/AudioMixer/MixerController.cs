@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-public class MixerManager : MonoBehaviour
+public class MixerController : MonoBehaviour
 {
     #region 레퍼런스
     [Header("Mixer")]

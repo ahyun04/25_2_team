@@ -24,11 +24,10 @@ public class Sound
 
 #endregion
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonMono<SoundManager>
 {
     #region 레퍼런스
-    [Header("Instance")]
-    public static SoundManager instance;
+    protected override bool DontDestroy => true;
 
     [Header("References")]
     public List<Sound> sounds = new List<Sound>();
@@ -37,17 +36,9 @@ public class SoundManager : MonoBehaviour
     #endregion
 
     #region 초기화
-    void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
 
         foreach (Sound sound in sounds)
         {

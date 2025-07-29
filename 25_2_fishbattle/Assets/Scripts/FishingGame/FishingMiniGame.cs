@@ -87,8 +87,8 @@ public class FishingMiniGame : MonoBehaviour
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
         // 테스트 용
-        float waitTime = Random.Range(1f, 2f);
-        //float waitTime = Random.Range(5f, 15f);
+        //float waitTime = Random.Range(1f, 2f);
+        float waitTime = Random.Range(5f, 15f);
         yield return new WaitForSeconds(waitTime);
 
         Debug.Log("물고기가 찌를 물었다!");

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FishingMiniGame : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class FishingMiniGame : MonoBehaviour
     [Header("상태 플래그")]
     private bool _isFishing = false;        // 찌가 물고기를 기다리는 중
     private bool _isBobberHit = false;      // 물고기가 찌를 무는 이벤트 발생
+    public bool IsFishing
+    {
+        get => _isFishing;
+        set => _isFishing = value;
+    }
 
     [Header("박스 정보")]
     private RectTransform _currentRedRect;     // 움직이는 빨간 박스
@@ -32,9 +38,19 @@ public class FishingMiniGame : MonoBehaviour
     [SerializeField] private float _height = 100f;                              // 빨간 화살표 높이  
     [SerializeField, Range(10f, 1000f)] private float _moveSpeed = 300f;        // 빨간 화살표 속도 조절
 
+    [Header("물고기 확인 패널")]
+    [SerializeField] private Image _hookAFishPanel;
+    [SerializeField] private TextMeshProUGUI _hookAFishNameText;
+    [SerializeField] private Button _putInBoxButton;                    // TODO: 인벤토리 구현 후 버튼 클릭 시 잡은 물고기가 인벤토리 들어가게 구현
+
     [Header("기즈모 설정")]
     [SerializeField] private bool _drawGizmoLine = false;
     [SerializeField] private float _gizmoLineLength = 200f;
+
+    [Header("인벤토리 설정")]
+    [SerializeField] private FishDatabaseSO _fishDatabase;
+    [SerializeField] private InventoryHolder _playerInventory;
+    private FishSO _caughtFishSO;
 
     #endregion
 
@@ -42,7 +58,8 @@ public class FishingMiniGame : MonoBehaviour
     void Start()
     {
         _startFishingButton.onClick.AddListener(StartFishing);
-        _barObj.SetActive(false); // 시작 시 바는 비활성화
+        _barObj.SetActive(false);
+        _hookAFishPanel.gameObject.SetActive(false);
     }
 
     void Update()
@@ -55,7 +72,7 @@ public class FishingMiniGame : MonoBehaviour
     #region 낚시 흐름
     private void StartFishing()
     {
-        _startFishingButton.gameObject.SetActive(false); // 버튼 숨기기
+        _startFishingButton.gameObject.SetActive(false);
 
         if (_fishingCoroutine == null)
         {
@@ -70,13 +87,11 @@ public class FishingMiniGame : MonoBehaviour
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
         // 테스트 용
-        //float waitTime = Random.Range(1f, 2f);
-
-        float waitTime = Random.Range(5f, 15f);
+        float waitTime = Random.Range(1f, 2f);
+        //float waitTime = Random.Range(5f, 15f);
         yield return new WaitForSeconds(waitTime);
 
         Debug.Log("물고기가 찌를 물었다!");
-        _isFishing = false;
         _isBobberHit = true;
 
         yield return StartCoroutine(WaitForPlayerInput());
@@ -109,101 +124,12 @@ public class FishingMiniGame : MonoBehaviour
         {
             Debug.Log("놓쳤다..");
             _startFishingButton.gameObject.SetActive(true);
+            _isFishing = false;
         }
 
         _isBobberHit = false;
         _fishingCoroutine = null;
     }
-
-    // 물고기SO가 들어오기 전 테스트용 함수
-    public string GetRandomFish()
-    {
-        Dictionary<string, float> fishTable = GetFishTableForScene();
-
-        float totalWeight = fishTable.Values.Sum();
-        float roll = Random.Range(0f, totalWeight);
-        float accumulator = 0f;
-
-        foreach (var pair in fishTable)
-        {
-            accumulator += pair.Value;
-            if (roll <= accumulator)
-            {
-                return pair.Key;
-            }
-        }
-
-        // 예외 상황 대비: 첫 번째 키 반환
-        return fishTable.Keys.FirstOrDefault();
-    }
-
-    private Dictionary<string, float> GetFishTableForScene()
-    {
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-
-        switch (sceneName)
-        {
-            case "LakeMiniGameScene":
-                return new Dictionary<string, float>
-                {
-                    { "송어", 35f },
-                    { "블루길", 27f },
-                    { "배스", 18f },
-                    { "월아이", 15f },
-                    { "가물치", 5f }
-                };
-
-            case "RIverMiniGameScene":
-                return new Dictionary<string, float>
-                {
-                    { "붕어", 40f },
-                    { "잉어", 28f },
-                    { "메기", 18f },
-                    { "피라냐", 11f },
-                    { "연어", 3f }
-                };
-
-            case "OceanMiniGameScene":
-                return new Dictionary<string, float>
-                {
-                    { "고등어", 47f },
-                    { "광어", 27f },
-                    { "참다랑어", 15f },
-                    { "꽁치", 9f },
-                    { "멸치", 2f }
-                };
-
-            default:
-                Debug.LogWarning($"[FishSpawner] 알 수 없는 씬 이름: {sceneName}");
-                return new Dictionary<string, float>
-                {
-                    { "???", 100f } // fallback 물고기
-                };
-        }
-    }
-
-    // 이건 물고기SO가 들어오면 테스트 해볼 코드 지금은 신경X
-    /*public FishSO GetRandomFishByHabitat(FishHabitat habitat)
-    {
-        // habitats = 살 수 있는 장소
-        var filtered = fishDatabase.fishList
-            .Where(fish => fish.habitats.Contains(habitat))
-            .ToList();
-
-        // weight = 확률 가중치
-        float totalWeight = filtered.Sum(fish => fish.weight);
-        float roll = Random.Range(0f, totalWeight);
-        float accumulator = 0f;
-
-        foreach (var fish in filtered)
-        {
-            accumulator += fish.weight;
-            if (roll <= accumulator)
-                return fish;
-        }
-
-        return filtered.FirstOrDefault();
-    }*/
 
     #endregion
 
@@ -266,10 +192,19 @@ public class FishingMiniGame : MonoBehaviour
 
             if (isHit)
             {
-                Debug.Log("성공!");
+                _isFishing = false;
 
-                string caughtFish = GetRandomFish();
-                Debug.Log($"획득한 물고기: {caughtFish}");
+                Debug.Log("성공!");
+                _hookAFishPanel.gameObject.SetActive(true);
+
+                FishSpawner fishSpawner = GetComponent<FishSpawner>();
+
+                _caughtFishSO = fishSpawner.GetRandomFishByScene();
+                _hookAFishNameText.text = $"{_caughtFishSO.FishName} 를(을) 잡았다!";
+
+                // 박스 넣기 버튼 연결
+                _putInBoxButton.onClick.RemoveAllListeners();
+                _putInBoxButton.onClick.AddListener(() => PutFishInInventory());
             }
             else
             {
@@ -278,6 +213,53 @@ public class FishingMiniGame : MonoBehaviour
 
             EndMiniGame();
         }
+    }
+
+    private void PutFishInInventory()
+    {
+        if (_caughtFishSO == null) return;
+
+        var inventorySystem = _playerInventory.InventorySystem;
+        Debug.Log($"이벤트 리스너 수: {inventorySystem.OnInventorySlotChanged?.GetInvocationList().Length}");
+        bool added = false;
+
+        foreach (var slot in inventorySystem.InventorySlots)
+        {
+            if (slot.ItemData == _caughtFishSO && slot.StackSize < _caughtFishSO.MaxStackSize)
+            {
+                slot.AddToStack(1);
+                inventorySystem.OnInventorySlotChanged?.Invoke(slot);
+                added = true;
+                break;
+            }
+        }
+
+        if (!added)
+        {
+            for (int i = 0; i < inventorySystem.InventorySlots.Count; i++)
+            {
+                var slot = inventorySystem.InventorySlots[i];
+
+                if (slot.ItemData == null)
+                {
+                    inventorySystem.InventorySlots[i] = new InventorySlot(_caughtFishSO, 1);
+                    inventorySystem.OnInventorySlotChanged?.Invoke(inventorySystem.InventorySlots[i]);
+                    added = true;
+                    break;
+                }
+            }
+        }
+
+        if (added)
+        {
+            Debug.Log($"{_caughtFishSO.FishName}를 인벤토리에 추가했습니다!");
+        }
+        else
+        {
+            Debug.Log("인벤토리가 가득 찼습니다.");
+        }
+
+        _hookAFishPanel.gameObject.SetActive(false);
     }
 
     // 미니게임 종료 처리

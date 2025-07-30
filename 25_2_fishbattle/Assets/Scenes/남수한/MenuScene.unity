@@ -1125,7 +1125,7 @@ MonoBehaviour:
   - button: {fileID: 1921884788}
     sceneName: LakeMiniGameScene
   - button: {fileID: 313880188}
-    sceneName: RIverMiniGameScene
+    sceneName: RiverMiniGameScene
   - button: {fileID: 1972571637}
     sceneName: OceanMiniGameScene
 --- !u!1 &1858406299

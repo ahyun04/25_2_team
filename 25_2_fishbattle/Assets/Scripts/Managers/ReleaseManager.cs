@@ -19,6 +19,7 @@ public class ReleaseManager : SingletonMono<ReleaseManager>
     [SerializeField] private Button _confirmAmountButton;
     [SerializeField] private Button _confirmYesButton;
     [SerializeField] private Button _confirmNoButton;
+    [SerializeField] private Button _confirmAllReleaseButton;
     
     private InventorySlot_UI _currentSlot;
 
@@ -33,6 +34,7 @@ public class ReleaseManager : SingletonMono<ReleaseManager>
         _confirmYesButton.onClick.AddListener(OnConfirmYes);
         _confirmNoButton.onClick.AddListener(OnConfirmNo);
         _confirmAmountButton.onClick.AddListener(OnConfirmAmount);
+        _confirmAllReleaseButton.onClick.AddListener(OnConfirmAllRelease);
     }
 
     #endregion
@@ -99,6 +101,33 @@ public class ReleaseManager : SingletonMono<ReleaseManager>
 
         Debug.Log($"{releaseCount}마리 방생 완료");
     }
-    
+
+    private void OnConfirmAllRelease()
+    {
+        if (_currentSlot == null) return;
+
+        var inventoryHolder = FindObjectOfType<InventoryHolder>();
+        if (inventoryHolder == null)
+        {
+            Debug.LogError("InventoryHolder를 찾을 수 없습니다.");
+            return;
+        }
+
+        int currentCount = InventoryManager.Instance.GetFishCount(_currentSlot.AssignedItem);
+        if (currentCount <= 0)
+        {
+            Debug.LogWarning("방생할 수량이 없습니다.");
+            return;
+        }
+
+        inventoryHolder.InventorySystem.RemoveItem(_currentSlot.AssignedItem, currentCount);
+
+        _releaseConfirmPanel.SetActive(false); // 패널 닫기
+        _releaseAmountPanel.SetActive(false);
+
+        Debug.Log($"전체({currentCount}마리) 방생 완료");
+    }
+
+
     #endregion
 }

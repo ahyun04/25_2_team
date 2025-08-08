@@ -28,7 +28,7 @@ public class InventorySlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExi
             _itemImage.sprite = item.Icon;
             _itemImage.enabled = true;
             _itemCountText.text = _stackSize > 1 ? _stackSize.ToString() : "";
-            _itemNameText.text = item.FishName;
+            _itemNameText.text = item.Name;
         }
         else
         {

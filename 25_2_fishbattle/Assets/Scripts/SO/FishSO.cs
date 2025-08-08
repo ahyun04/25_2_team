@@ -6,15 +6,18 @@ using UnityEngine;
 public class FishSO : ScriptableObject
 {
     public int Id;
-    public string FishName;
-    public FishHabitatType HabitatType;
-    public string FishDescription;
+    public string Name;
+    public int Hp;
+    public int AbilityToAct;
     public Sprite Icon;
+    public string Skill_name;
+    public int Damage;
+    public int Heal;
+    public int Support;
+    public FishHabitatType HabitatType;
+    public int Probability;
+    public string Description;
     public int MaxStackSize;
     public float Weight = 1f;
-
-    public override string ToString()
-    {
-        return $"[{Id}] {FishName} ({HabitatType}) - HP";
-    }
+    public bool IsCheck = false;
 }

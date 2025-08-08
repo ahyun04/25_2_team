@@ -90,19 +90,14 @@ public class GameManager : SingletonMono<GameManager>
         switch (newState)
         {
             case GameState.Menu:
-
                 break;
             case GameState.Playing:
-
                 break;
             case GameState.Paused:
-
                 break;
             case GameState.GameOver:
-
                 break;
             case GameState.Loading:
-
                 break;
         }
     }

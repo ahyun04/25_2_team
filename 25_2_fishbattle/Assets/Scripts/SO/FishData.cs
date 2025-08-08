@@ -7,25 +7,27 @@ using UnityEngine;
 public class FishData
 {
     public int Id;
-    public string FishName;
+    public string Name;
+    public int Hp;
+    public int AbilityToAct;
+    public string AbilityToAct_icon;
+    public string Skill_name;
+    public int Damage;
+    public int Heal;
+    public int Support;
     public string HabitatTypeString;
     [NonSerialized] public FishHabitatType HabitatType;
-    public string FishDescription;
-    public Sprite Icon;
+    public int Probability;
+    public string Description;
     public int MaxStackSize;
+    public float Weight = 1f;
+    public bool IsCheck = false;
 
-    // 문자열을 열거형으로 변환하는 메서드
     public void InitalizeEnums()
     {
         if (Enum.TryParse(HabitatTypeString, out FishHabitatType parsedType))
-        {
             HabitatType = parsedType;
-        }
         else
-        {
-            Debug.Log($"아이템 : '{FishName}'에 유효하지 않은 아이템 타입 : {HabitatTypeString}");
-            // 기본값 설정
             HabitatType = FishHabitatType.Lake;
-        }
     }
 }

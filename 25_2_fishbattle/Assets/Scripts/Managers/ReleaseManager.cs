@@ -47,7 +47,7 @@ public class ReleaseManager : SingletonMono<ReleaseManager>
 
         if (_currentSlot.AssignedItem is FishSO fish)
         {
-            _releasedText.text = $"이 {fish.FishName}을(를) 방생하시겠습니까?";
+            _releasedText.text = $"이 {fish.Name}을(를) 방생하시겠습니까?";
         }
 
         _releaseConfirmPanel.SetActive(true);

@@ -87,8 +87,9 @@ public class FishingMiniGame : MonoBehaviour
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
         // 테스트 용
-        float waitTime = Random.Range(1f, 2f);
-        //float waitTime = Random.Range(5f, 15f);
+        //float waitTime = Random.Range(1f, 2f);
+
+        float waitTime = Random.Range(5f, 15f);
         yield return new WaitForSeconds(waitTime);
 
         Debug.Log("물고기가 찌를 물었다!");
@@ -200,7 +201,7 @@ public class FishingMiniGame : MonoBehaviour
                 FishSpawner fishSpawner = GetComponent<FishSpawner>();
 
                 _caughtFishSO = fishSpawner.GetRandomFishByScene();
-                _hookAFishNameText.text = $"{_caughtFishSO.FishName} 를(을) 잡았다!";
+                _hookAFishNameText.text = $"{_caughtFishSO.Name} 를(을) 잡았다!";
 
                 // 박스 넣기 버튼 연결
                 _putInBoxButton.onClick.RemoveAllListeners();
@@ -252,7 +253,7 @@ public class FishingMiniGame : MonoBehaviour
 
         if (added)
         {
-            Debug.Log($"{_caughtFishSO.FishName}를 인벤토리에 추가했습니다!");
+            Debug.Log($"{_caughtFishSO.Name}를 인벤토리에 추가했습니다!");
         }
         else
         {

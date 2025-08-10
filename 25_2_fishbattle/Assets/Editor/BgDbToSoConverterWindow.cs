@@ -1,0 +1,481 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+using BansheeGz.BGDatabase;
+
+/// <summary>
+/// BG Database의 Fish 엔티티들을 FishSO로 변환하는 커스텀 에디터 윈도우
+/// </summary>
+public class BgDbToSoConverterWindow : EditorWindow
+{
+    #region 설정 필드
+    // 출력 폴더 (Assets/ 부터 시작)
+    private string m_outputFolder = "Assets/FishSOs";
+    // DB에서 만들어진 SO들을 모아둘 FishDatabaseSO (선택 가능)
+    private FishDatabaseSO m_targetDatabaseSo;
+    // 기존 에셋 덮어쓰기 옵션
+    private bool m_overwriteExisting = false;
+    // 생성된 항목을 자동으로 Database에 추가
+    private bool m_addToDatabase = true;
+    // 로그 레벨
+    private bool m_verboseLog = true;
+    #endregion
+
+    [MenuItem("Tools/BG DB → Create FishSO")]
+    private static void OpenWindow()
+    {
+        var window = GetWindow<BgDbToSoConverterWindow>(true, "BG DB -> FishSO Converter");
+        window.minSize = new Vector2(520, 220);
+    }
+
+    private void OnGUI()
+    {
+        EditorGUILayout.LabelField("BG Database → FishSO 변환기", EditorStyles.boldLabel);
+        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("출력 폴더 (Assets/에서 시작)", EditorStyles.label);
+        EditorGUILayout.BeginHorizontal();
+        m_outputFolder = EditorGUILayout.TextField(m_outputFolder);
+        if (GUILayout.Button("폴더 선택", GUILayout.Width(100)))
+        {
+            string select = EditorUtility.OpenFolderPanel("Select output folder", Application.dataPath, "");
+            if (!string.IsNullOrEmpty(select))
+            {
+                // 절대경로 -> Assets 상대경로 변환
+                if (select.StartsWith(Application.dataPath))
+                {
+                    m_outputFolder = "Assets" + select.Substring(Application.dataPath.Length);
+                }
+                else
+                {
+                    EditorUtility.DisplayDialog("오류", "선택한 폴더는 프로젝트의 Assets 폴더 아래여야 합니다.", "확인");
+                }
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space();
+        m_targetDatabaseSo = (FishDatabaseSO)EditorGUILayout.ObjectField("Target FishDatabaseSO (선택)", m_targetDatabaseSo, typeof(FishDatabaseSO), false);
+        m_addToDatabase = EditorGUILayout.ToggleLeft("생성된 FishSO들을 Target Database에 추가", m_addToDatabase);
+        m_overwriteExisting = EditorGUILayout.ToggleLeft("기존 FishSO 덮어쓰기(같은 이름/ID 일치시)", m_overwriteExisting);
+        m_verboseLog = EditorGUILayout.ToggleLeft("상세 로그 출력", m_verboseLog);
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("변환 실행", GUILayout.Height(38)))
+        {
+            if (!Directory.Exists(m_outputFolder))
+            {
+                // 폴더 없으면 생성
+                AssetDatabase.CreateFolder(Path.GetDirectoryName(m_outputFolder), Path.GetFileName(m_outputFolder));
+                AssetDatabase.Refresh();
+            }
+
+            ConvertAllBgFishToSo();
+        }
+
+        if (GUILayout.Button("새 DatabaseSO 생성", GUILayout.Height(38), GUILayout.Width(180)))
+        {
+            CreateNewDatabaseSo();
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space();
+        EditorGUILayout.HelpBox("주의: 아이콘 문자열 경로는 Resources 폴더 경로를 기준으로 로드합니다. Addressables 사용시 LoadIcon 부분을 수정하세요.", MessageType.Info);
+    }
+
+    #region 변환 로직
+    private void ConvertAllBgFishToSo()
+    {
+        try
+        {
+            // 전체 엔티티 리스트를 모읍니다.
+            var entities = GatherAllFishEntities();
+            if (entities.Count == 0)
+            {
+                EditorUtility.DisplayDialog("알림", "BG Database에서 Fish 엔티티를 찾지 못했습니다.", "확인");
+                return;
+            }
+
+            // 진행바
+            int total = entities.Count;
+            int processed = 0;
+
+            // DatabaseSO가 없다면 생성 옵션 안내
+            if (m_addToDatabase && m_targetDatabaseSo == null)
+            {
+                if (!EditorUtility.DisplayDialog("DatabaseSO 미지정", "Target FishDatabaseSO가 지정되어 있지 않습니다. 변환 후 FishDatabaseSO를 자동으로 생성하시겠습니까?", "네", "아니요"))
+                {
+                    m_addToDatabase = false;
+                }
+                else
+                {
+                    CreateNewDatabaseSo();
+                }
+            }
+
+            // 변환 루프
+            List<FishSO> createdSoList = new List<FishSO>();
+            for (int i = 0; i < entities.Count; i++)
+            {
+                EditorUtility.DisplayProgressBar("BG DB → FishSO 변환중...", $"처리중: {i + 1}/{total}", (float)(i) / total);
+                var e = entities[i];
+                var habitat = GetHabitatFromEntity(e);
+                var fishName = GetEntityName(e);
+                var fishId = GetEntityId(e);
+
+                if (string.IsNullOrEmpty(fishName))
+                {
+                    if (m_verboseLog) Debug.LogWarning($"엔티티 이름이 비어있음 (id:{fishId}) - 스킵");
+                    processed++;
+                    continue;
+                }
+
+                // 에셋 경로 생성 (이름 충돌 방지 위해 ID 포함 권장)
+                string safeName = SanitizeFileName($"{habitat}_{fishName}_{fishId}.asset");
+                string assetPath = Path.Combine(m_outputFolder, safeName).Replace("\\", "/");
+
+                // 기존에 같은 이름의 SO가 있는지 검사
+                FishSO existing = AssetDatabase.LoadAssetAtPath<FishSO>(assetPath);
+                if (existing != null && !m_overwriteExisting)
+                {
+                    if (m_verboseLog) Debug.Log($"이미 존재 (덮어쓰기 OFF): {assetPath}");
+                    createdSoList.Add(existing);
+                    processed++;
+                    continue;
+                }
+
+                FishSO so = null;
+                if (existing != null && m_overwriteExisting)
+                {
+                    so = existing;
+                    // 변경 사항 기록(Undo/Inspector 갱신)
+                    Undo.RecordObject(so, "Update FishSO from BG DB");
+                }
+                else
+                {
+                    so = ScriptableObject.CreateInstance<FishSO>();
+                    AssetDatabase.CreateAsset(so, AssetDatabase.GenerateUniqueAssetPath(assetPath));
+                }
+
+                // 필드 채우기
+                PopulateFishSOFromEntity(so, e, habitat, fishId);
+
+                EditorUtility.SetDirty(so);
+                createdSoList.Add(so);
+
+                processed++;
+            }
+
+            // DB에 추가
+            if (m_addToDatabase && m_targetDatabaseSo != null)
+            {
+                AddSOsToDatabase(createdSoList);
+                EditorUtility.SetDirty(m_targetDatabaseSo);
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            EditorUtility.ClearProgressBar();
+            EditorUtility.DisplayDialog("완료", $"변환 완료: 총 {processed}개 처리됨.", "확인");
+        }
+        catch (Exception ex)
+        {
+            EditorUtility.ClearProgressBar();
+            Debug.LogError($"변환 중 오류: {ex}");
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// BG DB의 Fish 엔티티들을 모두 수집합니다.
+    /// DB 엔티티 타입에 맞게 여기에 추가/수정하세요.
+    /// </summary>
+    private List<BGEntity> GatherAllFishEntities()
+    {
+        var result = new List<BGEntity>();
+
+        // FishLake
+        try
+        {
+            int countLake = DB_FishLake.CountEntities;
+            for (int i = 0; i < countLake; i++)
+            {
+                result.Add(DB_FishLake.GetEntity(i));
+            }
+        }
+        catch (Exception) { /* 무시: 테이블 없을 수 있음 */ }
+
+        // FishRiver
+        try
+        {
+            int countRiver = DB_FishRiver.CountEntities;
+            for (int i = 0; i < countRiver; i++)
+            {
+                result.Add(DB_FishRiver.GetEntity(i));
+            }
+        }
+        catch (Exception) { }
+
+        // FishOcean
+        try
+        {
+            int countOcean = DB_FishOcean.CountEntities;
+            for (int i = 0; i < countOcean; i++)
+            {
+                result.Add(DB_FishOcean.GetEntity(i));
+            }
+        }
+        catch (Exception) { }
+
+        return result;
+    }
+
+    #endregion
+
+    #region 헬퍼 메서드
+    // 엔티티에서 이름 추출. meta에 따라 캐스트해서 _name 필드 사용
+    private string GetEntityName(BGEntity entity)
+    {
+        if (entity == null) return null;
+        if (entity is DB_FishLake lake) return lake._name;
+        if (entity is DB_FishRiver river) return river._name;
+        if (entity is DB_FishOcean ocean) return ocean._name;
+        return null;
+    }
+
+    // 엔티티에서 id(정수)를 추출 (Meta상에 id가 없으면 인덱스 대신 0 사용)
+    private int GetEntityId(BGEntity entity)
+    {
+        // BG 엔티티에 int Id 필드가 없다면 index 기반 식별로 변경 필요
+        // 여기서는 convenience로 hash 사용
+        if (entity == null) return 0;
+        try
+        {
+            // Many BG generated classes don't expose raw id int; use GetHashCode as fallback
+            return Math.Abs(entity.GetHashCode());
+        }
+        catch { return 0; }
+    }
+
+    // 엔티티의 소속 수역 타입 결정
+    private FishHabitatType GetHabitatFromEntity(BGEntity entity)
+    {
+        if (entity is DB_FishLake) return FishHabitatType.Lake;
+        if (entity is DB_FishRiver) return FishHabitatType.River;
+        if (entity is DB_FishOcean) return FishHabitatType.Ocean;
+        return FishHabitatType.Lake;
+    }
+
+    // 파일명 안전하게
+    private string SanitizeFileName(string name)
+    {
+        foreach (var c in Path.GetInvalidFileNameChars())
+        {
+            name = name.Replace(c.ToString(), "_");
+        }
+        return name;
+    }
+
+    // BG 엔티티 -> FishSO 필드 매핑
+    private void PopulateFishSOFromEntity(FishSO so, BGEntity entity, FishHabitatType habitat, int idFallback)
+    {
+        if (so == null || entity == null) return;
+
+        // 기본 공통 필드
+        int fishId = 0;
+        string name = GetEntityName(entity) ?? $"Fish_{idFallback}";
+        int hp = 0;
+        int abilityToAct = 0;
+        string abilityIconPath = null;
+        string skillName = null;
+        int damage = 0;
+        int heal = 0;
+        int support = 0;
+        int probability = 0;
+        string description = null;
+        int maxStack = 1;
+        float weight = 1f;
+        bool isCheck = false;
+
+        // 각 엔티티 타입별로 캐스팅하여 필드 읽기
+        if (entity is DB_FishLake lake)
+        {
+            fishId = lake._FishId;
+            hp = lake._Hp;
+            abilityToAct = lake._AbilityToAct;
+            abilityIconPath = lake._AbilityToAct_icon;
+            skillName = lake._Skill_name;
+            damage = lake._Damage;
+            heal = lake._Heal;
+            support = lake._Support;
+            probability = lake._Probability;
+            description = lake._Description;
+            maxStack = lake._MaxStackSize;
+            weight = lake._Weight;
+            isCheck = lake._Check;
+        }
+        else if (entity is DB_FishRiver river)
+        {
+            fishId = river._FishId;
+            hp = river._Hp;
+            abilityToAct = river._AbilityToAct;
+            abilityIconPath = river._AbilityToAct_icon;
+            skillName = river._Skill_name;
+            damage = river._Damage;
+            heal = river._Heal;
+            support = river._Support;
+            probability = river._Probability;
+            description = river._Description;
+            maxStack = river._MaxStackSize;
+            weight = river._Weight;
+            isCheck = river._Check;
+        }
+        else if (entity is DB_FishOcean ocean)
+        {
+            fishId = ocean._FishId;
+            hp = ocean._Hp;
+            abilityToAct = ocean._AbilityToAct;
+            abilityIconPath = ocean._AbilityToAct_icon;
+            skillName = ocean._Skill_name;
+            damage = ocean._Damage;
+            heal = ocean._Heal;
+            support = ocean._Support;
+            probability = ocean._Probability;
+            description = ocean._Description;
+            maxStack = ocean._MaxStackSize;
+            weight = ocean._Weight;
+            isCheck = ocean._Check;
+        }
+
+        // SO에 할당
+        so.FishId = fishId;
+        so.Name = name;
+        so.Hp = hp;
+        so.AbilityToAct = abilityToAct;
+        so.Skill_name = skillName;
+        so.Damage = damage;
+        so.Heal = heal;
+        so.Support = support;
+        so.Probability = probability;
+        so.Description = description;
+        so.MaxStackSize = Mathf.Max(1, maxStack);
+        so.Weight = Mathf.Max(0.0001f, weight);
+        so.IsCheck = isCheck;
+        so.HabitatType = habitat;
+
+        // 아이콘 로드 시도: 엔티티에 저장된 문자열 경로를 사용하여 Resources.Load<Sprite> 호출
+        if (!string.IsNullOrEmpty(abilityIconPath))
+        {
+            var sprite = LoadIcon(abilityIconPath);
+            if (sprite != null)
+                so.Icon = sprite;
+            else if (m_verboseLog)
+                Debug.LogWarning($"아이콘 로드 실패: {abilityIconPath} (엔티티: {name})");
+        }
+    }
+
+    // 기본 Resources 기반 아이콘 로드 유틸
+    private Sprite LoadIcon(string path)
+    {
+        if (string.IsNullOrEmpty(path)) return null;
+
+        // 경로가 확장자 포함이면 제거
+        string clean = Path.ChangeExtension(path, null);
+
+        // Resources.Load는 Assets/Resources 내부 경로(확장자 제외)여야 함
+        try
+        {
+            var sprite = Resources.Load<Sprite>(clean);
+            return sprite;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"LoadIcon 예외: {ex.Message}");
+            return null;
+        }
+    }
+
+    // 생성된 SO들을 FishDatabaseSO에 추가(중복 검사)
+    private void AddSOsToDatabase(List<FishSO> createdList)
+    {
+        if (m_targetDatabaseSo == null) return;
+
+        // Undo/Dirty 처리
+        Undo.RecordObject(m_targetDatabaseSo, "Add FishSOs to Database");
+
+        // 최초 초기화 루틴 호출 (private 변수 채우기 위해)
+        m_targetDatabaseSo.Initialize();
+
+        foreach (var so in createdList)
+        {
+            if (so == null) continue;
+
+            // 중복 체크: Id 기반 혹은 Name 기반 검사
+            var existingById = m_targetDatabaseSo.GetItemById(so.FishId);
+            var existingByName = m_targetDatabaseSo.GetItemByName(so.Name);
+
+            if (existingById != null || existingByName != null)
+            {
+                if (m_overwriteExisting)
+                {
+                    // 기존 항목이 있으면 교체 (이 경우 리스트 내 교체 또는 참조 갱신 필요)
+                    // 여기서는 fishItems 리스트에서 기존을 찾아 해당 index에 새로 할당
+                    ReplaceExistingInDatabase(m_targetDatabaseSo, existingById ?? existingByName, so);
+                }
+                else
+                {
+                    if (m_verboseLog) Debug.Log($"Database에 이미 존재함(스킵): {so.Name} (Id:{so.FishId})");
+                    continue;
+                }
+            }
+            else
+            {
+                // 새로 추가
+                m_targetDatabaseSo.fishItems.Add(so);
+            }
+        }
+
+        // DB 내부 인덱스 사전 갱신
+        m_targetDatabaseSo.Initialize();
+    }
+
+    // Database 내 기존 항목을 찾아 교체
+    private void ReplaceExistingInDatabase(FishDatabaseSO db, FishSO existing, FishSO @new)
+    {
+        if (db == null || existing == null || @new == null) return;
+
+        int idx = db.fishItems.IndexOf(existing);
+        if (idx >= 0)
+        {
+            db.fishItems[idx] = @new;
+            if (m_verboseLog) Debug.Log($"Database 항목 교체: {@new.Name} (Id:{@new.FishId})");
+        }
+        else
+        {
+            // 혹은 이름/Id 매칭 실패 시 그냥 추가
+            db.fishItems.Add(@new);
+        }
+    }
+    #endregion
+
+    #region 유틸: DatabaseSO 생성
+    private void CreateNewDatabaseSo()
+    {
+        string path = EditorUtility.SaveFilePanelInProject("Create FishDatabaseSO", "FishDatabaseSO", "asset", "Choose location to save FishDatabaseSO", "Assets");
+        if (string.IsNullOrEmpty(path)) return;
+
+        var dbSo = ScriptableObject.CreateInstance<FishDatabaseSO>();
+        AssetDatabase.CreateAsset(dbSo, path);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        m_targetDatabaseSo = dbSo;
+        EditorUtility.DisplayDialog("완료", "새 FishDatabaseSO 를 생성했습니다.", "확인");
+    }
+    #endregion
+}

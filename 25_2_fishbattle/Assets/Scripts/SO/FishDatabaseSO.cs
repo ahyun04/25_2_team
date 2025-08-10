@@ -18,7 +18,7 @@ public class FishDatabaseSO : ScriptableObject
 
         foreach (var item in fishItems)                       
         {
-            fishItemsById[item.Id] = item;
+            fishItemsById[item.FishId] = item;
             fishItemsByName[item.Name] = item;
         }
     }

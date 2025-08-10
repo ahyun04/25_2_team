@@ -5470,7 +5470,7 @@ MonoBehaviour:
   _putInBoxButton: {fileID: 1969251593}
   _drawGizmoLine: 1
   _gizmoLineLength: 120
-  _fishDatabase: {fileID: 11400000, guid: a38f90562844dc644b0835c9c66a33a1, type: 2}
+  _fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}
   _playerInventory: {fileID: 5769314546167606931}
 --- !u!114 &947584942
 MonoBehaviour:
@@ -5484,7 +5484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6aada492dba12148a975ba752e1b5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fishDatabase: {fileID: 11400000, guid: a38f90562844dc644b0835c9c66a33a1, type: 2}
+  _fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}
 --- !u!1 &955700225
 GameObject:
   m_ObjectHideFlags: 0

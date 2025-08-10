@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Inventory/FishSO")]
 public class FishSO : ScriptableObject
 {
-    public int Id;
+    public int FishId;
     public string Name;
     public int Hp;
     public int AbilityToAct;

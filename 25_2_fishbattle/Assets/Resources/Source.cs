@@ -16,6 +16,11 @@ public partial class DB_FishRiver : BGEntity
 	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ?? (_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5307155828711052178UL,11210579068189473933UL), () => _metaDefault = null));
 	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
 	public static int CountEntities => MetaDefault.CountEntities;
+	public System.Int32 _FishId
+	{
+		get => __FishId[Index];
+		set => __FishId.SetValue(this, value);
+	}
 	public System.String _name
 	{
 		get => __name[Index];
@@ -91,6 +96,8 @@ public partial class DB_FishRiver : BGEntity
 		get => __Check[Index];
 		set => __Check.SetValue(this, value);
 	}
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
+	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4976901650265358197UL, 9559963750065549952UL), () => _ufle12jhs77__FishId = null));
 	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77__name;
 	public static BansheeGz.BGDatabase.BGFieldEntityName __name => _ufle12jhs77__name ?? (_ufle12jhs77__name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5415392848779497364UL, 2559740640425672838UL), () => _ufle12jhs77__name = null));
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Hp;
@@ -145,6 +152,7 @@ public partial class DB_FishRiver : BGEntity
 	public static class __Names
 	{
 		public const string Meta = "FishRiver";
+		public const string FishId = "FishId";
 		public const string name = "name";
 		public const string Hp = "Hp";
 		public const string AbilityToAct = "AbilityToAct";
@@ -170,6 +178,11 @@ public partial class DB_FishOcean : BGEntity
 	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ?? (_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5640068678953238307UL,10303491490289556620UL), () => _metaDefault = null));
 	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
 	public static int CountEntities => MetaDefault.CountEntities;
+	public System.Int32 _FishId
+	{
+		get => __FishId[Index];
+		set => __FishId.SetValue(this, value);
+	}
 	public System.String _name
 	{
 		get => __name[Index];
@@ -245,6 +258,8 @@ public partial class DB_FishOcean : BGEntity
 		get => __Check[Index];
 		set => __Check.SetValue(this, value);
 	}
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
+	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4869277298640378294UL, 12018445722170645927UL), () => _ufle12jhs77__FishId = null));
 	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77__name;
 	public static BansheeGz.BGDatabase.BGFieldEntityName __name => _ufle12jhs77__name ?? (_ufle12jhs77__name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5203231371621610676UL, 1611488776779468702UL), () => _ufle12jhs77__name = null));
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Hp;
@@ -299,6 +314,7 @@ public partial class DB_FishOcean : BGEntity
 	public static class __Names
 	{
 		public const string Meta = "FishOcean";
+		public const string FishId = "FishId";
 		public const string name = "name";
 		public const string Hp = "Hp";
 		public const string AbilityToAct = "AbilityToAct";
@@ -324,6 +340,11 @@ public partial class DB_FishLake : BGEntity
 	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ?? (_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5560984306225763593UL,9892102557027751583UL), () => _metaDefault = null));
 	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
 	public static int CountEntities => MetaDefault.CountEntities;
+	public System.Int32 _FishId
+	{
+		get => __FishId[Index];
+		set => __FishId.SetValue(this, value);
+	}
 	public System.String _name
 	{
 		get => __name[Index];
@@ -399,6 +420,8 @@ public partial class DB_FishLake : BGEntity
 		get => __Check[Index];
 		set => __Check.SetValue(this, value);
 	}
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
+	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5738085357535783960UL, 12879849390299136128UL), () => _ufle12jhs77__FishId = null));
 	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77__name;
 	public static BansheeGz.BGDatabase.BGFieldEntityName __name => _ufle12jhs77__name ?? (_ufle12jhs77__name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5045520561611985804UL, 12371104935179130035UL), () => _ufle12jhs77__name = null));
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Hp;
@@ -453,6 +476,7 @@ public partial class DB_FishLake : BGEntity
 	public static class __Names
 	{
 		public const string Meta = "FishLake";
+		public const string FishId = "FishId";
 		public const string name = "name";
 		public const string Hp = "Hp";
 		public const string AbilityToAct = "AbilityToAct";

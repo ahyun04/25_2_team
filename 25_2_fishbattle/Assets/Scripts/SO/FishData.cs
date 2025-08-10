@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class FishData
 {
-    public int Id;
+    public int FishId;
     public string Name;
     public int Hp;
     public int AbilityToAct;

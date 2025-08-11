@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
-  m_Name: "Lake_\uAC00\uBB3C\uCE58_2145526311"
+  m_Name: "3005_Ocean_\uBA78\uCE58"
   m_EditorClassIdentifier: 
-  FishId: 1005
-  Name: "\uAC00\uBB3C\uCE58"
-  Hp: 60
-  AbilityToAct: 4
+  FishId: 3005
+  Name: "\uBA78\uCE58"
+  Hp: 80
+  AbilityToAct: 5
   Icon: {fileID: 21300000, guid: ac301e6c238473a48914d276b5fecca1, type: 3}
-  Skill_name: "\uAC00\uBB3C\uAC00\uBB3C\uCE58"
-  Damage: 20
-  Heal: 0
+  Skill_name: "\uCE7C\uC298 \uBCF4\uCDA9"
+  Damage: 0
+  Heal: 30
   Support: 0
-  HabitatType: 0
-  Probability: 5
-  Description: 
+  HabitatType: 2
+  Probability: 2
+  Description: healer
   MaxStackSize: 99
-  Weight: 5
+  Weight: 2
   IsCheck: 0

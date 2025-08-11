@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
-  m_Name: "River_\uBD95\uC5B4_61532600"
+  m_Name: "2002_River_\uC789\uC5B4"
   m_EditorClassIdentifier: 
-  FishId: 2001
-  Name: "\uBD95\uC5B4"
+  FishId: 2002
+  Name: "\uC789\uC5B4"
   Hp: 60
-  AbilityToAct: 1
+  AbilityToAct: 2
   Icon: {fileID: 21300000, guid: ac301e6c238473a48914d276b5fecca1, type: 3}
-  Skill_name: "\uBD95\uC5B4\uBE75\uC758 \uB9DB"
-  Damage: 0
-  Heal: 20
+  Skill_name: "\uC789\uAF2C\uC758 \uBCF5\uC218"
+  Damage: 15
+  Heal: 0
   Support: 0
   HabitatType: 1
-  Probability: 40
-  Description: healer
+  Probability: 28
+  Description: 
   MaxStackSize: 99
-  Weight: 40
+  Weight: 28
   IsCheck: 0

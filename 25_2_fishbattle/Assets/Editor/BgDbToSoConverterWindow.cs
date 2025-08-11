@@ -127,15 +127,22 @@ public class BgDbToSoConverterWindow : EditorWindow
                 var fishName = GetEntityName(e);
                 var fishId = GetEntityId(e);
 
-                if (string.IsNullOrEmpty(fishName))
+                // 이름 정리: 좌우 공백 제거 및 공백은 '_'로 변경
+                if (!string.IsNullOrEmpty(fishName))
                 {
-                    if (m_verboseLog) Debug.LogWarning($"엔티티 이름이 비어있음 (id:{fishId}) - 스킵");
-                    processed++;
-                    continue;
+                    fishName = fishName.Trim().Replace(' ', '_');
+                }
+                else
+                {
+                    fishName = $"Fish_{i}";
                 }
 
-                // 에셋 경로 생성 (이름 충돌 방지 위해 ID 포함 권장)
-                string safeName = SanitizeFileName($"{habitat}_{fishName}_{fishId}.asset");
+                // 에셋명에 사용할 ID 결정: 엔티티에서 얻은 FishId가 0이면 인덱스(i)를 사용
+                int entityFishId = GetEntityId(e);
+                string idForName = entityFishId != 0 ? entityFishId.ToString() : i.ToString();
+
+                // 에셋 경로 생성 (이름 충돌 방지 위해 ID 포함)
+                string safeName = SanitizeFileName($"{idForName}_{habitat}_{fishName}.asset");
                 string assetPath = Path.Combine(m_outputFolder, safeName).Replace("\\", "/");
 
                 // 기존에 같은 이름의 SO가 있는지 검사
@@ -248,18 +255,60 @@ public class BgDbToSoConverterWindow : EditorWindow
         return null;
     }
 
-    // 엔티티에서 id(정수)를 추출 (Meta상에 id가 없으면 인덱스 대신 0 사용)
+    /// <summary>
+    /// 엔티티에서 가능한 한 실제 FishId를 추출합니다.
+    /// 알려진 타입을 우선으로 시도하고, 없으면 리플렉션으로 후보 필드/프로퍼티를 검색합니다.
+    /// 그래도 못찾으면 기존의 GetHashCode()를 최후 fallback으로 사용합니다.
+    /// </summary>
     private int GetEntityId(BGEntity entity)
     {
-        // BG 엔티티에 int Id 필드가 없다면 index 기반 식별로 변경 필요
-        // 여기서는 convenience로 hash 사용
         if (entity == null) return 0;
+
+        // 알려진 BG 엔티티 타입에서 직접 읽기
+        if (entity is DB_FishLake lake) return Mathf.Abs(lake._FishId);
+        if (entity is DB_FishRiver river) return Mathf.Abs(river._FishId);
+        if (entity is DB_FishOcean ocean) return Mathf.Abs(ocean._FishId);
+
+        // 리플렉션 후보 검색
         try
         {
-            // Many BG generated classes don't expose raw id int; use GetHashCode as fallback
+            var type = entity.GetType();
+            var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
+            string[] candidateNames = new[] { "_FishId", "FishId", "Id", "_id" };
+
+            foreach (var name in candidateNames)
+            {
+                var field = type.GetField(name, flags);
+                if (field != null)
+                {
+                    var val = field.GetValue(entity);
+                    if (val is int vi) return Math.Abs(vi);
+                    if (val is long vl) return (int)Math.Abs(vl);
+                }
+
+                var prop = type.GetProperty(name, flags);
+                if (prop != null)
+                {
+                    var val = prop.GetValue(entity, null);
+                    if (val is int pi) return Math.Abs(pi);
+                    if (val is long pl) return (int)Math.Abs(pl);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            if (m_verboseLog) Debug.LogWarning($"GetEntityId 리플렉션 실패: {ex.Message}");
+        }
+
+        // 최종 fallback: 해시값 (이전 동작 유지)
+        try
+        {
             return Math.Abs(entity.GetHashCode());
         }
-        catch { return 0; }
+        catch
+        {
+            return 0;
+        }
     }
 
     // 엔티티의 소속 수역 타입 결정

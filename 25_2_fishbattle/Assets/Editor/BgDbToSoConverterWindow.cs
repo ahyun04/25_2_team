@@ -92,7 +92,6 @@ public class BgDbToSoConverterWindow : EditorWindow
     {
         try
         {
-            // 전체 엔티티 리스트를 모읍니다.
             var entities = GatherAllFishEntities();
             if (entities.Count == 0)
             {
@@ -100,11 +99,6 @@ public class BgDbToSoConverterWindow : EditorWindow
                 return;
             }
 
-            // 진행바
-            int total = entities.Count;
-            int processed = 0;
-
-            // DatabaseSO가 없다면 생성 옵션 안내
             if (m_addToDatabase && m_targetDatabaseSo == null)
             {
                 if (!EditorUtility.DisplayDialog("DatabaseSO 미지정", "Target FishDatabaseSO가 지정되어 있지 않습니다. 변환 후 FishDatabaseSO를 자동으로 생성하시겠습니까?", "네", "아니요"))
@@ -117,59 +111,56 @@ public class BgDbToSoConverterWindow : EditorWindow
                 }
             }
 
-            // 변환 루프
+            // 플레이어/적 폴더 경로 정의
+            string playerOutputFolder = Path.Combine(m_outputFolder, "Player").Replace("\\", "/");
+            string enemyOutputFolder = Path.Combine(m_outputFolder, "Enemy").Replace("\\", "/");
+
+            // 폴더가 없으면 생성
+            if (!Directory.Exists(playerOutputFolder)) AssetDatabase.CreateFolder(m_outputFolder, "Player");
+            if (!Directory.Exists(enemyOutputFolder)) AssetDatabase.CreateFolder(m_outputFolder, "Enemy");
+            AssetDatabase.Refresh();
+
+
             List<FishSO> createdSoList = new List<FishSO>();
+            int total = entities.Count;
+            int processed = 0;
+
             for (int i = 0; i < entities.Count; i++)
             {
                 EditorUtility.DisplayProgressBar("BG DB → FishSO 변환중...", $"처리중: {i + 1}/{total}", (float)(i) / total);
                 var e = entities[i];
-                var habitat = GetHabitatFromEntity(e);
-                var fishName = GetEntityName(e);
-                var fishId = GetEntityId(e);
 
-                // 이름 정리: 좌우 공백 제거 및 공백은 '_'로 변경
-                if (!string.IsNullOrEmpty(fishName))
-                {
-                    fishName = fishName.Trim().Replace(' ', '_');
-                }
-                else
-                {
-                    fishName = $"Fish_{i}";
-                }
+                // PopulateFishSOFromEntity는 이전에 호출된 곳에서 분리
+                // 먼저 FishSO를 생성하고, 필드를 채운 다음, IsPlayerCard 값을 기반으로 경로를 결정
+                FishSO tempSo = ScriptableObject.CreateInstance<FishSO>();
+                PopulateFishSOFromEntity(tempSo, e, GetHabitatFromEntity(e), GetEntityId(e));
 
-                // 에셋명에 사용할 ID 결정: 엔티티에서 얻은 FishId가 0이면 인덱스(i)를 사용
-                int entityFishId = GetEntityId(e);
-                string idForName = entityFishId != 0 ? entityFishId.ToString() : i.ToString();
+                // isPlayerCard 값을 기준으로 저장 경로 결정
+                string targetFolder = tempSo.IsPlayerCard ? playerOutputFolder : enemyOutputFolder;
+                string fishName = tempSo.Name.Trim().Replace(' ', '_');
+                string safeName = SanitizeFileName($"{tempSo.FishId}_{fishName}.asset");
+                string assetPath = Path.Combine(targetFolder, safeName).Replace("\\", "/");
 
-                // 에셋 경로 생성 (이름 충돌 방지 위해 ID 포함)
-                string safeName = SanitizeFileName($"{idForName}_{habitat}_{fishName}.asset");
-                string assetPath = Path.Combine(m_outputFolder, safeName).Replace("\\", "/");
-
-                // 기존에 같은 이름의 SO가 있는지 검사
                 FishSO existing = AssetDatabase.LoadAssetAtPath<FishSO>(assetPath);
-                if (existing != null && !m_overwriteExisting)
-                {
-                    if (m_verboseLog) Debug.Log($"이미 존재 (덮어쓰기 OFF): {assetPath}");
-                    createdSoList.Add(existing);
-                    processed++;
-                    continue;
-                }
-
                 FishSO so = null;
+
                 if (existing != null && m_overwriteExisting)
                 {
                     so = existing;
-                    // 변경 사항 기록(Undo/Inspector 갱신)
-                    Undo.RecordObject(so, "Update FishSO from BG DB");
+                    // 기존 SO에 데이터 덮어쓰기
+                    PopulateFishSOFromEntity(so, e, GetHabitatFromEntity(e), GetEntityId(e));
+                }
+                else if (existing != null && !m_overwriteExisting)
+                {
+                    if (m_verboseLog) Debug.Log($"이미 존재 (덮어쓰기 OFF): {assetPath}");
+                    so = existing; // 기존 SO를 리스트에 추가
                 }
                 else
                 {
-                    so = ScriptableObject.CreateInstance<FishSO>();
+                    // 새 SO 생성
+                    so = tempSo;
                     AssetDatabase.CreateAsset(so, AssetDatabase.GenerateUniqueAssetPath(assetPath));
                 }
-
-                // 필드 채우기
-                PopulateFishSOFromEntity(so, e, habitat, fishId);
 
                 EditorUtility.SetDirty(so);
                 createdSoList.Add(so);
@@ -349,7 +340,9 @@ public class BgDbToSoConverterWindow : EditorWindow
         string description = null;
         int maxStack = 1;
         float weight = 1f;
+        bool isPlayerCard = false;
         bool isCheck = false;
+        string prefabPath = null;
 
         // 각 엔티티 타입별로 캐스팅하여 필드 읽기
         if (entity is DB_FishLake lake)
@@ -366,7 +359,9 @@ public class BgDbToSoConverterWindow : EditorWindow
             description = lake._Description;
             maxStack = lake._MaxStackSize;
             weight = lake._Weight;
+            isPlayerCard = lake._IsPlayerCard;
             isCheck = lake._Check;
+            prefabPath = lake._Prefab;
         }
         else if (entity is DB_FishRiver river)
         {
@@ -382,7 +377,9 @@ public class BgDbToSoConverterWindow : EditorWindow
             description = river._Description;
             maxStack = river._MaxStackSize;
             weight = river._Weight;
+            isPlayerCard = river._IsPlayerCard;
             isCheck = river._Check;
+            prefabPath = river._Prefab;
         }
         else if (entity is DB_FishOcean ocean)
         {
@@ -398,7 +395,9 @@ public class BgDbToSoConverterWindow : EditorWindow
             description = ocean._Description;
             maxStack = ocean._MaxStackSize;
             weight = ocean._Weight;
+            isPlayerCard = ocean._IsPlayerCard;
             isCheck = ocean._Check;
+            prefabPath = ocean._Prefab;
         }
 
         // SO에 할당
@@ -414,6 +413,7 @@ public class BgDbToSoConverterWindow : EditorWindow
         so.Description = description;
         so.MaxStackSize = Mathf.Max(1, maxStack);
         so.Weight = Mathf.Max(0.0001f, weight);
+        so.IsPlayerCard = isPlayerCard;
         so.IsCheck = isCheck;
         so.HabitatType = habitat;
 
@@ -426,6 +426,29 @@ public class BgDbToSoConverterWindow : EditorWindow
             else if (m_verboseLog)
                 Debug.LogWarning($"아이콘 로드 실패: {abilityIconPath} (엔티티: {name})");
         }
+
+        // 프리팹 로드 시도: Assets/ 경로를 사용하여 AssetDatabase.LoadAssetAtPath 호출
+        if (!string.IsNullOrEmpty(prefabPath))
+        {
+            // AssetDatabase.LoadAssetAtPath는 Resources.Load와 달리 Assets/ 경로 그대로 사용
+            GameObject prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefabAsset != null)
+            {
+                so.Prefab = prefabAsset;
+                if (m_verboseLog) Debug.Log($"프리팹 로드 성공: {prefabPath}");
+            }
+            else
+            {
+                so.Prefab = null;
+                if (m_verboseLog) Debug.LogWarning($"프리팹 로드 실패: {prefabPath} (엔티티: {name})");
+            }
+        }
+        else
+        {
+            so.Prefab = null; // 경로가 비어있다면 null 할당
+        }
+
+        EditorUtility.SetDirty(so);
     }
 
     // 기본 Resources 기반 아이콘 로드 유틸

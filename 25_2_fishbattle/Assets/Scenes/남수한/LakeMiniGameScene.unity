@@ -4195,6 +4195,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5165527913996652986, guid: 620250477571e6c43b5059626e221848,
+        type: 3}
+      propertyPath: _fishDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56,
+        type: 2}
+    - target: {fileID: 5165527913996652986, guid: 620250477571e6c43b5059626e221848,
+        type: 3}
+      propertyPath: _playerInventoryHolder
+      value: 
+      objectReference: {fileID: 5769314546167606931}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -8,13 +8,9 @@ public class CardDisplay : MonoBehaviour
 {
     #region 레퍼런스
     [Header("카드 데이터")]
-    public CardData cardData;                         
+    public FishSO fishData;                         
     public int cardIndex;                             
-
-    [Header("UI")]
-    public TextMeshPro nameText;                    
-    public TextMeshPro costText;                     
-
+                  
     [Header("상태")]
     public bool isDragging = false;
     private Vector3 originalPosition;                 
@@ -43,21 +39,18 @@ public class CardDisplay : MonoBehaviour
 
         TryGetComponent(out _meshRenderer);
 
-        if (cardData.isPlayerCard)
+        if (fishData.IsPlayerCard)
             gameObject.layer = LayerMask.NameToLayer("Player");
         else
             gameObject.layer = LayerMask.NameToLayer("Enemy");
 
-        SetupCard(cardData);
+        SetupCard(fishData);
     }
 
     // 카드 데이터 설정
-    public void SetupCard(CardData data)
+    public void SetupCard(FishSO data)
     {
-        cardData = data;
-
-        if (nameText != null) nameText.text = data.cardName;
-        if (costText != null) costText.text = data.manaCost.ToString();
+        fishData = data;
     }
 
     #endregion
@@ -66,7 +59,7 @@ public class CardDisplay : MonoBehaviour
     private void OnMouseDown()
     {
         // 플레이어 카드일 경우에만 드래그 시작
-        if (!cardData.isPlayerCard) return;
+        if (!fishData.IsPlayerCard) return;
 
         // 드래그 시작 시 기존 슬롯 해제
         if (_currentSlotArea != null && currentSlot != null)
@@ -82,7 +75,7 @@ public class CardDisplay : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!cardData.isPlayerCard || !isDragging) return;
+        if (!fishData.IsPlayerCard || !isDragging) return;
 
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Camera.main.WorldToScreenPoint(transform.position).z;
@@ -91,11 +84,11 @@ public class CardDisplay : MonoBehaviour
 
         if (_meshRenderer != null)
         {
-            if (_currentSlotArea != null && TurnManager.Instance.PlayerAP >= cardData.manaCost)
+            if (_currentSlotArea != null && TurnManager.Instance.PlayerAP >= fishData.AbilityToAct)
             {
                 _meshRenderer.material.color = validColor;
             }
-            else if (_currentSlotArea != null && TurnManager.Instance.PlayerAP < cardData.manaCost)
+            else if (_currentSlotArea != null && TurnManager.Instance.PlayerAP < fishData.AbilityToAct)
             {
                 _meshRenderer.material.color = invalidColor;
             }
@@ -108,7 +101,7 @@ public class CardDisplay : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (!cardData.isPlayerCard || !isDragging) return;
+        if (!fishData.IsPlayerCard || !isDragging) return;
 
         isDragging = false;
 
@@ -117,7 +110,7 @@ public class CardDisplay : MonoBehaviour
         {
             if (!TurnManager.Instance.IsGameStarted)
             {
-                if (cardData.isPlayerCard)
+                if (fishData.IsPlayerCard)
                 {
                     _cardManager.SetupInitialPlayerCard(this.cardIndex);
                 }

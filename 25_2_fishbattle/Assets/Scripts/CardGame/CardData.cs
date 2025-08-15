@@ -15,6 +15,7 @@ public class CardData : ScriptableObject
     }
 
     public string cardName;                     // 카드 이름
+    public int hp;                              // 설명
     public int manaCost;                        // 마나 비용
     public int effectAmount;                    // 공격력/효과 값
     public CardType cardType;                   // 카드 타입

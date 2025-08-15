@@ -21,7 +21,9 @@ public class FishData
     public string Description;
     public int MaxStackSize;
     public float Weight = 1f;
+    public bool IsPlayerCard = false;
     public bool IsCheck = false;
+    public string Prefab;
 
     public void InitalizeEnums()
     {

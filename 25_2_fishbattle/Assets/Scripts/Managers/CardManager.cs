@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,40 +6,42 @@ using UnityEngine;
 
 public class CardManager : SingletonMono<CardManager>
 {
-    #region ·¹ÆÛ·±½º
+    #region ë ˆí¼ëŸ°ìŠ¤
     protected override bool DontDestroy => false;
 
-    [Header("ÇÃ·¹ÀÌ¾î Ä«µå µ¥ÀÌÅÍ")]
-    [SerializeField] private List<CardData> _playerDeckCards = new List<CardData>();
-    public List<CardData> _playerHandCards = new List<CardData>();
+    [Header("í”Œë ˆì´ì–´ ì¹´ë“œ ë°ì´í„°")]
+    [SerializeField] private List<FishSO> _playerDeckCards = new List<FishSO>();
+    public List<FishSO> _playerHandCards = new List<FishSO>();
 
-    [Header("Àû Ä«µå µ¥ÀÌÅÍ")]
-    [SerializeField] private List<CardData> _enemyDeckCards = new List<CardData>();
-    [SerializeField] private List<CardData> _enemyHandCards = new List<CardData>();
+    [Header("ì  ì¹´ë“œ ë°ì´í„°")]
+    [SerializeField] private List<FishSO> _enemyDeckCards = new List<FishSO>();
+    [SerializeField] private List<FishSO> _enemyHandCards = new List<FishSO>();
 
-    [Header("°øÅë ¿ÀºêÁ§Æ®")]
+    [Header("ê³µí†µ ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] private GameObject _cardPrefab;
 
-    [Header("ÇÃ·¹ÀÌ¾î À§Ä¡")]
+    [Header("í”Œë ˆì´ì–´ ìœ„ì¹˜")]
     [SerializeField] private Transform _playerDeckPosition;
     [SerializeField] private Transform _playerHandPosition;
     private List<GameObject> _playerCardObjects = new List<GameObject>();
 
-    [Header("Àû À§Ä¡")]
+    [Header("ì  ìœ„ì¹˜")]
     [SerializeField] private Transform _enemyDeckPosition;
     [SerializeField] private Transform _enemyHandPosition;
     private List<GameObject> _enemyCardObjects = new List<GameObject>();
 
-    [Header("¹èÆ² ½½·Ô ÂüÁ¶ (¾À¿¡ ¹èÄ¡µÈ BattlePosµé)")]
-    [SerializeField] private BattlePos[] playerBattleAreas;
-    [SerializeField] private BattlePos[] enemyBattleAreas;
-    [SerializeField] private BenchPos[] playerBenchAreas;
-    [SerializeField] private BenchPos[] enemyBenchAreas;
+    [Header("ë°°í‹€ ìŠ¬ë¡¯ ì°¸ì¡° (ì”¬ì— ë°°ì¹˜ëœ BattlePosë“¤)")]
+    [SerializeField] private BattlePos[] _playerBattleAreas;
+    [SerializeField] private BattlePos[] _enemyBattleAreas;
+    [SerializeField] private BenchPos[] _playerBenchAreas;
+    [SerializeField] private BenchPos[] _enemyBenchAreas;
 
-    [Header("Ä«µå Á¶Á¤")]
+    [Header("ì¹´ë“œ ì¡°ì •")]
     [SerializeField] private float cardSpacing = 2f;
-    public int maxHandCards = 5;
+    [SerializeField] private int maxHandCards = 5;
     [SerializeField] private float drawAnimDuration = 0.4f;
+    [SerializeField] private float fanSpread = 5f;
+    [SerializeField] private float verticalSpacing = 10f;
 
     public float DrawAnimDuration => drawAnimDuration;
 
@@ -48,15 +50,15 @@ public class CardManager : SingletonMono<CardManager>
 
     #endregion
 
-    #region ÃÊ±âÈ­
-    /// <summary> µ¦À» ¼¯½À´Ï´Ù. </summary>
+    #region ì´ˆê¸°í™”
+    /// <summary> ë±ì„ ì„ìŠµë‹ˆë‹¤. </summary>
     public void ShuffleDecks()
     {
         ShuffleDeck(_playerDeckCards);
         ShuffleDeck(_enemyDeckCards);
     }
 
-    /// <summary> °ÔÀÓ ½ÃÀÛ ½Ã ¾ç ÆÀÀÇ ÃÊ±â ¼ÕÆĞ¸¦ µå·Î¿ìÇÕ´Ï´Ù. </summary>
+    /// <summary> ê²Œì„ ì‹œì‘ ì‹œ ì–‘ íŒ€ì˜ ì´ˆê¸° ì†íŒ¨ë¥¼ ë“œë¡œìš°í•©ë‹ˆë‹¤. </summary>
     public void DrawStartingHands()
     {
         for (int i = 0; i < maxHandCards; i++)
@@ -67,19 +69,19 @@ public class CardManager : SingletonMono<CardManager>
     }
 
     /// <summary>
-    /// Àû AI¸¸ °ÔÀÓ ½ÃÀÛ ½Ã AP ¼Ò¸ğ ¾øÀÌ ¹èÆ² ÇÊµå¿¡ 1Àå ³õ´Â ÃÊ±â ¼¼ÆÃ.
+    /// ì  AIë§Œ ê²Œì„ ì‹œì‘ ì‹œ AP ì†Œëª¨ ì—†ì´ ë°°í‹€ í•„ë“œì— 1ì¥ ë†“ëŠ” ì´ˆê¸° ì„¸íŒ….
     /// </summary>
     public void SetupInitialEnemyCard()
     {
         if (_enemyHandCards.Count > 0)
         {
             PlayCardObjectDirectly(false, 0);
-            Debug.Log("Àû AI°¡ Ã¹ Ä«µå¸¦ ¹èÄ¡Çß½À´Ï´Ù.");
+            Debug.Log("ì  AIê°€ ì²« ì¹´ë“œë¥¼ ë°°ì¹˜í–ˆìŠµë‹ˆë‹¤.");
         }
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ¼öµ¿À¸·Î ³õ´Â ÃÊ±â Ä«µå ¹èÄ¡ ·ÎÁ÷ (AP ¼Ò¸ğ ¾øÀ½).
+    /// í”Œë ˆì´ì–´ê°€ ìˆ˜ë™ìœ¼ë¡œ ë†“ëŠ” ì´ˆê¸° ì¹´ë“œ ë°°ì¹˜ ë¡œì§ (AP ì†Œëª¨ ì—†ìŒ).
     /// </summary>
     public void SetupInitialPlayerCard(int handIndex)
     {
@@ -87,12 +89,12 @@ public class CardManager : SingletonMono<CardManager>
         _isPlayerInitialCardPlaced = true;
     }
 
-    /// <summary> AP ¼Ò¸ğ ¾øÀÌ Ä«µå¸¦ Á÷Á¢ ¹èÆ² ÇÊµå¿¡ ¹èÄ¡ÇÏ´Â ³»ºÎ ÇïÆÛ ¸Ş¼­µå </summary>
+    /// <summary> AP ì†Œëª¨ ì—†ì´ ì¹´ë“œë¥¼ ì§ì ‘ ë°°í‹€ í•„ë“œì— ë°°ì¹˜í•˜ëŠ” ë‚´ë¶€ í—¬í¼ ë©”ì„œë“œ </summary>
     private void PlayCardObjectDirectly(bool isPlayer, int handIndex)
     {
         var hand = isPlayer ? _playerHandCards : _enemyHandCards;
         var handObjs = isPlayer ? _playerCardObjects : _enemyCardObjects;
-        var battleAreas = isPlayer ? playerBattleAreas : enemyBattleAreas;
+        var battleAreas = isPlayer ? _playerBattleAreas : _enemyBattleAreas;
 
         if (handIndex < 0 || handIndex >= hand.Count) return;
 
@@ -111,28 +113,48 @@ public class CardManager : SingletonMono<CardManager>
 
         if (chosenSlot == null)
         {
-            Debug.Log("ºó ¹èÆ² ½½·ÔÀÌ ¾ø¾î ÃÊ±â Ä«µå ¹èÄ¡¸¦ ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ë¹ˆ ë°°í‹€ ìŠ¬ë¡¯ì´ ì—†ì–´ ì´ˆê¸° ì¹´ë“œ ë°°ì¹˜ë¥¼ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
+        FishSO card = hand[handIndex];
         GameObject cardObj = handObjs[handIndex];
-        cardObj.transform.DOMove(chosenSlot.position, 0.25f).SetEase(Ease.OutCubic);
 
-        chosenArea.OccupySlot(chosenSlot, cardObj);
-
+        // 1. ì†íŒ¨ì—ì„œ í•´ë‹¹ ì¹´ë“œ ë°ì´í„° ë° ì˜¤ë¸Œì íŠ¸ ì œê±°
         hand.RemoveAt(handIndex);
         handObjs.RemoveAt(handIndex);
 
+        // 2. ì¹´ë“œ UI ì˜¤ë¸Œì íŠ¸ íŒŒê´´
+        Destroy(cardObj);
+
+        // 3. FishSOì— ì—°ê²°ëœ í”„ë¦¬íŒ¹ì„ ìƒì„±
+        GameObject fishPrefab = card.Prefab;
+        if (fishPrefab == null)
+        {
+            Debug.LogError($"FishSO '{card.Name}'ì— í”„ë¦¬íŒ¹ì´ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
+            RearrangeHand(isPlayer); // ì†íŒ¨ ì¬ì •ë ¬
+            return;
+        }
+
+        // ë¬¼ê³ ê¸° ìƒì„±ë ë•Œ í”Œë ˆì´ì–´/ì  rotationê°’ ì§€ì •
+        Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
+
+        GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
+
+        // 4. ìƒì„±ëœ ë¬¼ê³ ê¸°ë¥¼ ìŠ¬ë¡¯ì— í• ë‹¹
+        chosenArea.OccupySlot(chosenSlot, newFishObject);
+
         RearrangeHand(isPlayer);
 
-        Debug.Log($"ÃÊ±â Ä«µå ¹èÄ¡ - {(isPlayer ? "ÇÃ·¹ÀÌ¾î" : "Àû")}ÀÇ Ä«µå°¡ ¹èÆ² ÇÊµå¿¡ ³õ¿´½À´Ï´Ù.");
+        Debug.Log($"ì´ˆê¸° ì¹´ë“œ ë°°ì¹˜ - {(isPlayer ? "í”Œë ˆì´ì–´" : "ì ")}ì˜ ì¹´ë“œê°€ ë°°í‹€ í•„ë“œì— ë†“ì˜€ìŠµë‹ˆë‹¤.");
     }
+
     #endregion
 
-    #region µ¦ / µå·Î¿ì
-    private void ShuffleDeck(List<CardData> deck)
+    #region ë± / ë“œë¡œìš°
+    private void ShuffleDeck(List<FishSO> deck)
     {
-        List<CardData> temp = new List<CardData>(deck);
+        List<FishSO> temp = new List<FishSO>(deck);
         deck.Clear();
         while (temp.Count > 0)
         {
@@ -143,7 +165,7 @@ public class CardManager : SingletonMono<CardManager>
     }
 
     /// <summary>
-    /// ½ÇÁ¦ µå·Î¿ì ·ÎÁ÷. isAnimated trueÀÌ¸é DOTween ¾Ö´Ï¸ŞÀÌ¼Ç »ç¿ë
+    /// ì‹¤ì œ ë“œë¡œìš° ë¡œì§. isAnimated trueì´ë©´ DOTween ì• ë‹ˆë©”ì´ì…˜ ì‚¬ìš©
     /// </summary>
     public void DrawOne(bool isPlayer, bool isAnimated)
     {
@@ -155,48 +177,58 @@ public class CardManager : SingletonMono<CardManager>
 
         if (hand.Count >= maxHandCards)
         {
-            Debug.Log($"{(isPlayer ? "ÇÃ·¹ÀÌ¾î" : "Àû")} ¼ÕÆĞ°¡ °¡µæ Ã¡½À´Ï´Ù.");
+            Debug.Log($"{(isPlayer ? "í”Œë ˆì´ì–´" : "ì ")} ì†íŒ¨ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤.");
             return;
         }
 
         if (deck.Count == 0)
         {
-            Debug.Log($"{(isPlayer ? "ÇÃ·¹ÀÌ¾î" : "Àû")} µ¦ÀÌ ºñ¾ú½À´Ï´Ù.");
+            Debug.Log($"{(isPlayer ? "í”Œë ˆì´ì–´" : "ì ")} ë±ì´ ë¹„ì—ˆìŠµë‹ˆë‹¤.");
             return;
         }
 
-        CardData cd = deck[0];
+        FishSO cd = deck[0];
         deck.RemoveAt(0);
         hand.Add(cd);
 
-        GameObject cardObj = Instantiate(_cardPrefab, deckPos.position, Quaternion.identity);
-        cardObj.tag = "Card";
+        if (cd.Prefab == null)
+        {
+            Debug.LogError($"FishSO '{cd.Name}'ì— ë¬¼ê³ ê¸° í”„ë¦¬íŒ¹ì´ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
+            return;
+        }
 
-        if (cardObj.TryGetComponent<CardDisplay>(out var disp))
+        // ë¬¼ê³ ê¸° í”„ë¦¬íŒ¹ì„ Instantiate
+        Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
+
+        GameObject fishObject = Instantiate(cd.Prefab, deckPos.position, rotation);
+        fishObject.tag = "Card";
+
+        // ìƒì„±ëœ ë¬¼ê³ ê¸° ì˜¤ë¸Œì íŠ¸ì— ìˆëŠ” CardDisplay ì»´í¬ë„ŒíŠ¸ì— ë°ì´í„° ì „ë‹¬
+        if (fishObject.TryGetComponent<CardDisplay>(out var disp))
         {
             disp.SetupCard(cd);
             disp.cardIndex = hand.Count - 1;
         }
 
-        cardObjects.Add(cardObj);
+        cardObjects.Add(fishObject);
 
-        // ¸ñÇ¥ À§Ä¡ Áß¾ÓÁ¤·Ä °è»ê
+        // ëª©í‘œ ìœ„ì¹˜ ì¤‘ì•™ì •ë ¬ ê³„ì‚°
         float totalWidth = (maxHandCards - 1) * cardSpacing;
         float startX = -totalWidth / 2f;
         Vector3 targetPos = handPos.position + new Vector3(startX + (hand.Count - 1) * cardSpacing, 0, 0);
 
         if (isAnimated)
-            cardObj.transform.DOMove(targetPos, drawAnimDuration).SetEase(Ease.OutCubic);
+            fishObject.transform.DOMove(targetPos, drawAnimDuration).SetEase(Ease.OutCubic);
         else
-            cardObj.transform.position = targetPos;
+            fishObject.transform.position = targetPos;
     }
 
     #endregion
 
-    #region ÇÃ·¹ÀÌ¾î/Àû Ä«µå ¹èÄ¡(Hand -> Battle)
+    #region í”Œë ˆì´ì–´/ì  ì¹´ë“œ ë°°ì¹˜(Hand -> Battle)
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î(¶Ç´Â Àû)°¡ ¼ÕÆĞÀÇ Ä«µå ÀÎµ¦½º¸¦ ¹èÄ¡(ÇÃ·¹ÀÌ)ÇÕ´Ï´Ù.
-    /// ¼º°øÇÏ¸é true ¹İÈ¯ (AP ºÎÁ·/ºó ½½·Ô ¾øÀ½ µî ½ÇÆĞ½Ã false)
+    /// í”Œë ˆì´ì–´(ë˜ëŠ” ì )ê°€ ì†íŒ¨ì˜ ì¹´ë“œ ì¸ë±ìŠ¤ë¥¼ ë°°ì¹˜(í”Œë ˆì´)í•©ë‹ˆë‹¤.
+    /// ì„±ê³µí•˜ë©´ true ë°˜í™˜ (AP ë¶€ì¡±/ë¹ˆ ìŠ¬ë¡¯ ì—†ìŒ ë“± ì‹¤íŒ¨ì‹œ false)
     /// </summary>
     public bool PlayCardFromHand(bool isPlayer, int handIndex)
     {
@@ -205,27 +237,24 @@ public class CardManager : SingletonMono<CardManager>
 
         if (handIndex < 0 || handIndex >= hand.Count) return false;
 
-        CardData card = hand[handIndex];
+        FishSO card = hand[handIndex];
 
-        // AP È®ÀÎ
-        if (!TurnManager.Instance.SpendAP(isPlayer, card.manaCost))
+        // AP í™•ì¸
+        if (!TurnManager.Instance.SpendAP(isPlayer, card.AbilityToAct))
         {
-            Debug.Log("AP ºÎÁ·À¸·Î Ä«µå¸¦ ¹èÄ¡ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("AP ë¶€ì¡±ìœ¼ë¡œ ì¹´ë“œë¥¼ ë°°ì¹˜í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return false;
         }
 
-        // º¥Ä¡¿Í ¹èÆ² ½½·ÔÀ» ¸ğµÎ Æ÷ÇÔÇÏ´Â ¸®½ºÆ® »ı¼º
         var allPlayAreas = isPlayer ?
-            playerBattleAreas.Cast<CardSlotArea>().Concat(playerBenchAreas.Cast<CardSlotArea>()) :
-            enemyBattleAreas.Cast<CardSlotArea>().Concat(enemyBenchAreas.Cast<CardSlotArea>());
+            _playerBattleAreas.Cast<CardSlotArea>().Concat(_playerBenchAreas.Cast<CardSlotArea>()) :
+            _enemyBattleAreas.Cast<CardSlotArea>().Concat(_enemyBenchAreas.Cast<CardSlotArea>());
 
-        // ºó ½½·Ô Ã£±â: ¸ğµç ÇÃ·¹ÀÌ ¿µ¿ªÀ» ¼øÈ¸
         Transform chosenSlot = null;
         CardSlotArea chosenArea = null;
 
         foreach (var area in allPlayAreas)
         {
-            // CardSlotArea Å¬·¡½ºÀÇ GetNearestEmptySlot ¸Ş¼­µå »ç¿ë
             var slot = area.GetNearestEmptySlot(Vector3.zero);
             if (slot != null)
             {
@@ -237,28 +266,44 @@ public class CardManager : SingletonMono<CardManager>
 
         if (chosenSlot == null)
         {
-            Debug.Log("ºó ½½·ÔÀÌ ¾ø½À´Ï´Ù.");
-            // AP¸¦ »ç¿ëÇßÁö¸¸ ½½·ÔÀÌ ¾ø¾î ½ÇÆĞÇßÀ¸¹Ç·Î AP¸¦ È¯ºÒ
-            TurnManager.Instance.AddAP(isPlayer, card.manaCost);
+            Debug.Log("ë¹ˆ ìŠ¬ë¡¯ì´ ì—†ìŠµë‹ˆë‹¤.");
+            TurnManager.Instance.AddAP(isPlayer, card.AbilityToAct);
             return false;
         }
 
-        // Ä«µå °ÔÀÓ¿ÀºêÁ§Æ® ÀÌµ¿ ¹× ¸®½ºÆ® °ü¸®
         GameObject cardObj = handObjs[handIndex];
-        cardObj.transform.DOMove(chosenSlot.position, 0.25f).SetEase(Ease.OutCubic);
 
-        chosenArea.OccupySlot(chosenSlot, cardObj);
-
+        // 1. ì†íŒ¨ì—ì„œ í•´ë‹¹ ì¹´ë“œ ë°ì´í„° ë° ì˜¤ë¸Œì íŠ¸ ì œê±°
         hand.RemoveAt(handIndex);
         handObjs.RemoveAt(handIndex);
 
-        RearrangeHand(isPlayer);
+        // 2. ì¹´ë“œ UI ì˜¤ë¸Œì íŠ¸ íŒŒê´´
+        Destroy(cardObj);
 
-        Debug.Log($"{(isPlayer ? "ÇÃ·¹ÀÌ¾î" : "Àû")}ÀÌ Ä«µå¸¦ ¹èÄ¡Çß½À´Ï´Ù: {card.cardName} (³²Àº AP:{(isPlayer ? TurnManager.Instance.PlayerAP : TurnManager.Instance.EnemyAP)})");
+        // 3. FishSOì— ì—°ê²°ëœ í”„ë¦¬íŒ¹ì„ ìƒì„±
+        GameObject fishPrefab = card.Prefab;
+        if (fishPrefab == null)
+        {
+            Debug.LogError($"FishSO '{card.Name}'ì— í”„ë¦¬íŒ¹ì´ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
+            TurnManager.Instance.AddAP(isPlayer, card.AbilityToAct);
+            RearrangeHand(isPlayer);
+            return false;
+        }
+
+        Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
+
+        GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
+
+        // 4. ìƒì„±ëœ ë¬¼ê³ ê¸°ë¥¼ ìŠ¬ë¡¯ì— í• ë‹¹
+        chosenArea.OccupySlot(chosenSlot, newFishObject);
+
+        RearrangeHand(isPlayer); // ì†íŒ¨ ì¬ì •ë ¬
+
+        Debug.Log($"{(isPlayer ? "í”Œë ˆì´ì–´" : "ì ")}ì´ ì¹´ë“œë¥¼ ë°°ì¹˜í–ˆìŠµë‹ˆë‹¤: {card.Name} (ë‚¨ì€ AP:{(isPlayer ? TurnManager.Instance.PlayerAP : TurnManager.Instance.EnemyAP)})");
         return true;
     }
 
-    /// <summary> ¼ÕÆĞ¸¦ ÀçÁ¤·ÄÇÏ°í ÀÎµ¦½º¸¦ ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù. </summary>
+    /// <summary> ì†íŒ¨ë¥¼ ì¬ì •ë ¬í•˜ê³  ì¸ë±ìŠ¤ë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤. </summary>
     private void RearrangeHand(bool isPlayer)
     {
         var cardObjects = isPlayer ? _playerCardObjects : _enemyCardObjects;
@@ -280,43 +325,43 @@ public class CardManager : SingletonMono<CardManager>
             Vector3 targetPos = startPos + new Vector3(i * cardSpacing, 0, 0);
             cardObjects[i].transform.DOMove(targetPos, 0.2f).SetEase(Ease.OutCubic);
         }
-    }
+}
     #endregion
 
-    #region °£´Ü °ø°İ Ã³¸®
-    /// <summary> ´Ü¼ø °ø°İ: ¹èÆ²¿¡ ¿Ã¶ó°£ ÇØ´ç ÆÀÀÇ Ä«µå ¿ÀºêÁ§Æ®µé·Î °ø°İ ½Ã¹Ä·¹ÀÌ¼Ç </summary>
+    #region ê°„ë‹¨ ê³µê²© ì²˜ë¦¬
+    /// <summary> ë‹¨ìˆœ ê³µê²©: ë°°í‹€ì— ì˜¬ë¼ê°„ í•´ë‹¹ íŒ€ì˜ ì¹´ë“œ ì˜¤ë¸Œì íŠ¸ë“¤ë¡œ ê³µê²© ì‹œë®¬ë ˆì´ì…˜ </summary>
     public IEnumerator PlayerAttackRoutine()
     {
         var playerBattleCards = new List<GameObject>();
 
-        // ÇÃ·¹ÀÌ¾î ¹èÆ² ½½·ÔÀÇ Ä«µåµéÀ» ¸ğµÎ °¡Á®¿È
-        // ÀÌÁ¦ `GetOccupiedCards()` public ¸Ş¼­µå¸¦ »ç¿ëÇÕ´Ï´Ù.
-        foreach (var area in playerBattleAreas)
+        // í”Œë ˆì´ì–´ ë°°í‹€ ìŠ¬ë¡¯ì˜ ì¹´ë“œë“¤ì„ ëª¨ë‘ ê°€ì ¸ì˜´
+        // ì´ì œ `GetOccupiedCards()` public ë©”ì„œë“œë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+        foreach (var area in _playerBattleAreas)
         {
             playerBattleCards.AddRange(area.GetOccupiedCards());
         }
 
-        // °¢ Ä«µåÀÇ °ø°İÀ» ¼øÂ÷ÀûÀ¸·Î Ã³¸®
+        // ê° ì¹´ë“œì˜ ê³µê²©ì„ ìˆœì°¨ì ìœ¼ë¡œ ì²˜ë¦¬
         foreach (var cardObj in playerBattleCards)
         {
-            // °ø°İ ·ÎÁ÷ ±¸Çö (¿¹½Ã: »ó´ë¹æ¿¡°Ô µ¥¹ÌÁö ÀÔÈ÷±â)
-            Debug.Log($"ÇÃ·¹ÀÌ¾î À¯´ÖÀÌ °ø°İÀ» ½ÃÀÛÇÕ´Ï´Ù: {cardObj.name}");
+            // ê³µê²© ë¡œì§ êµ¬í˜„ (ì˜ˆì‹œ: ìƒëŒ€ë°©ì—ê²Œ ë°ë¯¸ì§€ ì…íˆê¸°)
+            Debug.Log($"í”Œë ˆì´ì–´ ìœ ë‹›ì´ ê³µê²©ì„ ì‹œì‘í•©ë‹ˆë‹¤: {cardObj.name}");
 
-            // ¿©±â¿¡ ½ÇÁ¦ °ø°İ ·ÎÁ÷(µ¥¹ÌÁö Àû¿ë, ¾Ö´Ï¸ŞÀÌ¼Ç µî)À» Ãß°¡ÇÒ ºÎºĞ
+            // ì—¬ê¸°ì— ì‹¤ì œ ê³µê²© ë¡œì§(ë°ë¯¸ì§€ ì ìš©, ì• ë‹ˆë©”ì´ì…˜ ë“±)ì„ ì¶”ê°€í•  ë¶€ë¶„
 
-            yield return new WaitForSeconds(0.5f); // °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ´ë±â
+            yield return new WaitForSeconds(0.5f); // ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ëŒ€ê¸°
         }
 
-        Debug.Log("ÇÃ·¹ÀÌ¾î °ø°İ ÆäÀÌÁî Á¾·á. ÅÏÀ» Á¾·áÇÕ´Ï´Ù.");
+        Debug.Log("í”Œë ˆì´ì–´ ê³µê²© í˜ì´ì¦ˆ ì¢…ë£Œ. í„´ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 
-        // °ø°İÀÌ ³¡³ª¸é °­Á¦·Î ÅÏ Á¾·á
+        // ê³µê²©ì´ ëë‚˜ë©´ ê°•ì œë¡œ í„´ ì¢…ë£Œ
         TurnManager.Instance.EndTurn();
         yield break;
     }
 
     public IEnumerator EnemyAttackRoutine()
     {
-        var areas = enemyBattleAreas;
+        var areas = _enemyBattleAreas;
         foreach (var area in areas)
         {
             foreach (var slot in area.slots)
@@ -324,7 +369,7 @@ public class CardManager : SingletonMono<CardManager>
                 if (area.IsSlotOccupied(slot))
                 {
                     if (!TurnManager.Instance.SpendAP(false, 1)) yield break;
-                    Debug.Log($"Àû À¯´ÖÀÌ °ø°İÀ» ½ÇÇàÇß½À´Ï´Ù. (AP ³²À½:{TurnManager.Instance.EnemyAP})");
+                    Debug.Log($"ì  ìœ ë‹›ì´ ê³µê²©ì„ ì‹¤í–‰í–ˆìŠµë‹ˆë‹¤. (AP ë‚¨ìŒ:{TurnManager.Instance.EnemyAP})");
                     yield return new WaitForSeconds(0.35f);
                 }
             }
@@ -332,10 +377,10 @@ public class CardManager : SingletonMono<CardManager>
     }
     #endregion
 
-    #region Àû AI ·çÆ¾
+    #region ì  AI ë£¨í‹´
     /// <summary>
-    /// Àû ÅÏ ÀüÃ¼ ·çÆ¾: µå·Î¿ì´Â TurnManager¿¡¼­ ÀÌ¹Ì È£ÃâµÊ(Ä«µåManager.OnTurnStart).
-    /// ¿©±â¼­´Â ¹èÄ¡¡æ°ø°İ¡æÅÏ Á¾·á Èå¸§ ¼öÇà
+    /// ì  í„´ ì „ì²´ ë£¨í‹´: ë“œë¡œìš°ëŠ” TurnManagerì—ì„œ ì´ë¯¸ í˜¸ì¶œë¨(ì¹´ë“œManager.OnTurnStart).
+    /// ì—¬ê¸°ì„œëŠ” ë°°ì¹˜â†’ê³µê²©â†’í„´ ì¢…ë£Œ íë¦„ ìˆ˜í–‰
     /// </summary>
     public IEnumerator EnemyTurnRoutine()
     {
@@ -345,8 +390,8 @@ public class CardManager : SingletonMono<CardManager>
             playedAny = false;
             for (int i = 0; i < _enemyHandCards.Count; i++)
             {
-                CardData c = _enemyHandCards[i];
-                if (TurnManager.Instance.EnemyAP >= c.manaCost)
+                FishSO c = _enemyHandCards[i];
+                if (TurnManager.Instance.EnemyAP >= c.AbilityToAct)
                 {
                     bool ok = PlayCardFromHand(false, i);
                     if (ok)
@@ -364,8 +409,8 @@ public class CardManager : SingletonMono<CardManager>
     }
     #endregion
 
-    #region ÅÏ ½ÃÀÛ ½Ã Ä«µå¸Å´ÏÀú Äİ¹é
-    /// <summary> TurnManager°¡ ÅÏÀ» ½ÃÀÛÇÒ ¶§ È£ÃâÇÕ´Ï´Ù. isPlayer ¿©ºÎ·Î µå·Î¿ì Ã³¸® </summary>
+    #region í„´ ì‹œì‘ ì‹œ ì¹´ë“œë§¤ë‹ˆì € ì½œë°±
+    /// <summary> TurnManagerê°€ í„´ì„ ì‹œì‘í•  ë•Œ í˜¸ì¶œí•©ë‹ˆë‹¤. isPlayer ì—¬ë¶€ë¡œ ë“œë¡œìš° ì²˜ë¦¬ </summary>
     public void OnTurnStart(bool isPlayer)
     {
         DrawOne(isPlayer, true);

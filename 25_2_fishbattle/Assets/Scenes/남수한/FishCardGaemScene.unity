@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 156048952}
   - component: {fileID: 156048951}
   m_Layer: 0
-  m_Name: Test
+  m_Name: Test_BattlePosImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -473,7 +473,7 @@ Transform:
   m_GameObject: {fileID: 438494519}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.02, z: -0.001}
+  m_LocalPosition: {x: 0, y: -3.14, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -508,7 +508,7 @@ Transform:
   m_GameObject: {fileID: 442589187}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.12, z: -0.001}
+  m_LocalPosition: {x: 0, y: -3.21, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -607,67 +607,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286ec63785e79d24ba139fa41101d69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hand: {fileID: 0}
   _playerDeckCards:
-  - {fileID: 11400000, guid: d1861188f17f8d74f8000848fd25c28a, type: 2}
-  - {fileID: 11400000, guid: 05b9a50c94635f8408d6aecbd8ce923c, type: 2}
-  - {fileID: 11400000, guid: 4e8a5d28d0a3a524d8fb9987aa469019, type: 2}
-  - {fileID: 11400000, guid: f2f43601025d4bc439885794c357a19d, type: 2}
-  - {fileID: 11400000, guid: 30a591ad25f2f0b4e86c6523308bcb5f, type: 2}
-  - {fileID: 11400000, guid: 2372223b36c25c84ca86f00a11cf1f91, type: 2}
-  - {fileID: 11400000, guid: ab563640eb7dfd241bf65999897b6453, type: 2}
-  - {fileID: 11400000, guid: e7be8c03a2f8def4ab2ba70630068f84, type: 2}
-  - {fileID: 11400000, guid: feff56da1ce5c964f8fc1a48743009d4, type: 2}
-  - {fileID: 11400000, guid: 96400656d1fdf10448e427fa30505771, type: 2}
-  - {fileID: 11400000, guid: b4ff4692ced7c1f4c9dbef57934fe529, type: 2}
-  - {fileID: 11400000, guid: 6347b9276e3d1df4a845e0f275e35d96, type: 2}
-  - {fileID: 11400000, guid: 2a83c95c01aeba04fb07ee3541ff5763, type: 2}
-  - {fileID: 11400000, guid: f361853ab1ff9cc44a4f0f62f90dba75, type: 2}
-  - {fileID: 11400000, guid: 89498797db2f1214c89e6060cb8dd23d, type: 2}
-  - {fileID: 11400000, guid: 70b1770038494994ab957b9262add15c, type: 2}
-  - {fileID: 11400000, guid: 1e6b8cd35aefc504aa3b7c861cc9054b, type: 2}
-  - {fileID: 11400000, guid: 757b1fe4130cd0a4b893bcf44104c290, type: 2}
-  - {fileID: 11400000, guid: 8e350354dd7681448af3278badbb8dc5, type: 2}
-  - {fileID: 11400000, guid: 2c4e3d09ece909e468ca48a685f8a1a0, type: 2}
+  - {fileID: 11400000, guid: 0750cb5c6432587459d797513a6e5f7d, type: 2}
+  - {fileID: 11400000, guid: d4557290566441c45936622ddbbdaa2e, type: 2}
+  - {fileID: 11400000, guid: 9e805a8cb7d166340b65133276ecac61, type: 2}
+  - {fileID: 11400000, guid: 0f79e0fbe1cb0054fb953c9baeab556c, type: 2}
+  - {fileID: 11400000, guid: d33f9ca2623002043bdba74697ca9e67, type: 2}
+  - {fileID: 11400000, guid: 0796c4e621ccd3e45a1eaef5dc4b449e, type: 2}
+  - {fileID: 11400000, guid: 848d6e5bdacf69e4e91e7d014af36aff, type: 2}
+  - {fileID: 11400000, guid: b08a561cd3a185744b21e478f284962d, type: 2}
+  - {fileID: 11400000, guid: d77434e690ea4c34889f83818e157155, type: 2}
+  - {fileID: 11400000, guid: 36cae9bb477205d4ab9b92afd8266bae, type: 2}
+  - {fileID: 11400000, guid: 0750cb5c6432587459d797513a6e5f7d, type: 2}
+  - {fileID: 11400000, guid: d4557290566441c45936622ddbbdaa2e, type: 2}
+  - {fileID: 11400000, guid: 9e805a8cb7d166340b65133276ecac61, type: 2}
+  - {fileID: 11400000, guid: 0f79e0fbe1cb0054fb953c9baeab556c, type: 2}
+  - {fileID: 11400000, guid: d33f9ca2623002043bdba74697ca9e67, type: 2}
+  - {fileID: 11400000, guid: 0796c4e621ccd3e45a1eaef5dc4b449e, type: 2}
+  - {fileID: 11400000, guid: 848d6e5bdacf69e4e91e7d014af36aff, type: 2}
+  - {fileID: 11400000, guid: b08a561cd3a185744b21e478f284962d, type: 2}
+  - {fileID: 11400000, guid: d77434e690ea4c34889f83818e157155, type: 2}
+  - {fileID: 11400000, guid: 36cae9bb477205d4ab9b92afd8266bae, type: 2}
   _playerHandCards: []
   _enemyDeckCards:
-  - {fileID: 11400000, guid: dcba4c4c98b511f43acb340bcf5203aa, type: 2}
-  - {fileID: 11400000, guid: ac080ff9e1dc099458e1ebc553e3d481, type: 2}
-  - {fileID: 11400000, guid: da27ebe39eeded745a21b75867226267, type: 2}
-  - {fileID: 11400000, guid: fa9b2bc1ecddb0e43a07bc7fb819199b, type: 2}
-  - {fileID: 11400000, guid: e09cd5592748a2c449b4dc2876348248, type: 2}
-  - {fileID: 11400000, guid: fc5b75f9373c9d247a16537cf56e9058, type: 2}
-  - {fileID: 11400000, guid: b6c1532f2f3d07d41abac1db4e4c025d, type: 2}
-  - {fileID: 11400000, guid: 0fade077bbb1a9e4f8e068dc963561be, type: 2}
-  - {fileID: 11400000, guid: a00e4b7e4689bc2458339a3396c7683d, type: 2}
-  - {fileID: 11400000, guid: c4863f2413c023c48afc198e7172255a, type: 2}
-  - {fileID: 11400000, guid: 5d4fd823b60559840b603a7ed554a83d, type: 2}
-  - {fileID: 11400000, guid: 6fd8cb1697dd24b48bc2bf20dd7860be, type: 2}
-  - {fileID: 11400000, guid: 7fd85a83b1107a942b3412cdf0cdfb6b, type: 2}
-  - {fileID: 11400000, guid: 2cfea6e5e93555f45bc1d55bba2d3c11, type: 2}
-  - {fileID: 11400000, guid: e4e887b23b4a93843b39ea0ae0d8462c, type: 2}
-  - {fileID: 11400000, guid: a6836b426d1c9b34ba52f8ab455e3710, type: 2}
-  - {fileID: 11400000, guid: 9d37f2a5269330044be8a3fd2805ddc6, type: 2}
-  - {fileID: 11400000, guid: 0e05d77b92c0cfb4f9d113bcbac49616, type: 2}
-  - {fileID: 11400000, guid: b1978a7760cc1d941b77866a5dacacca, type: 2}
-  - {fileID: 11400000, guid: 91b44478626817744ab69735c336c9a3, type: 2}
+  - {fileID: 11400000, guid: e084e18fe41bf1d479d4f0c7717dae1d, type: 2}
+  - {fileID: 11400000, guid: ccd0692779e5f1a4cbf452bac8971cd6, type: 2}
+  - {fileID: 11400000, guid: e8b512b1307f83b448fa89601e408b71, type: 2}
+  - {fileID: 11400000, guid: fa3ba89b5d697604b9f8748155dc1664, type: 2}
+  - {fileID: 11400000, guid: 8731ce02e80ec95479091ab79e2354fc, type: 2}
+  - {fileID: 11400000, guid: 1ceafc2f09a40234483e335ba415e824, type: 2}
+  - {fileID: 11400000, guid: cd9e707542a5c2944876b4a4d18d7551, type: 2}
+  - {fileID: 11400000, guid: 0feba336ed5a5bc4a8e7751aba25fe7f, type: 2}
+  - {fileID: 11400000, guid: a5553cdb46839d14088d949feca64754, type: 2}
+  - {fileID: 11400000, guid: e71f4ecd9f56efc419577c045486e97d, type: 2}
+  - {fileID: 11400000, guid: e084e18fe41bf1d479d4f0c7717dae1d, type: 2}
+  - {fileID: 11400000, guid: ccd0692779e5f1a4cbf452bac8971cd6, type: 2}
+  - {fileID: 11400000, guid: e8b512b1307f83b448fa89601e408b71, type: 2}
+  - {fileID: 11400000, guid: fa3ba89b5d697604b9f8748155dc1664, type: 2}
+  - {fileID: 11400000, guid: 8731ce02e80ec95479091ab79e2354fc, type: 2}
+  - {fileID: 11400000, guid: 1ceafc2f09a40234483e335ba415e824, type: 2}
+  - {fileID: 11400000, guid: cd9e707542a5c2944876b4a4d18d7551, type: 2}
+  - {fileID: 11400000, guid: 0feba336ed5a5bc4a8e7751aba25fe7f, type: 2}
+  - {fileID: 11400000, guid: a5553cdb46839d14088d949feca64754, type: 2}
+  - {fileID: 11400000, guid: e71f4ecd9f56efc419577c045486e97d, type: 2}
   _enemyHandCards: []
-  _cardPrefab: {fileID: 6838812567194218787, guid: 9d738bcd83381034e93285f18de2853c,
-    type: 3}
+  _cardPrefab: {fileID: 0}
   _playerDeckPosition: {fileID: 1909393564}
   _playerHandPosition: {fileID: 2138524771}
   _enemyDeckPosition: {fileID: 1414340730}
   _enemyHandPosition: {fileID: 2146589507}
-  playerBattleAreas:
+  _playerBattleAreas:
   - {fileID: 1315005111}
-  enemyBattleAreas:
+  _enemyBattleAreas:
   - {fileID: 1915774835}
-  playerBenchAreas:
+  _playerBenchAreas:
   - {fileID: 1929420144}
-  enemyBenchAreas:
+  _enemyBenchAreas:
   - {fileID: 1971803825}
-  cardSpacing: 3
+  cardSpacing: 2
   maxHandCards: 5
   drawAnimDuration: 0.4
+  fanSpread: 180
+  verticalSpacing: 0
 --- !u!1 &805157324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,7 +1370,7 @@ Transform:
   m_GameObject: {fileID: 1315005105}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1500001, z: 0.002}
+  m_LocalPosition: {x: 0, y: -0.93, z: 0.002}
   m_LocalScale: {x: 0.7674201, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2109,7 +2111,7 @@ Transform:
   m_GameObject: {fileID: 1915774829}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.22, z: 0.002}
+  m_LocalPosition: {x: 0, y: 6, z: 0.002}
   m_LocalScale: {x: 0.7674201, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2233,7 +2235,7 @@ Transform:
   m_GameObject: {fileID: 1929420137}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.7300003, z: 0.002}
+  m_LocalPosition: {x: 0, y: -3.2, z: 0.002}
   m_LocalScale: {x: 23.022144, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2366,7 +2368,7 @@ Transform:
   m_GameObject: {fileID: 1971803819}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.87, z: 0.002}
+  m_LocalPosition: {x: 0, y: 9.18, z: 0.002}
   m_LocalScale: {x: 23.022144, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2485,7 +2487,7 @@ Transform:
   m_GameObject: {fileID: 2138524770}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -6.5, z: 0}
+  m_LocalPosition: {x: 0, y: -5.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2516,7 +2518,7 @@ Transform:
   m_GameObject: {fileID: 2146589506}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10.639999, z: 0}
+  m_LocalPosition: {x: 0, y: 11.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

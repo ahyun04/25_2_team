@@ -91,10 +91,20 @@ public partial class DB_FishRiver : BGEntity
 		get => __Weight[Index];
 		set => __Weight.SetValue(this, value);
 	}
+	public System.Boolean _IsPlayerCard
+	{
+		get => __IsPlayerCard[Index];
+		set => __IsPlayerCard.SetValue(this, value);
+	}
 	public System.Boolean _Check
 	{
 		get => __Check[Index];
 		set => __Check.SetValue(this, value);
+	}
+	public System.String _Prefab
+	{
+		get => __Prefab[Index];
+		set => __Prefab[Index] = value;
 	}
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
 	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4976901650265358197UL, 9559963750065549952UL), () => _ufle12jhs77__FishId = null));
@@ -126,8 +136,12 @@ public partial class DB_FishRiver : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldInt __MaxStackSize => _ufle12jhs77__MaxStackSize ?? (_ufle12jhs77__MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5583897987533328609UL, 8076968942157528504UL), () => _ufle12jhs77__MaxStackSize = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Weight;
 	public static BansheeGz.BGDatabase.BGFieldFloat __Weight => _ufle12jhs77__Weight ?? (_ufle12jhs77__Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(4690210422877305221UL, 3290983632278445503UL), () => _ufle12jhs77__Weight = null));
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__IsPlayerCard;
+	public static BansheeGz.BGDatabase.BGFieldBool __IsPlayerCard => _ufle12jhs77__IsPlayerCard ?? (_ufle12jhs77__IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5041248350966831574UL, 14420023317927583405UL), () => _ufle12jhs77__IsPlayerCard = null));
 	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__Check;
 	public static BansheeGz.BGDatabase.BGFieldBool __Check => _ufle12jhs77__Check ?? (_ufle12jhs77__Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5083853200461738610UL, 8045118963229304763UL), () => _ufle12jhs77__Check = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Prefab;
+	public static BansheeGz.BGDatabase.BGFieldString __Prefab => _ufle12jhs77__Prefab ?? (_ufle12jhs77__Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4740898709528725063UL, 3981132854393923254UL), () => _ufle12jhs77__Prefab = null));
 	private DB_FishRiver() : base(MetaDefault) {}
 	private DB_FishRiver(BGId id) : base(MetaDefault, id) {}
 	private DB_FishRiver(BGMetaEntity meta) : base(meta) {}
@@ -167,7 +181,9 @@ public partial class DB_FishRiver : BGEntity
 		public const string Fish_length = "Fish_length";
 		public const string MaxStackSize = "MaxStackSize";
 		public const string Weight = "Weight";
+		public const string IsPlayerCard = "IsPlayerCard";
 		public const string Check = "Check";
+		public const string Prefab = "Prefab";
 	}
 }
 
@@ -253,10 +269,20 @@ public partial class DB_FishOcean : BGEntity
 		get => __Weight[Index];
 		set => __Weight.SetValue(this, value);
 	}
+	public System.Boolean _IsPlayerCard
+	{
+		get => __IsPlayerCard[Index];
+		set => __IsPlayerCard.SetValue(this, value);
+	}
 	public System.Boolean _Check
 	{
 		get => __Check[Index];
 		set => __Check.SetValue(this, value);
+	}
+	public System.String _Prefab
+	{
+		get => __Prefab[Index];
+		set => __Prefab[Index] = value;
 	}
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
 	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4869277298640378294UL, 12018445722170645927UL), () => _ufle12jhs77__FishId = null));
@@ -288,8 +314,12 @@ public partial class DB_FishOcean : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldInt __MaxStackSize => _ufle12jhs77__MaxStackSize ?? (_ufle12jhs77__MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5410317259768974674UL, 6070994931239109292UL), () => _ufle12jhs77__MaxStackSize = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Weight;
 	public static BansheeGz.BGDatabase.BGFieldFloat __Weight => _ufle12jhs77__Weight ?? (_ufle12jhs77__Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5354675168134305164UL, 15169478222838396563UL), () => _ufle12jhs77__Weight = null));
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__IsPlayerCard;
+	public static BansheeGz.BGDatabase.BGFieldBool __IsPlayerCard => _ufle12jhs77__IsPlayerCard ?? (_ufle12jhs77__IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4776345315621728512UL, 7416418653739574153UL), () => _ufle12jhs77__IsPlayerCard = null));
 	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__Check;
 	public static BansheeGz.BGDatabase.BGFieldBool __Check => _ufle12jhs77__Check ?? (_ufle12jhs77__Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5743780943701751951UL, 16826233822115326893UL), () => _ufle12jhs77__Check = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Prefab;
+	public static BansheeGz.BGDatabase.BGFieldString __Prefab => _ufle12jhs77__Prefab ?? (_ufle12jhs77__Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4974573511864330598UL, 7118378120430754744UL), () => _ufle12jhs77__Prefab = null));
 	private DB_FishOcean() : base(MetaDefault) {}
 	private DB_FishOcean(BGId id) : base(MetaDefault, id) {}
 	private DB_FishOcean(BGMetaEntity meta) : base(meta) {}
@@ -329,7 +359,9 @@ public partial class DB_FishOcean : BGEntity
 		public const string Fish_length = "Fish_length";
 		public const string MaxStackSize = "MaxStackSize";
 		public const string Weight = "Weight";
+		public const string IsPlayerCard = "IsPlayerCard";
 		public const string Check = "Check";
+		public const string Prefab = "Prefab";
 	}
 }
 
@@ -415,10 +447,20 @@ public partial class DB_FishLake : BGEntity
 		get => __Weight[Index];
 		set => __Weight.SetValue(this, value);
 	}
+	public System.Boolean _IsPlayerCard
+	{
+		get => __IsPlayerCard[Index];
+		set => __IsPlayerCard.SetValue(this, value);
+	}
 	public System.Boolean _Check
 	{
 		get => __Check[Index];
 		set => __Check.SetValue(this, value);
+	}
+	public System.String _Prefab
+	{
+		get => __Prefab[Index];
+		set => __Prefab[Index] = value;
 	}
 	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
 	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5738085357535783960UL, 12879849390299136128UL), () => _ufle12jhs77__FishId = null));
@@ -450,8 +492,12 @@ public partial class DB_FishLake : BGEntity
 	public static BansheeGz.BGDatabase.BGFieldInt __MaxStackSize => _ufle12jhs77__MaxStackSize ?? (_ufle12jhs77__MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5211317728524813621UL, 2693696612521573005UL), () => _ufle12jhs77__MaxStackSize = null));
 	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Weight;
 	public static BansheeGz.BGDatabase.BGFieldFloat __Weight => _ufle12jhs77__Weight ?? (_ufle12jhs77__Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5024088679543999167UL, 11148223410802462848UL), () => _ufle12jhs77__Weight = null));
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__IsPlayerCard;
+	public static BansheeGz.BGDatabase.BGFieldBool __IsPlayerCard => _ufle12jhs77__IsPlayerCard ?? (_ufle12jhs77__IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4665905885988586443UL, 1653607090037436589UL), () => _ufle12jhs77__IsPlayerCard = null));
 	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__Check;
 	public static BansheeGz.BGDatabase.BGFieldBool __Check => _ufle12jhs77__Check ?? (_ufle12jhs77__Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4704219168888085743UL, 17113334918544427432UL), () => _ufle12jhs77__Check = null));
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Prefab;
+	public static BansheeGz.BGDatabase.BGFieldString __Prefab => _ufle12jhs77__Prefab ?? (_ufle12jhs77__Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4664416041449059695UL, 13939171338268991669UL), () => _ufle12jhs77__Prefab = null));
 	private DB_FishLake() : base(MetaDefault) {}
 	private DB_FishLake(BGId id) : base(MetaDefault, id) {}
 	private DB_FishLake(BGMetaEntity meta) : base(meta) {}
@@ -491,7 +537,9 @@ public partial class DB_FishLake : BGEntity
 		public const string Fish_length = "Fish_length";
 		public const string MaxStackSize = "MaxStackSize";
 		public const string Weight = "Weight";
+		public const string IsPlayerCard = "IsPlayerCard";
 		public const string Check = "Check";
+		public const string Prefab = "Prefab";
 	}
 }
 #pragma warning restore 414

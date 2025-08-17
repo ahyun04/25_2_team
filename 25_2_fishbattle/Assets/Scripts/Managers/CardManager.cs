@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CardManager : SingletonMono<CardManager>
 {
@@ -40,6 +41,13 @@ public class CardManager : SingletonMono<CardManager>
 
     [SerializeField] private GameObject _blurBackGround;
 
+    [Header("마우스 클릭 효과")]
+    private Vector3 _originalPlayerCardScale;
+    [SerializeField] private float _clickedScaleMultiplier = 1.5f;
+    [SerializeField] private float _cardFocusScaleMultiplier = 1.2f;
+    [SerializeField] private float _scaleAnimDuration = 0.2f;
+    private GameObject _currentFocusedCard = null;
+
     public float DrawAnimDuration => drawAnimDuration;
 
     private bool _isPlayerInitialCardPlaced = false;
@@ -48,6 +56,15 @@ public class CardManager : SingletonMono<CardManager>
     #endregion
 
     #region 초기화
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            HandleMouseClick();
+        }
+    }
+
+
     /// <summary> 덱을 섞습니다. </summary>
     public void ShuffleDecks()
     {
@@ -63,6 +80,8 @@ public class CardManager : SingletonMono<CardManager>
             DrawOne(true, false);
             DrawOne(false, false);
         }
+
+        _originalPlayerCardScale = _playerCardObjects.Count > 0 ? _playerCardObjects[0].transform.localScale : Vector3.one;
     }
 
     /// <summary>
@@ -210,6 +229,7 @@ public class CardManager : SingletonMono<CardManager>
 
         if (isPlayer)
         {
+            _originalPlayerCardScale = fishObject.transform.localScale;
             fishObject.layer = 9;
         }
 
@@ -451,5 +471,129 @@ public class CardManager : SingletonMono<CardManager>
     {
         DrawOne(isPlayer, true);
     }
+    #endregion
+
+    #region 핸드 트리거
+    private void HandleMouseClick()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            // Case 1: 손패 영역(_playerHandPosition)을 클릭했을 때
+            if (hit.transform == _playerHandPosition)
+            {
+                // 손패 전체가 확대되면서 배경이 활성화됩니다.
+                SetPlayerHandScale(_clickedScaleMultiplier);
+                _blurBackGround.SetActive(true);
+                // 기존에 포커스된 카드가 있다면 원래 크기로 되돌립니다.
+                UnfocusCard();
+            }
+            // Case 2: 손패에 있는 개별 카드(PlayerCard)를 클릭했을 때
+            else if (hit.transform.CompareTag("PlayerCard"))
+            {
+                // 손패 전체가 확대된 상태가 아니면 무시
+                if (!_blurBackGround.activeSelf) return;
+
+                // 이미 포커스된 카드를 다시 클릭하면 포커스를 해제
+                if (_currentFocusedCard == hit.transform.gameObject)
+                {
+                    UnfocusCard();
+                }
+                else
+                {
+                    // 다른 카드를 클릭하면 포커스를 새로 지정
+                    FocusCard(hit.transform.gameObject);
+                }
+            }
+            // Case 3: 손패 영역 외의 다른 곳을 클릭했을 때
+            else
+            {
+                // 손패 전체와 배경을 원래대로 되돌립니다.
+                SetPlayerHandScaleToOriginal();
+                _blurBackGround.SetActive(false);
+                UnfocusCard();
+            }
+        }
+        else
+        {
+            // 아무것도 클릭하지 않았을 때
+            SetPlayerHandScaleToOriginal();
+            _blurBackGround.SetActive(false);
+            UnfocusCard();
+        }
+    }
+
+    private void SetPlayerHandScale(float targetScaleMultiplier)
+    {
+        Vector3 originalScale = _originalPlayerCardScale;
+        Vector3 targetScale = originalScale * targetScaleMultiplier;
+
+        foreach (var cardObj in _playerCardObjects)
+        {
+            if (cardObj != null)
+            {
+                cardObj.transform.DOScale(targetScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
+            }
+        }
+    }
+
+    private void SetPlayerHandScaleToOriginal()
+    {
+        Vector3 originalScale = _originalPlayerCardScale;
+
+        foreach (var cardObj in _playerCardObjects)
+        {
+            if (cardObj != null)
+            {
+                cardObj.transform.DOScale(originalScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
+            }
+        }
+    }
+
+    private void FocusCard(GameObject cardToFocus)
+    {
+        // 기존에 포커스된 카드가 있다면 원래 크기로 되돌립니다.
+        if (_currentFocusedCard != null)
+        {
+            _currentFocusedCard.transform.DOScale(_originalPlayerCardScale * _clickedScaleMultiplier, _scaleAnimDuration);
+        }
+
+        // 포커스된 카드를 제외하고 나머지 손패 카드의 레이어를 Default(0)로 변경
+        foreach (var cardObj in _playerCardObjects)
+        {
+            if (cardObj != cardToFocus)
+            {
+                cardObj.layer = 0; // Default 레이어
+            }
+        }
+
+        // 새로운 카드를 포커스합니다.
+        _currentFocusedCard = cardToFocus;
+        Vector3 targetScale = _originalPlayerCardScale * _clickedScaleMultiplier * _cardFocusScaleMultiplier;
+        _currentFocusedCard.transform.DOScale(targetScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
+    }
+
+    private void UnfocusCard()
+    {
+        if (_currentFocusedCard != null)
+        {
+            // 포커스된 카드를 손패 확대 크기로 되돌립니다.
+            Vector3 originalHandScale = _originalPlayerCardScale * _clickedScaleMultiplier;
+            _currentFocusedCard.transform.DOScale(originalHandScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
+            _currentFocusedCard = null; // 포커스 해제
+        }
+
+        // 모든 손패 카드의 레이어를 다시 Render(9)로 복구
+        foreach (var cardObj in _playerCardObjects)
+        {
+            if (cardObj != null)
+            {
+                cardObj.layer = 9; // Render 레이어
+            }
+        }
+    }
+
     #endregion
 }

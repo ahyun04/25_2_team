@@ -13,13 +13,13 @@ public class CardDisplay : MonoBehaviour
                   
     [Header("상태")]
     public bool isDragging = false;
-    private Vector3 originalPosition;
+    private Vector3 _originalPosition;
 
     private CardManager _cardManager;                    
     private CardSlotArea _currentSlotArea;
     private MeshRenderer _meshRenderer;
-    private Transform currentSlot;
-    private Transform originalParent;
+    private Transform _currentSlot;
+    private Transform _originalParent;
 
     [Header("색상 설정")]
     [SerializeField] private Color normalColor = Color.white;
@@ -59,19 +59,19 @@ public class CardDisplay : MonoBehaviour
         if (!fishData.IsPlayerCard) return;
 
         // 드래그 시작 시 기존 슬롯 해제
-        if (_currentSlotArea != null && currentSlot != null)
+        if (_currentSlotArea != null && _currentSlot != null)
         {
-            _currentSlotArea.ReleaseSlot(currentSlot);
-            currentSlot = null;
+            _currentSlotArea.ReleaseSlot(_currentSlot);
+            _currentSlot = null;
         }
 
         _currentSlotArea = null;
 
         isDragging = true;
-        originalPosition = transform.position;
+        _originalPosition = transform.position;
 
         // 드래그 시작 시 부모를 잠시 해제
-        originalParent = transform.parent;
+        _originalParent = transform.parent;
         transform.SetParent(null);
     }
 
@@ -125,8 +125,8 @@ public class CardDisplay : MonoBehaviour
                 }
                 else
                 {
-                    transform.DOMove(originalPosition, 0.2f).SetEase(Ease.OutCubic);
-                    transform.SetParent(originalParent);
+                    transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
+                    transform.SetParent(_originalParent);
                     Debug.Log("카드 배치 실패. AP 부족 또는 슬롯 없음.");
                 }
             }
@@ -134,8 +134,8 @@ public class CardDisplay : MonoBehaviour
         else
         {
             // 유효한 슬롯이 아니면 원래 위치로 복귀
-            transform.SetParent(originalParent);
-            transform.DOMove(originalPosition, 0.2f).SetEase(Ease.OutCubic);
+            transform.SetParent(_originalParent);
+            transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
         }
 
         if (_meshRenderer != null)

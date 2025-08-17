@@ -582,7 +582,10 @@ MonoBehaviour:
   cardSpacing: 2
   maxHandCards: 5
   drawAnimDuration: 0.4
-  _blurBackGround: {fileID: 0}
+  _blurBackGround: {fileID: 1502139764}
+  _clickedScaleMultiplier: 1.5
+  _cardFocusScaleMultiplier: 2
+  _scaleAnimDuration: 0.2
 --- !u!1 &805157324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,7 +1287,7 @@ Transform:
   m_GameObject: {fileID: 1315005105}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.07, z: 0.002}
+  m_LocalPosition: {x: 0, y: 1.77, z: 0.002}
   m_LocalScale: {x: 0.7674201, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2221,7 +2224,7 @@ Transform:
   m_GameObject: {fileID: 1929420137}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.12, z: 0.002}
+  m_LocalPosition: {x: 0, y: -0.94, z: 0.002}
   m_LocalScale: {x: 23.022144, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2590,6 +2593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2138524771}
+  - component: {fileID: 2138524772}
   m_Layer: 0
   m_Name: PlayerHandPos
   m_TagString: PlayerCard
@@ -2606,12 +2610,33 @@ Transform:
   m_GameObject: {fileID: 2138524770}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -6.26, z: 0}
+  m_LocalPosition: {x: 0, y: -5.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 438494520}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2138524772
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138524770}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 12, y: 5, z: 1}
+  m_Center: {x: 0, y: 0, z: 1}
 --- !u!1 &2146589506
 GameObject:
   m_ObjectHideFlags: 0

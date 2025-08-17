@@ -126,6 +126,7 @@ public class CardDisplay : MonoBehaviour
                 else
                 {
                     transform.DOMove(originalPosition, 0.2f).SetEase(Ease.OutCubic);
+                    transform.SetParent(originalParent);
                     Debug.Log("카드 배치 실패. AP 부족 또는 슬롯 없음.");
                 }
             }
@@ -140,7 +141,7 @@ public class CardDisplay : MonoBehaviour
         if (_meshRenderer != null)
             _meshRenderer.material.color = normalColor;
 
-        _currentSlotArea = null; // 드롭 후 슬롯 참조 초기화
+        _currentSlotArea = null; 
     }
 
     #endregion
@@ -148,7 +149,7 @@ public class CardDisplay : MonoBehaviour
     #region 공간 트리거 관련
     private void OnTriggerEnter(Collider other)
     {
-        if (!isDragging) return; // 드래그 중이 아니면 무시
+        if (!isDragging) return; 
 
         CardSlotArea area = other.GetComponent<CardSlotArea>();
         if (area != null)
@@ -169,7 +170,7 @@ public class CardDisplay : MonoBehaviour
         CardSlotArea area = other.GetComponent<CardSlotArea>();
         if (area != null)
         {
-            if (other.CompareTag(gameObject.tag)) // 같은 태그 확인
+            if (other.CompareTag(gameObject.tag))
                 _currentSlotArea = area;
         }
     }

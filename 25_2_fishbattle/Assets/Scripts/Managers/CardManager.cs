@@ -38,6 +38,8 @@ public class CardManager : SingletonMono<CardManager>
     [SerializeField] private int maxHandCards = 5;
     [SerializeField] private float drawAnimDuration = 0.4f;
 
+    [SerializeField] private GameObject _blurBackGround;
+
     public float DrawAnimDuration => drawAnimDuration;
 
     private bool _isPlayerInitialCardPlaced = false;
@@ -206,6 +208,11 @@ public class CardManager : SingletonMono<CardManager>
         GameObject fishObject = Instantiate(cd.Prefab, deckPos.position, rotation);
         fishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
 
+        if (isPlayer)
+        {
+            fishObject.layer = 9;
+        }
+
         fishObject.transform.SetParent(handPos, true);
 
         // 생성된 물고기 오브젝트에 있는 CardDisplay 컴포넌트에 데이터 전달
@@ -320,11 +327,29 @@ public class CardManager : SingletonMono<CardManager>
         var cardObjects = isPlayer ? _playerCardObjects : _enemyCardObjects;
         var handPos = isPlayer ? _playerHandPosition : _enemyHandPosition;
 
-        for (int i = 0; i < cardObjects.Count; i++)
+        // 플레이어 핸드의 모든 카드 오브젝트에 대해 반복
+        if (isPlayer)
         {
-            if (cardObjects[i].TryGetComponent<CardDisplay>(out var disp))
+            const int RENDER_LAYER = 9;
+
+            for (int i = 0; i < cardObjects.Count; i++)
             {
-                disp.cardIndex = i;
+                if (cardObjects[i].TryGetComponent<CardDisplay>(out var disp))
+                {
+                    disp.cardIndex = i;
+                    // 플레이어 핸드에 있는 물고기 레이어를 9번으로 변경
+                    cardObjects[i].layer = RENDER_LAYER;
+                }
+            }
+        }
+        else // 적 핸드 카드일 경우 기존 로직 유지
+        {
+            for (int i = 0; i < cardObjects.Count; i++)
+            {
+                if (cardObjects[i].TryGetComponent<CardDisplay>(out var disp))
+                {
+                    disp.cardIndex = i;
+                }
             }
         }
 
@@ -336,7 +361,8 @@ public class CardManager : SingletonMono<CardManager>
             Vector3 targetPos = startPos + new Vector3(i * cardSpacing, 0, 0);
             cardObjects[i].transform.DOMove(targetPos, 0.2f).SetEase(Ease.OutCubic);
         }
-}
+    }
+
     #endregion
 
     #region 간단 공격 처리

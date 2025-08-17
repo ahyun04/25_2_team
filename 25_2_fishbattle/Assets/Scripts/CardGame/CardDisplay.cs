@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,32 +6,29 @@ using UnityEngine;
 
 public class CardDisplay : MonoBehaviour
 {
-    #region ·¹ÆÛ·±½º
-    [Header("Ä«µå µ¥ÀÌÅÍ")]
+    #region ë ˆí¼ëŸ°ìŠ¤
+    [Header("ì¹´ë“œ ë°ì´í„°")]
     public FishSO fishData;                         
     public int cardIndex;                             
                   
-    [Header("»óÅÂ")]
+    [Header("ìƒíƒœ")]
     public bool isDragging = false;
-    private Vector3 originalPosition;                 
-
-    [Header("·¹ÀÌ¾î ¸¶½ºÅ©")]
-    public LayerMask enemyLayer;                      
-    public LayerMask playerLayer;                    
+    private Vector3 originalPosition;
 
     private CardManager _cardManager;                    
     private CardSlotArea _currentSlotArea;
     private MeshRenderer _meshRenderer;
     private Transform currentSlot;
+    private Transform originalParent;
 
-    [Header("»ö»ó ¼³Á¤")]
+    [Header("ìƒ‰ìƒ ì„¤ì •")]
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color validColor = Color.green;
     [SerializeField] private Color invalidColor = Color.red;
 
     #endregion
 
-    #region ÃÊ±âÈ­
+    #region ì´ˆê¸°í™”
     void Start()
     {
         _cardManager = FindObjectOfType<CardManager>();
@@ -40,14 +37,14 @@ public class CardDisplay : MonoBehaviour
         TryGetComponent(out _meshRenderer);
 
         if (fishData.IsPlayerCard)
-            gameObject.layer = LayerMask.NameToLayer("Player");
+            gameObject.tag = "PlayerCard";
         else
-            gameObject.layer = LayerMask.NameToLayer("Enemy");
+            gameObject.tag = "EnemyCard";
 
         SetupCard(fishData);
     }
 
-    // Ä«µå µ¥ÀÌÅÍ ¼³Á¤
+    // ì¹´ë“œ ë°ì´í„° ì„¤ì •
     public void SetupCard(FishSO data)
     {
         fishData = data;
@@ -55,22 +52,27 @@ public class CardDisplay : MonoBehaviour
 
     #endregion
 
-    #region ¸¶¿ì½º Å¬¸¯/µå·¡±×
+    #region ë§ˆìš°ìŠ¤ í´ë¦­/ë“œë˜ê·¸
     private void OnMouseDown()
     {
-        // ÇÃ·¹ÀÌ¾î Ä«µåÀÏ °æ¿ì¿¡¸¸ µå·¡±× ½ÃÀÛ
-        if (!fishData.IsPlayerCard) return;
+Â  Â  Â  Â  // í”Œë ˆì´ì–´ ì¹´ë“œì¼ ê²½ìš°ì—ë§Œ ë“œë˜ê·¸ ì‹œì‘
+Â  Â  Â  Â  if (!fishData.IsPlayerCard) return;
 
-        // µå·¡±× ½ÃÀÛ ½Ã ±âÁ¸ ½½·Ô ÇØÁ¦
-        if (_currentSlotArea != null && currentSlot != null)
+Â  Â  Â  Â  // ë“œë˜ê·¸ ì‹œì‘ ì‹œ ê¸°ì¡´ ìŠ¬ë¡¯ í•´ì œ
+Â  Â  Â  Â  if (_currentSlotArea != null && currentSlot != null)
         {
             _currentSlotArea.ReleaseSlot(currentSlot);
             currentSlot = null;
         }
 
         _currentSlotArea = null;
-        originalPosition = transform.position;
+
         isDragging = true;
+        originalPosition = transform.position;
+
+        // ë“œë˜ê·¸ ì‹œì‘ ì‹œ ë¶€ëª¨ë¥¼ ì ì‹œ í•´ì œ
+        originalParent = transform.parent;
+        transform.SetParent(null);
     }
 
     private void OnMouseDrag()
@@ -105,7 +107,7 @@ public class CardDisplay : MonoBehaviour
 
         isDragging = false;
 
-        // Ä«µå ¹èÄ¡ ½Ãµµ
+        // ì¹´ë“œ ë°°ì¹˜ ì‹œë„
         if (_currentSlotArea != null && _currentSlotArea.IsCardInside)
         {
             if (!TurnManager.Instance.IsGameStarted)
@@ -119,57 +121,56 @@ public class CardDisplay : MonoBehaviour
             {
                 if (_cardManager.PlayCardFromHand(true, this.cardIndex))
                 {
-                    Debug.Log("Ä«µå¸¦ ¼º°øÀûÀ¸·Î ¹èÄ¡Çß½À´Ï´Ù.");
+                    Debug.Log("ì¹´ë“œë¥¼ ì„±ê³µì ìœ¼ë¡œ ë°°ì¹˜í–ˆìŠµë‹ˆë‹¤.");
                 }
                 else
                 {
                     transform.DOMove(originalPosition, 0.2f).SetEase(Ease.OutCubic);
-                    Debug.Log("Ä«µå ¹èÄ¡ ½ÇÆĞ. AP ºÎÁ· ¶Ç´Â ½½·Ô ¾øÀ½.");
+                    Debug.Log("ì¹´ë“œ ë°°ì¹˜ ì‹¤íŒ¨. AP ë¶€ì¡± ë˜ëŠ” ìŠ¬ë¡¯ ì—†ìŒ.");
                 }
             }
         }
         else
         {
-            // À¯È¿ÇÑ ½½·ÔÀÌ ¾Æ´Ï¸é ¿ø·¡ À§Ä¡·Î º¹±Í
+            // ìœ íš¨í•œ ìŠ¬ë¡¯ì´ ì•„ë‹ˆë©´ ì›ë˜ ìœ„ì¹˜ë¡œ ë³µê·€
+            transform.SetParent(originalParent);
             transform.DOMove(originalPosition, 0.2f).SetEase(Ease.OutCubic);
         }
 
         if (_meshRenderer != null)
             _meshRenderer.material.color = normalColor;
 
-        _currentSlotArea = null; // µå·Ó ÈÄ ½½·Ô ÂüÁ¶ ÃÊ±âÈ­
+        _currentSlotArea = null; // ë“œë¡­ í›„ ìŠ¬ë¡¯ ì°¸ì¡° ì´ˆê¸°í™”
     }
 
     #endregion
 
-    #region °ø°£ Æ®¸®°Å °ü·Ã
+    #region ê³µê°„ íŠ¸ë¦¬ê±° ê´€ë ¨
     private void OnTriggerEnter(Collider other)
     {
-        if (!isDragging) return; // µå·¡±× ÁßÀÌ ¾Æ´Ï¸é ¹«½Ã
+        if (!isDragging) return; // ë“œë˜ê·¸ ì¤‘ì´ ì•„ë‹ˆë©´ ë¬´ì‹œ
 
         CardSlotArea area = other.GetComponent<CardSlotArea>();
         if (area != null)
         {
-            // °°Àº ÆÀÀÎÁö È®ÀÎ
-            if ((area.teamLayer.value & (1 << gameObject.layer)) != 0)
+            // íƒœê·¸ ê²€ì‚¬
+            if (other.CompareTag("PlayerCard") && gameObject.CompareTag("PlayerCard") ||
+                other.CompareTag("EnemyCard") && gameObject.CompareTag("EnemyCard"))
             {
                 _currentSlotArea = area;
-            }
-            else
-            {
-                _currentSlotArea = null; // ÆÀÀÌ ´Ù¸£¸é Àı´ë ¼¼ÆÃ ¾È ÇÔ
             }
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (!isDragging) return; // µå·¡±× Áß¿¡¸¸ Ã¼Å©
+        if (!isDragging) return;
 
         CardSlotArea area = other.GetComponent<CardSlotArea>();
-        if (area != null && (area.teamLayer.value & (1 << gameObject.layer)) != 0)
+        if (area != null)
         {
-            _currentSlotArea = area; // µå·¡±× Áß¿¡µµ ¾ÈÀüÇÏ°Ô ÀçÈ®ÀÎ
+            if (other.CompareTag(gameObject.tag)) // ê°™ì€ íƒœê·¸ í™•ì¸
+                _currentSlotArea = area;
         }
     }
 

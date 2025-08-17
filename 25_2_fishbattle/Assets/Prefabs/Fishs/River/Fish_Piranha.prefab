@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e865e170e12f8ee47bc81748aeb4bd70,
         type: 3}
       propertyPath: m_TagString
-      value: Card
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -179,15 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishData: {fileID: 11400000, guid: d77434e690ea4c34889f83818e157155, type: 2}
   cardIndex: 0
-  nameText: {fileID: 0}
-  costText: {fileID: 0}
   isDragging: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   validColor: {r: 0, g: 1, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}

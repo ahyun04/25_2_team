@@ -6,6 +6,8 @@ TagManager:
   tags:
   - TargetBox
   - Card
+  - PlayerCard
+  - EnemyCard
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - 
   - Player
   - Enemy
-  - 
+  - Render
   - 
   - 
   - 

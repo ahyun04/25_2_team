@@ -9,7 +9,9 @@ public class CardSlotArea : MonoBehaviour
 
     [Header("슬롯 설정")]
     public Transform[] slots;        // 슬롯 위치들
-    public LayerMask teamLayer;      // 이 존이 허용하는 팀
+
+    [Header("허용 태그")]
+    [SerializeField] private string allowedTag = "PlayerCard";
 
     // 슬롯 점유 상태 저장
     protected Dictionary<Transform, GameObject> slotOccupants = new Dictionary<Transform, GameObject>();
@@ -28,7 +30,7 @@ public class CardSlotArea : MonoBehaviour
     #region 카드 트리거 이벤트
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Card") && IsSameTeam(other.gameObject))
+        if (other.CompareTag(allowedTag))
         {
             IsCardInside = true;
         }
@@ -36,20 +38,14 @@ public class CardSlotArea : MonoBehaviour
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Card") && IsSameTeam(other.gameObject))
+        if (other.CompareTag(allowedTag))
         {
             IsCardInside = false;
         }
     }
-
     #endregion
 
-    #region 슬롯/카드 레이어
-    protected bool IsSameTeam(GameObject card)
-    {
-        return (teamLayer.value & (1 << card.layer)) != 0;
-    }
-
+    #region 슬롯 관리
     public Transform GetNearestEmptySlot(Vector3 cardPos)
     {
         Transform nearest = null;
@@ -98,6 +94,5 @@ public class CardSlotArea : MonoBehaviour
         }
         return occupiedCards;
     }
-
     #endregion
 }

@@ -17,9 +17,6 @@ public class CardManager : SingletonMono<CardManager>
     [SerializeField] private List<FishSO> _enemyDeckCards = new List<FishSO>();
     [SerializeField] private List<FishSO> _enemyHandCards = new List<FishSO>();
 
-    [Header("공통 오브젝트")]
-    [SerializeField] private GameObject _cardPrefab;
-
     [Header("플레이어 위치")]
     [SerializeField] private Transform _playerDeckPosition;
     [SerializeField] private Transform _playerHandPosition;
@@ -40,8 +37,6 @@ public class CardManager : SingletonMono<CardManager>
     [SerializeField] private float cardSpacing = 2f;
     [SerializeField] private int maxHandCards = 5;
     [SerializeField] private float drawAnimDuration = 0.4f;
-    [SerializeField] private float fanSpread = 5f;
-    [SerializeField] private float verticalSpacing = 10f;
 
     public float DrawAnimDuration => drawAnimDuration;
 
@@ -140,6 +135,14 @@ public class CardManager : SingletonMono<CardManager>
         Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
 
         GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
+        newFishObject.transform.SetParent(chosenArea.transform);
+
+        if (newFishObject.TryGetComponent<CardDisplay>(out var disp))
+        {
+            disp.SetupCard(card);
+        }
+
+        newFishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
 
         // 4. 생성된 물고기를 슬롯에 할당
         chosenArea.OccupySlot(chosenSlot, newFishObject);
@@ -201,7 +204,9 @@ public class CardManager : SingletonMono<CardManager>
         Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
 
         GameObject fishObject = Instantiate(cd.Prefab, deckPos.position, rotation);
-        fishObject.tag = "Card";
+        fishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
+
+        fishObject.transform.SetParent(handPos, true);
 
         // 생성된 물고기 오브젝트에 있는 CardDisplay 컴포넌트에 데이터 전달
         if (fishObject.TryGetComponent<CardDisplay>(out var disp))
@@ -293,6 +298,12 @@ public class CardManager : SingletonMono<CardManager>
         Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
 
         GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
+        newFishObject.transform.SetParent(chosenArea.transform);
+
+        if (newFishObject.TryGetComponent<CardDisplay>(out var disp))
+            disp.SetupCard(card);
+
+        newFishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
 
         // 4. 생성된 물고기를 슬롯에 할당
         chosenArea.OccupySlot(chosenSlot, newFishObject);
@@ -380,7 +391,6 @@ public class CardManager : SingletonMono<CardManager>
     #region 적 AI 루틴
     /// <summary>
     /// 적 턴 전체 루틴: 드로우는 TurnManager에서 이미 호출됨(카드Manager.OnTurnStart).
-    /// 여기서는 배치→공격→턴 종료 흐름 수행
     /// </summary>
     public IEnumerator EnemyTurnRoutine()
     {

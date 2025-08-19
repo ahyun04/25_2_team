@@ -583,8 +583,9 @@ MonoBehaviour:
   maxHandCards: 5
   drawAnimDuration: 0.4
   _blurBackGround: {fileID: 1502139764}
-  _clickedScaleMultiplier: 1.5
-  _cardFocusScaleMultiplier: 2
+  isBluring: 0
+  _clickedScaleMultiplier: 1.3
+  _cardFocusScaleMultiplier: 1.6
   _scaleAnimDuration: 0.2
 --- !u!1 &805157324
 GameObject:
@@ -697,6 +698,7 @@ GameObject:
   - component: {fileID: 961739752}
   - component: {fileID: 961739751}
   - component: {fileID: 961739750}
+  - component: {fileID: 961739754}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -796,7 +798,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1463
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -823,6 +825,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961739754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961739749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &1031396934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,7 +1217,7 @@ GameObject:
   - component: {fileID: 1315005108}
   - component: {fileID: 1315005107}
   - component: {fileID: 1315005111}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerBattlePos
   m_TagString: PlayerCard
   m_Icon: {fileID: 0}
@@ -1287,7 +1305,7 @@ Transform:
   m_GameObject: {fileID: 1315005105}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.77, z: 0.002}
+  m_LocalPosition: {x: 0, y: 2.37, z: 0.002}
   m_LocalScale: {x: 0.7674201, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2014,7 +2032,7 @@ GameObject:
   - component: {fileID: 1915774832}
   - component: {fileID: 1915774831}
   - component: {fileID: 1915774835}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemyBattlePos
   m_TagString: EnemyCard
   m_Icon: {fileID: 0}
@@ -2102,7 +2120,7 @@ Transform:
   m_GameObject: {fileID: 1915774829}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.04, z: 0.002}
+  m_LocalPosition: {x: 0, y: 6.3, z: 0.002}
   m_LocalScale: {x: 0.7674201, y: 0.7, z: 3.3468533}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2136,7 +2154,7 @@ GameObject:
   - component: {fileID: 1929420140}
   - component: {fileID: 1929420139}
   - component: {fileID: 1929420144}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerBenchPos
   m_TagString: PlayerCard
   m_Icon: {fileID: 0}
@@ -2267,7 +2285,7 @@ GameObject:
   - component: {fileID: 1971803821}
   - component: {fileID: 1971803820}
   - component: {fileID: 1971803825}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemyBenchPos
   m_TagString: EnemyCard
   m_Icon: {fileID: 0}

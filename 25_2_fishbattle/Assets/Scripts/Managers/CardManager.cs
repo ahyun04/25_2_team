@@ -39,7 +39,8 @@ public class CardManager : SingletonMono<CardManager>
     [SerializeField] private int maxHandCards = 5;
     [SerializeField] private float drawAnimDuration = 0.4f;
 
-    [SerializeField] private GameObject _blurBackGround;
+    public GameObject _blurBackGround;
+    public bool isBluring = false;
 
     [Header("마우스 클릭 효과")]
     private Vector3 _originalPlayerCardScale;
@@ -47,6 +48,9 @@ public class CardManager : SingletonMono<CardManager>
     [SerializeField] private float _cardFocusScaleMultiplier = 1.2f;
     [SerializeField] private float _scaleAnimDuration = 0.2f;
     private GameObject _currentFocusedCard = null;
+    private Vector3 _focusOffset = new Vector3(0, 6f, -2f);
+    private Vector3 _lastFocusedCardOriginalPos;
+    private bool _isHandExpanded = false;
 
     public float DrawAnimDuration => drawAnimDuration;
 
@@ -484,10 +488,11 @@ public class CardManager : SingletonMono<CardManager>
             // Case 1: 손패 영역(_playerHandPosition)을 클릭했을 때
             if (hit.transform == _playerHandPosition)
             {
-                // 손패 전체가 확대되면서 배경이 활성화됩니다.
                 SetPlayerHandScale(_clickedScaleMultiplier);
+                isBluring = true;
                 _blurBackGround.SetActive(true);
-                // 기존에 포커스된 카드가 있다면 원래 크기로 되돌립니다.
+                SetAllBattleAndBenchCardTooltips(false);
+                _isHandExpanded = true;
                 UnfocusCard();
             }
             // Case 2: 손패에 있는 개별 카드(PlayerCard)를 클릭했을 때
@@ -495,6 +500,8 @@ public class CardManager : SingletonMono<CardManager>
             {
                 // 손패 전체가 확대된 상태가 아니면 무시
                 if (!_blurBackGround.activeSelf) return;
+
+                if (!_playerCardObjects.Contains(hit.transform.gameObject)) return;
 
                 // 이미 포커스된 카드를 다시 클릭하면 포커스를 해제
                 if (_currentFocusedCard == hit.transform.gameObject)
@@ -512,7 +519,12 @@ public class CardManager : SingletonMono<CardManager>
             {
                 // 손패 전체와 배경을 원래대로 되돌립니다.
                 SetPlayerHandScaleToOriginal();
+                isBluring = false;
                 _blurBackGround.SetActive(false);
+
+                SetAllBattleAndBenchCardTooltips(true);
+
+                _isHandExpanded = false;
                 UnfocusCard();
             }
         }
@@ -520,9 +532,25 @@ public class CardManager : SingletonMono<CardManager>
         {
             // 아무것도 클릭하지 않았을 때
             SetPlayerHandScaleToOriginal();
+            isBluring = false;
             _blurBackGround.SetActive(false);
+
+            SetAllBattleAndBenchCardTooltips(true);
+
+            _isHandExpanded = false;
             UnfocusCard();
         }
+    }
+
+    public bool IsHandExpanded()
+    {
+        return _isHandExpanded;
+    }
+
+    // 외부에서 특정 카드가 포커스된 상태를 확인할 수 있는 public 메서드
+    public bool IsCardFocused(GameObject card)
+    {
+        return _currentFocusedCard == card;
     }
 
     private void SetPlayerHandScale(float targetScaleMultiplier)
@@ -558,6 +586,9 @@ public class CardManager : SingletonMono<CardManager>
         if (_currentFocusedCard != null)
         {
             _currentFocusedCard.transform.DOScale(_originalPlayerCardScale * _clickedScaleMultiplier, _scaleAnimDuration);
+            SetTooltipForCard(_currentFocusedCard, false, false);
+
+            _currentFocusedCard.transform.DOMove(_lastFocusedCardOriginalPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
         }
 
         // 포커스된 카드를 제외하고 나머지 손패 카드의 레이어를 Default(0)로 변경
@@ -569,20 +600,38 @@ public class CardManager : SingletonMono<CardManager>
             }
         }
 
-        // 새로운 카드를 포커스합니다.
+        // 손패 외 카드면 무시
+        if (!_playerCardObjects.Contains(cardToFocus)) return;
+
         _currentFocusedCard = cardToFocus;
+
+        // 현재 위치 저장
+        _lastFocusedCardOriginalPos = cardToFocus.transform.position;
+
+        // 포커스 크기
         Vector3 targetScale = _originalPlayerCardScale * _clickedScaleMultiplier * _cardFocusScaleMultiplier;
         _currentFocusedCard.transform.DOScale(targetScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
+
+        // 포커스 위치 이동
+        Vector3 targetPos = _lastFocusedCardOriginalPos + _focusOffset;
+        _currentFocusedCard.transform.DOMove(targetPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
+
+        SetTooltipForCard(_currentFocusedCard, true, true);
     }
 
     private void UnfocusCard()
     {
         if (_currentFocusedCard != null)
         {
-            // 포커스된 카드를 손패 확대 크기로 되돌립니다.
+            // 크기 복구
             Vector3 originalHandScale = _originalPlayerCardScale * _clickedScaleMultiplier;
             _currentFocusedCard.transform.DOScale(originalHandScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
-            _currentFocusedCard = null; // 포커스 해제
+
+            // 위치 복구
+            _currentFocusedCard.transform.DOMove(_lastFocusedCardOriginalPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
+
+            SetTooltipForCard(_currentFocusedCard, false, false);
+            _currentFocusedCard = null;
         }
 
         // 모든 손패 카드의 레이어를 다시 Render(9)로 복구
@@ -591,6 +640,32 @@ public class CardManager : SingletonMono<CardManager>
             if (cardObj != null)
             {
                 cardObj.layer = 9; // Render 레이어
+            }
+        }
+    }
+
+    public void SetTooltipForCard(GameObject cardObject, bool isActive, bool isFocus)
+    {
+        if (cardObject.TryGetComponent<CardDisplay>(out var disp))
+        {
+            disp.SetTooltipActive(isActive, isFocus);
+        }
+    }
+
+    private void SetAllBattleAndBenchCardTooltips(bool isActive)
+    {
+        var allPlayerAreas = _playerBattleAreas.Cast<CardSlotArea>().Concat(_playerBenchAreas.Cast<CardSlotArea>());
+        var allEnemyAreas = _enemyBattleAreas.Cast<CardSlotArea>().Concat(_enemyBenchAreas.Cast<CardSlotArea>());
+        var allAreas = allPlayerAreas.Concat(allEnemyAreas);
+
+        foreach (var area in allAreas)
+        {
+            foreach (var cardObj in area.GetOccupiedCards())
+            {
+                if (cardObj != null)
+                {
+                    SetTooltipForCard(cardObj, isActive, false);
+                }
             }
         }
     }

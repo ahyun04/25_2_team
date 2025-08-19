@@ -180,6 +180,8 @@ MonoBehaviour:
   fishData: {fileID: 11400000, guid: b08a561cd3a185744b21e478f284962d, type: 2}
   cardIndex: 0
   isDragging: 0
+  tooltipPrefab: {fileID: 3667299525165648768, guid: 78f6e868810abc147a235b822450ebdb,
+    type: 3}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   validColor: {r: 0, g: 1, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}

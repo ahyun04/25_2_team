@@ -33,6 +33,7 @@ public class CardSlotArea : MonoBehaviour
         if (other.CompareTag(allowedTag))
         {
             IsCardInside = true;
+            CardManager.Instance.SetTooltipForCard(other.gameObject, true, false);
         }
     }
 
@@ -41,6 +42,7 @@ public class CardSlotArea : MonoBehaviour
         if (other.CompareTag(allowedTag))
         {
             IsCardInside = false;
+            CardManager.Instance.SetTooltipForCard(other.gameObject, false, false);
         }
     }
     #endregion

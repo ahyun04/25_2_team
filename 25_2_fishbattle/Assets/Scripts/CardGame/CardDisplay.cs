@@ -21,6 +21,9 @@ public class CardDisplay : MonoBehaviour
     private Transform _currentSlot;
     private Transform _originalParent;
 
+    [Header("툴팁")]
+    [SerializeField] private GameObject tooltipPrefab;
+
     [Header("색상 설정")]
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color validColor = Color.green;
@@ -33,6 +36,28 @@ public class CardDisplay : MonoBehaviour
     {
         _cardManager = FindObjectOfType<CardManager>();
         _currentSlotArea = FindObjectOfType<CardSlotArea>();
+
+        if (tooltipPrefab != null)
+        {
+            GameObject tooltipInstance = Instantiate(tooltipPrefab, transform);
+
+            // 플레이어/적 카드에 따라 툴팁 설정
+            if (fishData.IsPlayerCard)
+            {
+                tooltipInstance.transform.localPosition = new Vector3(0, -0.1f, 0);
+                tooltipInstance.transform.localRotation = Quaternion.Euler(0, 90, 180);
+            }
+            else // 적 카드
+            {
+                tooltipInstance.transform.localPosition = new Vector3(0, 0.2f, -1.3f);
+                tooltipInstance.transform.localRotation = Quaternion.Euler(0, -90, 0);
+            }
+
+            tooltipInstance.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+            // 생성된 툴팁을 비활성화
+            tooltipInstance.SetActive(false);
+        }
 
         TryGetComponent(out _meshRenderer);
 
@@ -58,9 +83,12 @@ public class CardDisplay : MonoBehaviour
         // 플레이어 카드일 경우에만 드래그 시작
         if (!fishData.IsPlayerCard) return;
 
+        if (CardManager.Instance.IsHandExpanded() || CardManager.Instance.IsCardFocused(gameObject)) return;
+
         // 드래그 시작 시 기존 슬롯 해제
         if (_currentSlotArea != null && _currentSlot != null)
         {
+            _currentSlotArea.ReleaseSlot(_currentSlot);
             _currentSlotArea.ReleaseSlot(_currentSlot);
             _currentSlot = null;
         }
@@ -183,6 +211,40 @@ public class CardDisplay : MonoBehaviour
         if (area != null && area == _currentSlotArea)
         {
             _currentSlotArea = null;
+        }
+    }
+
+    #endregion
+
+    #region 툴팁
+
+    public void SetTooltipActive(bool isActive)
+    {
+        SetTooltipActive(isActive, false);
+    }
+
+    public void SetTooltipActive(bool isActive, bool isFocus)
+    {
+        if (transform.childCount > 0)
+        {
+            GameObject tooltipObject = transform.GetChild(0).gameObject;
+            if (tooltipObject != null)
+            {
+                // 툴팁 오브젝트 전체 활성/비활성화
+                tooltipObject.SetActive(isActive);
+
+                // 툴팁이 활성화될 때만 이름 표시 로직 실행
+                if (isActive && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
+                {
+                    // 툴팁 데이터 업데이트
+                    tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Description, fishData.AbilityToAct);
+
+                    if (tooltip._nameText != null)
+                    {
+                        tooltip._nameText.gameObject.SetActive(isFocus);
+                    }
+                }
+            }
         }
     }
 

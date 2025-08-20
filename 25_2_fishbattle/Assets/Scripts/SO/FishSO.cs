@@ -24,6 +24,7 @@ public class FishSO : ScriptableObject
 
     [Header("¹°°í±â ÇÁ¸®ÆÕ")]
     [SerializeField] private GameObject _prefab;
+
     public GameObject Prefab
     {
         get => _prefab;

@@ -135,6 +135,17 @@ public class CardDisplay : MonoBehaviour
 
         isDragging = false;
 
+        if (_currentSlotArea != null && _currentSlotArea is BattlePos &&
+            fishData.Description.ToLower().Contains("healer"))
+        {
+            Debug.Log($"[{fishData.Name}]은 힐러라서 배틀 위치에 올릴 수 없습니다.");
+
+            transform.SetParent(_originalParent);
+            transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
+            ResetCardState();
+            return;
+        }
+
         // 카드 배치 시도
         if (_currentSlotArea != null && _currentSlotArea.IsCardInside)
         {
@@ -153,23 +164,35 @@ public class CardDisplay : MonoBehaviour
                 }
                 else
                 {
-                    transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
-                    transform.SetParent(_originalParent);
-                    Debug.Log("카드 배치 실패. AP 부족 또는 슬롯 없음.");
+                    ReturnToOriginalPosition("카드 배치 실패. AP 부족 또는 슬롯 없음.");
                 }
             }
         }
         else
         {
-            // 유효한 슬롯이 아니면 원래 위치로 복귀
-            transform.SetParent(_originalParent);
-            transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
+            ReturnToOriginalPosition("유효한 슬롯이 아니어서 복귀.");
         }
 
         if (_meshRenderer != null)
             _meshRenderer.material.color = normalColor;
 
-        _currentSlotArea = null; 
+        _currentSlotArea = null;
+    }
+
+    // 원래 자리로 돌아가는 함수
+    private void ReturnToOriginalPosition(string reason)
+    {
+        transform.SetParent(_originalParent);
+        transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
+        Debug.Log(reason);
+    }
+
+    // 상태 초기화
+    private void ResetCardState()
+    {
+        if (_meshRenderer != null)
+            _meshRenderer.material.color = normalColor;
+        _currentSlotArea = null;
     }
 
     #endregion
@@ -237,7 +260,7 @@ public class CardDisplay : MonoBehaviour
                 if (isActive && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
                 {
                     // 툴팁 데이터 업데이트
-                    tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Description, fishData.AbilityToAct);
+                    tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Skill_name, fishData.AbilityToAct);
 
                     if (tooltip._nameText != null)
                     {

@@ -118,6 +118,14 @@ public class CardManager : SingletonMono<CardManager>
 
         if (handIndex < 0 || handIndex >= hand.Count) return;
 
+        FishSO card = hand[handIndex];
+
+        if (card.Description.ToLower().Contains("healer"))
+        {
+            Debug.Log($"[{card.Name}]은 힐러라서 배틀 슬롯에는 올릴 수 없습니다.");
+            return;
+        }
+
         Transform chosenSlot = null;
         BattlePos chosenArea = null;
         foreach (var area in battleAreas)
@@ -137,7 +145,6 @@ public class CardManager : SingletonMono<CardManager>
             return;
         }
 
-        FishSO card = hand[handIndex];
         GameObject cardObj = handObjs[handIndex];
 
         // 1. 손패에서 해당 카드 데이터 및 오브젝트 제거

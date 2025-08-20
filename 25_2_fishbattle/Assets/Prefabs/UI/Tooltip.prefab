@@ -394,7 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameText: {fileID: 3235985052748868837}
   _hpText: {fileID: 4093027868379007598}
-  _descriptionText: {fileID: 6002182783134221199}
+  _skillNameText: {fileID: 6002182783134221199}
   _abilityToActText: {fileID: 1665204631470311576}
 --- !u!1 &4827562520806903513
 GameObject:
@@ -580,7 +580,7 @@ GameObject:
   - component: {fileID: 3539990466406293715}
   - component: {fileID: 6002182783134221199}
   m_Layer: 0
-  m_Name: 'DescriptionText '
+  m_Name: 'SkillNameText '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

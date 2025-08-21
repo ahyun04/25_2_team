@@ -18,6 +18,8 @@ public class TurnManager : SingletonMono<TurnManager>
 
     [Header("턴 설정")]
     [SerializeField] private int startAP = 3;
+    [SerializeField] private int maxAP = 5;
+    private int turnCount = 0;
 
     private CardManager _cardManager;
 
@@ -58,6 +60,7 @@ public class TurnManager : SingletonMono<TurnManager>
         // 4. 게임 시작 AP 설정 및 플레이어 턴 시작
         PlayerAP = startAP;
         EnemyAP = startAP;
+        _cardManager.UpdateAPText();
 
         IsGameStarted = true; // 게임 시작 상태를 true로 설정
 
@@ -70,17 +73,24 @@ public class TurnManager : SingletonMono<TurnManager>
     public void StartPlayerTurn()
     {
         CurrentTurn = TeamTurn.Player;
-        PlayerAP = startAP;
+        turnCount++;
+
+        if (turnCount > 2)
+            PlayerAP = Mathf.Min(PlayerAP + 1, maxAP);
+
         _cardManager.OnTurnStart(true);
-        Debug.Log("플레이어 턴 시작. AP 재설정:" + PlayerAP);
     }
 
     public void StartEnemyTurn()
     {
         CurrentTurn = TeamTurn.Enemy;
-        EnemyAP = startAP;
+        turnCount++;
+
+        if (turnCount > 2)
+            EnemyAP = Mathf.Min(EnemyAP + 1, maxAP);
+
         _cardManager.OnTurnStart(false);
-        Debug.Log("적 턴 시작. AP 재설정:" + EnemyAP);
+
         // AI 실행
         StartCoroutine(_cardManager.EnemyTurnRoutine());
     }
@@ -121,13 +131,11 @@ public class TurnManager : SingletonMono<TurnManager>
     public void AddAP(bool isPlayer, int amount)
     {
         if (isPlayer)
-        {
-            PlayerAP += amount;
-        }
+            PlayerAP = Mathf.Min(PlayerAP + amount, maxAP);
         else
-        {
-            EnemyAP += amount;
-        }
+            EnemyAP = Mathf.Min(EnemyAP + amount, maxAP);
+
+        _cardManager.UpdateAPText();
     }
 
     #endregion

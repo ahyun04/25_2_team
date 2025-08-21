@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -39,6 +40,12 @@ public class CardManager : SingletonMono<CardManager>
     [SerializeField] private int maxHandCards = 5;
     [SerializeField] private float drawAnimDuration = 0.4f;
 
+    [Header("코스트 텍스트")]
+    public TextMeshProUGUI playerCostText;
+    public TextMeshProUGUI playerKillCountText;
+    public TextMeshProUGUI enemyCostText;
+    public TextMeshProUGUI enemyKillCountText;
+
     public GameObject _blurBackGround;
     public bool isBluring = false;
 
@@ -66,6 +73,8 @@ public class CardManager : SingletonMono<CardManager>
         {
             HandleMouseClick();
         }
+
+        UpdateAPText();
     }
 
 
@@ -348,8 +357,15 @@ public class CardManager : SingletonMono<CardManager>
 
         RearrangeHand(isPlayer); // 손패 재정렬
 
-        Debug.Log($"{(isPlayer ? "플레이어" : "적")}이 카드를 배치했습니다: {card.Name} (남은 AP:{(isPlayer ? TurnManager.Instance.PlayerAP : TurnManager.Instance.EnemyAP)})");
+        UpdateAPText();
+
         return true;
+    }
+
+    public void UpdateAPText()
+    {
+        playerCostText.text = $"AP: {TurnManager.Instance.PlayerAP} / 5";
+        enemyCostText.text = $"AP: {TurnManager.Instance.EnemyAP} / 5";
     }
 
     /// <summary> 손패를 재정렬하고 인덱스를 업데이트합니다. </summary>
@@ -402,17 +418,14 @@ public class CardManager : SingletonMono<CardManager>
     {
         var playerBattleCards = new List<GameObject>();
 
-        // 플레이어 배틀 슬롯의 카드들을 모두 가져옴
-        // 이제 `GetOccupiedCards()` public 메서드를 사용합니다.
         foreach (var area in _playerBattleAreas)
         {
             playerBattleCards.AddRange(area.GetOccupiedCards());
         }
 
-        // 각 카드의 공격을 순차적으로 처리
         foreach (var cardObj in playerBattleCards)
         {
-            // 공격 로직 구현 (예시: 상대방에게 데미지 입히기)
+            // 공격 로직 구현
             Debug.Log($"플레이어 유닛이 공격을 시작합니다: {cardObj.name}");
 
             // 여기에 실제 공격 로직(데미지 적용, 애니메이션 등)을 추가할 부분

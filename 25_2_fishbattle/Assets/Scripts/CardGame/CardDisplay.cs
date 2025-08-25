@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,18 +17,12 @@ public class CardDisplay : MonoBehaviour
     private Vector3 _originalPosition;
 
     private CardManager _cardManager;                    
-    private CardSlotArea _currentSlotArea;
-    private MeshRenderer _meshRenderer;
-    private Transform _currentSlot;
+    [NonSerialized] public CardSlotArea _currentSlotArea;
+    [NonSerialized] public Transform _currentSlot;
     private Transform _originalParent;
 
     [Header("툴팁")]
     [SerializeField] private GameObject tooltipPrefab;
-
-    [Header("색상 설정")]
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color validColor = Color.green;
-    [SerializeField] private Color invalidColor = Color.red;
 
     #endregion
 
@@ -58,9 +53,6 @@ public class CardDisplay : MonoBehaviour
             // 생성된 툴팁을 비활성화
             tooltipInstance.SetActive(false);
         }
-
-        TryGetComponent(out _meshRenderer);
-
         if (fishData.IsPlayerCard)
             gameObject.tag = "PlayerCard";
         else
@@ -89,7 +81,6 @@ public class CardDisplay : MonoBehaviour
         if (_currentSlotArea != null && _currentSlot != null)
         {
             _currentSlotArea.ReleaseSlot(_currentSlot);
-            _currentSlotArea.ReleaseSlot(_currentSlot);
             _currentSlot = null;
         }
 
@@ -111,22 +102,6 @@ public class CardDisplay : MonoBehaviour
         mousePos.z = Camera.main.WorldToScreenPoint(transform.position).z;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
-
-        if (_meshRenderer != null)
-        {
-            if (_currentSlotArea != null && TurnManager.Instance.PlayerAP >= fishData.AbilityToAct)
-            {
-                _meshRenderer.material.color = validColor;
-            }
-            else if (_currentSlotArea != null && TurnManager.Instance.PlayerAP < fishData.AbilityToAct)
-            {
-                _meshRenderer.material.color = invalidColor;
-            }
-            else
-            {
-                _meshRenderer.material.color = normalColor;
-            }
-        }
     }
 
     private void OnMouseUp()
@@ -142,7 +117,6 @@ public class CardDisplay : MonoBehaviour
 
             transform.SetParent(_originalParent);
             transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
-            ResetCardState();
             return;
         }
 
@@ -173,26 +147,14 @@ public class CardDisplay : MonoBehaviour
             ReturnToOriginalPosition("유효한 슬롯이 아니어서 복귀.");
         }
 
-        if (_meshRenderer != null)
-            _meshRenderer.material.color = normalColor;
-
         _currentSlotArea = null;
     }
 
-    // 원래 자리로 돌아가는 함수
     private void ReturnToOriginalPosition(string reason)
     {
         transform.SetParent(_originalParent);
         transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
         Debug.Log(reason);
-    }
-
-    // 상태 초기화
-    private void ResetCardState()
-    {
-        if (_meshRenderer != null)
-            _meshRenderer.material.color = normalColor;
-        _currentSlotArea = null;
     }
 
     #endregion
@@ -253,20 +215,39 @@ public class CardDisplay : MonoBehaviour
             GameObject tooltipObject = transform.GetChild(0).gameObject;
             if (tooltipObject != null)
             {
-                // 툴팁 오브젝트 전체 활성/비활성화
                 tooltipObject.SetActive(isActive);
 
-                // 툴팁이 활성화될 때만 이름 표시 로직 실행
                 if (isActive && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
                 {
-                    // 툴팁 데이터 업데이트
-                    tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Skill_name, fishData.AbilityToAct);
+                    if (TryGetComponent<FishUnit>(out var fishUnit))
+                    {
+                        tooltip.SetupTooltip(fishUnit.CardData.Name, fishUnit.CurrentHp, fishUnit.CardData.Skill_name, fishUnit.CardData.AbilityToAct);
+                    }
+                    else
+                    {
+                        tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Skill_name, fishData.AbilityToAct);
+                    }
 
                     if (tooltip._nameText != null)
                     {
                         tooltip._nameText.gameObject.SetActive(isFocus);
                     }
                 }
+            }
+        }
+    }
+
+    public void UpdateTooltip(int currentHp)
+    {
+        // 툴팁 자식 오브젝트를 찾습니다.
+        if (transform.childCount > 0)
+        {
+            GameObject tooltipObject = transform.GetChild(0).gameObject;
+
+            // 툴팁 컴포넌트를 찾아 HP를 업데이트합니다.
+            if (tooltipObject != null && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
+            {
+                tooltip.UpdateHpText(currentHp);
             }
         }
     }

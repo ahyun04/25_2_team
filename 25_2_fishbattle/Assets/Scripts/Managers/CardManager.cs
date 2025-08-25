@@ -183,6 +183,11 @@ public class CardManager : SingletonMono<CardManager>
             disp.SetupCard(card);
         }
 
+        if (newFishObject.TryGetComponent<FishUnit>(out var fishUnit))
+        {
+            fishUnit.Setup(card, isPlayer);
+        }
+
         newFishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
 
         // 4. 생성된 물고기를 슬롯에 할당
@@ -278,10 +283,7 @@ public class CardManager : SingletonMono<CardManager>
     #endregion
 
     #region 플레이어/적 카드 배치(Hand -> Battle)
-    /// <summary>
-    /// 플레이어(또는 적)가 손패의 카드 인덱스를 배치(플레이)합니다.
-    /// 성공하면 true 반환 (AP 부족/빈 슬롯 없음 등 실패시 false)
-    /// </summary>
+    // 플레이어가 손패의 카드 인덱스를 배치 합니다.
     public bool PlayCardFromHand(bool isPlayer, int handIndex)
     {
         var hand = isPlayer ? _playerHandCards : _enemyHandCards;
@@ -350,6 +352,11 @@ public class CardManager : SingletonMono<CardManager>
         if (newFishObject.TryGetComponent<CardDisplay>(out var disp))
             disp.SetupCard(card);
 
+        if (newFishObject.TryGetComponent<FishUnit>(out var fishUnit))
+        {
+            fishUnit.Setup(card, isPlayer); // isPlayer 인자를 전달
+        }
+
         newFishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
 
         // 4. 생성된 물고기를 슬롯에 할당
@@ -410,6 +417,20 @@ public class CardManager : SingletonMono<CardManager>
         }
     }
 
+    public void UpdateKillCountText()
+    {
+        playerKillCountText.text = $"{TurnManager.Instance.PlayerKillCount} / 3";
+        enemyKillCountText.text = $"{TurnManager.Instance.EnemyKillCount}/ 3";
+
+        if (TurnManager.Instance.PlayerKillCount >= 3)
+        {
+            GameManager.Instance.EndGame(true);
+        }
+        else if (TurnManager.Instance.EnemyKillCount >= 3)
+        {
+            GameManager.Instance.EndGame(false);
+        }
+    }
     #endregion
 
     #region 간단 공격 처리
@@ -417,20 +438,44 @@ public class CardManager : SingletonMono<CardManager>
     public IEnumerator PlayerAttackRoutine()
     {
         var playerBattleCards = new List<GameObject>();
-
         foreach (var area in _playerBattleAreas)
         {
             playerBattleCards.AddRange(area.GetOccupiedCards());
         }
 
-        foreach (var cardObj in playerBattleCards)
+        var enemyBattleCards = new List<GameObject>();
+        foreach (var area in _enemyBattleAreas)
         {
-            // 공격 로직 구현
-            Debug.Log($"플레이어 유닛이 공격을 시작합니다: {cardObj.name}");
+            enemyBattleCards.AddRange(area.GetOccupiedCards());
+        }
 
-            // 여기에 실제 공격 로직(데미지 적용, 애니메이션 등)을 추가할 부분
+        // 공격할 유닛이 하나라도 있으면 공격 페이즈 진행
+        foreach (var attackerObj in playerBattleCards)
+        {
+            // 공격자 또는 공격자 유닛 정보가 없으면 건너뛰기
+            if (attackerObj == null || !attackerObj.TryGetComponent<FishUnit>(out var attackerUnit))
+            {
+                continue;
+            }
 
-            yield return new WaitForSeconds(0.5f); // 공격 애니메이션 대기
+            // 살아있는 적 유닛 리스트를 필터링
+            var livingEnemies = enemyBattleCards.Where(e => e != null).ToList();
+            if (livingEnemies.Count == 0)
+            {
+                Debug.Log("공격할 적이 없습니다.");
+                break; // 공격할 대상이 없으므로 루프 종료
+            }
+
+            // 간단한 타겟팅: 첫 번째 적을 공격
+            GameObject targetObj = livingEnemies[0];
+            if (targetObj.TryGetComponent<FishUnit>(out var targetUnit))
+            {
+                Debug.Log($"{attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격!");
+
+                targetUnit.TakeDamage(attackerUnit.CardData.Damage);
+            }
+
+            yield return new WaitForSeconds(0.5f); // 공격 사이의 딜레이
         }
 
         Debug.Log("플레이어 공격 페이즈 종료. 턴을 종료합니다.");
@@ -442,18 +487,43 @@ public class CardManager : SingletonMono<CardManager>
 
     public IEnumerator EnemyAttackRoutine()
     {
-        var areas = _enemyBattleAreas;
-        foreach (var area in areas)
+        var enemyBattleCards = new List<GameObject>();
+        foreach (var area in _enemyBattleAreas)
         {
-            foreach (var slot in area.slots)
+            enemyBattleCards.AddRange(area.GetOccupiedCards());
+        }
+
+        var playerBattleCards = new List<GameObject>();
+        foreach (var area in _playerBattleAreas)
+        {
+            playerBattleCards.AddRange(area.GetOccupiedCards());
+        }
+
+        foreach (var attackerObj in enemyBattleCards)
+        {
+            if (attackerObj == null || !attackerObj.TryGetComponent<FishUnit>(out var attackerUnit))
             {
-                if (area.IsSlotOccupied(slot))
-                {
-                    if (!TurnManager.Instance.SpendAP(false, 1)) yield break;
-                    Debug.Log($"적 유닛이 공격을 실행했습니다. (AP 남음:{TurnManager.Instance.EnemyAP})");
-                    yield return new WaitForSeconds(0.35f);
-                }
+                continue;
             }
+
+            // AP가 부족하면 공격 중단 (기존 로직 유지)
+            if (!TurnManager.Instance.SpendAP(false, 1)) yield break;
+
+            var livingPlayers = playerBattleCards.Where(p => p != null).ToList();
+            if (livingPlayers.Count == 0)
+            {
+                Debug.Log("공격할 플레이어 유닛이 없습니다.");
+                break;
+            }
+
+            GameObject targetObj = livingPlayers[0];
+            if (targetObj.TryGetComponent<FishUnit>(out var targetUnit))
+            {
+                Debug.Log($"적 유닛 {attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격! (남은 AP:{TurnManager.Instance.EnemyAP})");
+                targetUnit.TakeDamage(attackerUnit.CardData.Damage);
+            }
+
+            yield return new WaitForSeconds(0.35f);
         }
     }
     #endregion
@@ -464,29 +534,125 @@ public class CardManager : SingletonMono<CardManager>
     /// </summary>
     public IEnumerator EnemyTurnRoutine()
     {
-        bool playedAny = true;
-        while (playedAny)
+        // 적 턴 시작 로그
+        Debug.Log($"적 턴 시작. 현재 AP: {TurnManager.Instance.EnemyAP}");
+
+        // 이 턴에 배치할 카드의 수. 필요에 따라 랜덤으로 설정 가능
+        int cardsToPlay = 1;
+
+        for (int i = 0; i < cardsToPlay; i++)
         {
-            playedAny = false;
-            for (int i = 0; i < _enemyHandCards.Count; i++)
+            // 손패에 카드가 있는지 확인
+            if (_enemyHandCards.Count == 0)
             {
-                FishSO c = _enemyHandCards[i];
-                if (TurnManager.Instance.EnemyAP >= c.AbilityToAct)
+                Debug.Log("적 손패에 카드가 없어 카드 배치를 종료합니다.");
+                break;
+            }
+
+            // 가장 AP 소모가 적은 카드를 먼저 배치
+            FishSO cardToPlay = _enemyHandCards.OrderBy(c => c.AbilityToAct).FirstOrDefault();
+
+            if (cardToPlay != null && TurnManager.Instance.EnemyAP >= cardToPlay.AbilityToAct)
+            {
+                int cardIndex = _enemyHandCards.IndexOf(cardToPlay);
+                bool playedOK = PlayCardFromHand(false, cardIndex);
+
+                if (playedOK)
                 {
-                    bool ok = PlayCardFromHand(false, i);
-                    if (ok)
-                    {
-                        playedAny = true;
-                        yield return new WaitForSeconds(0.25f);
-                        break;
-                    }
+                    Debug.Log($"적 AI가 카드 [{cardToPlay.Name}]를 배치했습니다.");
+                    yield return new WaitForSeconds(0.25f); // 배치 후 약간의 딜레이
+                }
+                else
+                {
+                    // 카드 배치에 실패하면 루프 종료
+                    Debug.Log("카드 배치 실패로 턴의 카드 배치를 종료합니다.");
+                    break;
                 }
             }
+            else
+            {
+                // 더 이상 놓을 수 있는 카드가 없으면 루프 종료
+                Debug.Log("AP 부족 또는 유효한 카드가 없어 카드 배치를 종료합니다.");
+                break;
+            }
         }
+
         yield return StartCoroutine(EnemyAttackRoutine());
+
+        // 공격이 끝난 후 적의 빈 슬롯을 확인하고 자동 교체
+        CardManager.Instance.AutoReplaceEnemyUnitFromBench();
+
         TurnManager.Instance.EndTurn();
         yield break;
     }
+
+    public void AutoReplaceEnemyUnitFromBench()
+    {
+        // 적 배틀 슬롯 배열을 순회합니다.
+        foreach (var battleArea in _enemyBattleAreas)
+        {
+            foreach (var battleSlot in battleArea.slots)
+            {
+                // 배틀 슬롯이 비어 있는지 확인합니다.
+                if (!battleArea.IsSlotOccupied(battleSlot))
+                {
+                    // 벤치에서 대체할 유닛을 찾습니다.
+                    GameObject unitToMove = null;
+                    CardSlotArea sourceArea = null;
+                    Transform sourceSlot = null;
+
+                    // 벤치 슬롯 영역을 순회하며 비어있지 않은 첫 번째 슬롯을 찾습니다.
+                    foreach (var benchArea in _enemyBenchAreas)
+                    {
+                        foreach (var benchSlot in benchArea.slots)
+                        {
+                            var occupiedPair = benchArea.GetFirstOccupiedSlotAndUnit();
+
+                            if (occupiedPair.Value != null)
+                            {
+                                // 힐러인지 확인
+                                if (occupiedPair.Value.TryGetComponent<FishUnit>(out var unit) && unit.CardData.Description.ToLower().Contains("healer"))
+                                {
+                                    continue; // 힐러는 건너뛰고 다음 슬롯을 확인
+                                }
+
+                                unitToMove = occupiedPair.Value;
+                                sourceArea = benchArea;
+                                sourceSlot = occupiedPair.Key;
+                                break;
+                            }
+                        }
+
+                        if (unitToMove != null) break;
+                    }
+
+                    if (unitToMove != null)
+                    {
+                        // 1. 기존 벤치 슬롯에서 유닛 해제
+                        sourceArea.ReleaseSlot(sourceSlot);
+
+                        // 2. 새로운 배틀 슬롯으로 이동
+                        battleArea.OccupySlot(battleSlot, unitToMove);
+                        unitToMove.transform.position = battleSlot.position;
+
+                        // 3. 이동한 유닛의 부모 설정
+                        unitToMove.transform.SetParent(battleSlot);
+                        Debug.Log($"적 벤치의 유닛이 배틀 위치로 자동 이동했습니다.");
+
+                        // CardDisplay의 위치 정보 업데이트 (옵션)
+                        if (unitToMove.TryGetComponent<CardDisplay>(out var cardDisplay))
+                        {
+                            cardDisplay._currentSlotArea = battleArea;
+                            cardDisplay._currentSlot = battleSlot;
+                        }
+
+                        return; // 한 슬롯만 교체하고 종료
+                    }
+                }
+            }
+        }
+    }
+
     #endregion
 
     #region 턴 시작 시 카드매니저 콜백

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public enum GameState
 {
@@ -23,6 +25,9 @@ public class GameManager : SingletonMono<GameManager>
 
     [Header("게임 스텟")]
     [SerializeField] private float _gameTime = 0f;
+
+    [Header("엔드 게임 텍스트")]
+    [SerializeField] private TextMeshProUGUI _endGameText;
 
     private GameState previousGameState;
 
@@ -128,9 +133,23 @@ public class GameManager : SingletonMono<GameManager>
         GameEvents.GameResumed();
     }
 
+    public void EndGame(bool isPlayerWin)
+    {
+        // 이미 게임 오버 상태면 중복 호출 방지
+        if (currentGameState == GameState.GameOver) return;
+
+        ChangeGameState(GameState.GameOver);
+        Time.timeScale = 0f; // 게임 시간 정지
+
+        _endGameText.gameObject.SetActive(true);
+        _endGameText.text = isPlayerWin ? "승리!" : "패배";
+        Debug.Log(_endGameText.text);
+    }
+
     public void GameOver()
     {
         ChangeGameState(GameState.GameOver);
+        EndGame(false);
     }
 
     public void RestartGame()

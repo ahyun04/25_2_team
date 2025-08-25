@@ -112,7 +112,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 73559fea95075ec488008feb683b891a,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 576483632497338226}
+      addedObject: {fileID: 5950132321453071685}
   m_SourcePrefab: {fileID: 100100000, guid: 73559fea95075ec488008feb683b891a, type: 3}
 --- !u!1 &1278110289850079952 stripped
 GameObject:
@@ -189,7 +189,7 @@ MonoBehaviour:
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   validColor: {r: 0, g: 1, b: 0, a: 1}
   invalidColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &576483632497338226
+--- !u!114 &5950132321453071685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1278110289850079952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03baaf906b066fd4685138a9af03394b, type: 3}
+  m_Script: {fileID: 11500000, guid: 24febe4067d1c4148962fdc1be364ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fishData: {fileID: 0}
+  _cardData: {fileID: 11400000, guid: b08a561cd3a185744b21e478f284962d, type: 2}

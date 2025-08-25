@@ -16,6 +16,9 @@ public class TurnManager : SingletonMono<TurnManager>
     public int PlayerAP { get; private set; }
     public int EnemyAP { get; private set; }
 
+    public int PlayerKillCount { get; private set; }
+    public int EnemyKillCount { get; private set; }
+
     [Header("턴 설정")]
     [SerializeField] private int startAP = 3;
     [SerializeField] private int maxAP = 5;
@@ -30,6 +33,10 @@ public class TurnManager : SingletonMono<TurnManager>
     {
         base.Awake();
         _cardManager = FindObjectOfType<CardManager>();
+
+        // 게임 시작 시 킬 카운트 초기화
+        PlayerKillCount = 0;
+        EnemyKillCount = 0;
     }
 
     private void Start()
@@ -166,6 +173,19 @@ public class TurnManager : SingletonMono<TurnManager>
             Debug.Log("적 턴 종료 -> 플레이어 턴 시작");
             StartPlayerTurn();
         }
+    }
+
+    public void AddKill(bool isPlayer)
+    {
+        if (isPlayer)
+        {
+            PlayerKillCount++;
+        }
+        else
+        {
+            EnemyKillCount++;
+        }
+        _cardManager.UpdateKillCountText(); // CardManager의 UI 업데이트 메서드 호출
     }
 
     #endregion

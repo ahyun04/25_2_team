@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardSlotArea : MonoBehaviour
@@ -15,6 +16,18 @@ public class CardSlotArea : MonoBehaviour
 
     // 슬롯 점유 상태 저장
     protected Dictionary<Transform, GameObject> slotOccupants = new Dictionary<Transform, GameObject>();
+
+    public KeyValuePair<Transform, GameObject> GetFirstOccupiedSlotAndUnit()
+    {
+        foreach (var pair in slotOccupants)
+        {
+            if (pair.Value != null)
+            {
+                return pair;
+            }
+        }
+        return default(KeyValuePair<Transform, GameObject>);
+    }
 
     #endregion
 

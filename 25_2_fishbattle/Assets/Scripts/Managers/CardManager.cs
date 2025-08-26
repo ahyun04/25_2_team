@@ -75,6 +75,7 @@ public class CardManager : SingletonMono<CardManager>
         }
 
         UpdateAPText();
+        UpdateKillCountText();
     }
 
 
@@ -458,31 +459,32 @@ public class CardManager : SingletonMono<CardManager>
                 continue;
             }
 
+            // 공격에 필요한 AP(AbilityToAct)가 있는지 확인
+            if (!TurnManager.Instance.SpendAP(true, attackerUnit.CardData.AbilityToAct))
+            {
+                Debug.Log($"{attackerUnit.CardData.Name}은(는) AP가 부족하여 공격할 수 없습니다.");
+                continue; // AP가 부족하면 다음 유닛으로 넘어감
+            }
+
             // 살아있는 적 유닛 리스트를 필터링
             var livingEnemies = enemyBattleCards.Where(e => e != null).ToList();
             if (livingEnemies.Count == 0)
             {
                 Debug.Log("공격할 적이 없습니다.");
-                break; // 공격할 대상이 없으므로 루프 종료
+                TurnManager.Instance.AddAP(true, attackerUnit.CardData.AbilityToAct);
+                break;
             }
 
             // 간단한 타겟팅: 첫 번째 적을 공격
             GameObject targetObj = livingEnemies[0];
             if (targetObj.TryGetComponent<FishUnit>(out var targetUnit))
             {
-                Debug.Log($"{attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격!");
-
+                Debug.Log($"{attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격! (소모 AP: {attackerUnit.CardData.AbilityToAct})");
                 targetUnit.TakeDamage(attackerUnit.CardData.Damage);
             }
 
             yield return new WaitForSeconds(0.5f); // 공격 사이의 딜레이
         }
-
-        Debug.Log("플레이어 공격 페이즈 종료. 턴을 종료합니다.");
-
-        // 공격이 끝나면 강제로 턴 종료
-        TurnManager.Instance.EndTurn();
-        yield break;
     }
 
     public IEnumerator EnemyAttackRoutine()
@@ -506,20 +508,26 @@ public class CardManager : SingletonMono<CardManager>
                 continue;
             }
 
-            // AP가 부족하면 공격 중단 (기존 로직 유지)
-            if (!TurnManager.Instance.SpendAP(false, 1)) yield break;
+            // 공격에 필요한 AP(AbilityToAct)가 있는지 확인하고 소모
+            if (!TurnManager.Instance.SpendAP(false, attackerUnit.CardData.AbilityToAct))
+            {
+                Debug.Log($"적 유닛 {attackerUnit.CardData.Name}은(는) AP가 부족하여 공격할 수 없습니다.");
+                continue; // AP가 부족하면 다음 유닛으로 넘어감
+            }
 
-            var livingPlayers = playerBattleCards.Where(p => p != null).ToList();
+            var livingPlayers = playerBattleCards.Where(p => p != null).ToList();
             if (livingPlayers.Count == 0)
             {
                 Debug.Log("공격할 플레이어 유닛이 없습니다.");
+                // AP를 소모했지만 공격 대상이 없으므로 다시 돌려줌 (선택적)
+                TurnManager.Instance.AddAP(false, attackerUnit.CardData.AbilityToAct);
                 break;
             }
 
             GameObject targetObj = livingPlayers[0];
             if (targetObj.TryGetComponent<FishUnit>(out var targetUnit))
             {
-                Debug.Log($"적 유닛 {attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격! (남은 AP:{TurnManager.Instance.EnemyAP})");
+                Debug.Log($"적 유닛 {attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격! (소모 AP: {attackerUnit.CardData.AbilityToAct}, 남은 AP:{TurnManager.Instance.EnemyAP})");
                 targetUnit.TakeDamage(attackerUnit.CardData.Damage);
             }
 
@@ -684,45 +692,39 @@ public class CardManager : SingletonMono<CardManager>
             // Case 2: 손패에 있는 개별 카드(PlayerCard)를 클릭했을 때
             else if (hit.transform.CompareTag("PlayerCard"))
             {
-                // 손패 전체가 확대된 상태가 아니면 무시
                 if (!_blurBackGround.activeSelf) return;
 
                 if (!_playerCardObjects.Contains(hit.transform.gameObject)) return;
 
-                // 이미 포커스된 카드를 다시 클릭하면 포커스를 해제
                 if (_currentFocusedCard == hit.transform.gameObject)
                 {
                     UnfocusCard();
                 }
                 else
                 {
-                    // 다른 카드를 클릭하면 포커스를 새로 지정
                     FocusCard(hit.transform.gameObject);
                 }
             }
-            // Case 3: 손패 영역 외의 다른 곳을 클릭했을 때
-            else
+            // Case 3: 손패 영역 외의 다른 곳을 클릭했고, "손패가 확장된 상태일 때만"
+            else if (_isHandExpanded)
             {
                 // 손패 전체와 배경을 원래대로 되돌립니다.
                 SetPlayerHandScaleToOriginal();
                 isBluring = false;
                 _blurBackGround.SetActive(false);
-
                 SetAllBattleAndBenchCardTooltips(true);
-
                 _isHandExpanded = false;
                 UnfocusCard();
             }
         }
-        else
+        // 아무것도 클릭하지 않았을 때도, "손패가 확장된 상태일 때만"
+        else if (_isHandExpanded)
         {
             // 아무것도 클릭하지 않았을 때
             SetPlayerHandScaleToOriginal();
             isBluring = false;
             _blurBackGround.SetActive(false);
-
             SetAllBattleAndBenchCardTooltips(true);
-
             _isHandExpanded = false;
             UnfocusCard();
         }

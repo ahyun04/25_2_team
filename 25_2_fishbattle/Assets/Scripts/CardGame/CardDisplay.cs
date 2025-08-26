@@ -202,12 +202,6 @@ public class CardDisplay : MonoBehaviour
     #endregion
 
     #region 툴팁
-
-    public void SetTooltipActive(bool isActive)
-    {
-        SetTooltipActive(isActive, false);
-    }
-
     public void SetTooltipActive(bool isActive, bool isFocus)
     {
         if (transform.childCount > 0)
@@ -219,14 +213,7 @@ public class CardDisplay : MonoBehaviour
 
                 if (isActive && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
                 {
-                    if (TryGetComponent<FishUnit>(out var fishUnit))
-                    {
-                        tooltip.SetupTooltip(fishUnit.CardData.Name, fishUnit.CurrentHp, fishUnit.CardData.Skill_name, fishUnit.CardData.AbilityToAct);
-                    }
-                    else
-                    {
-                        tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Skill_name, fishData.AbilityToAct);
-                    }
+                    tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Skill_name, fishData.AbilityToAct);
 
                     if (tooltip._nameText != null)
                     {

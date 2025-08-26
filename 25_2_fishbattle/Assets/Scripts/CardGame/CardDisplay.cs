@@ -72,13 +72,42 @@ public class CardDisplay : MonoBehaviour
     #region 마우스 클릭/드래그
     private void OnMouseDown()
     {
-        // 플레이어 카드일 경우에만 드래그 시작
-        if (!fishData.IsPlayerCard) return;
+        if (!fishData.IsPlayerCard) return;
 
         if (CardManager.Instance.IsHandExpanded() || CardManager.Instance.IsCardFocused(gameObject)) return;
 
-        // 드래그 시작 시 기존 슬롯 해제
-        if (_currentSlotArea != null && _currentSlot != null)
+        bool isFromHand = transform.parent == CardManager.Instance._playerHandPosition;
+
+        bool isFromBench = false;
+        foreach (var benchArea in CardManager.Instance._playerBenchAreas)
+        {
+            if (transform.parent == benchArea.transform)
+            {
+                isFromBench = true;
+                break;
+            }
+        }
+
+        if (isFromHand)
+        {
+            // 손패에 있는 카드라면, 항상 드래그 가능
+        }
+        else if (isFromBench)
+        {
+            // 벤치에 있는 카드라면, 레이어가 9번일 때만 드래그 허용
+            if (gameObject.layer != 9)
+            {
+                Debug.Log("배틀필드에 빈 슬롯이 없어 벤치 카드를 움직일 수 없습니다.");
+                return;
+            }
+        }
+        else
+        {
+            return;
+        }
+
+        // 드래그 시작 시 기존 슬롯 해제
+        if (_currentSlotArea != null && _currentSlot != null)
         {
             _currentSlotArea.ReleaseSlot(_currentSlot);
             _currentSlot = null;
@@ -110,49 +139,91 @@ public class CardDisplay : MonoBehaviour
 
         isDragging = false;
 
-        if (_currentSlotArea != null && _currentSlotArea is BattlePos &&
-            fishData.Description.ToLower().Contains("healer"))
-        {
-            Debug.Log($"[{fishData.Name}]은 힐러라서 배틀 위치에 올릴 수 없습니다.");
-
-            transform.SetParent(_originalParent);
-            transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
-            return;
-        }
-
-        // 카드 배치 시도
+        // 유효한 슬롯에 드롭했는지 확인
         if (_currentSlotArea != null && _currentSlotArea.IsCardInside)
         {
-            if (!TurnManager.Instance.IsGameStarted)
+            if (_originalParent == _cardManager._playerHandPosition.transform)
             {
-                if (fishData.IsPlayerCard)
+                // 힐러는 배틀 슬롯에 올릴 수 없도록 확인 (필요시)
+                if (_currentSlotArea is BattlePos && fishData.Description.ToLower().Contains("healer"))
+                {
+                    ReturnToOriginalPosition("힐러는 배틀 위치에 올릴 수 없습니다.");
+                    return;
+                }
+
+                if (!TurnManager.Instance.IsGameStarted)
                 {
                     _cardManager.SetupInitialPlayerCard(this.cardIndex);
+                }
+                else
+                {
+                    if (!_cardManager.PlayCardFromHand(true, this.cardIndex))
+                    {
+                        ReturnToOriginalPosition("카드 배치 실패. AP 부족 또는 슬롯 없음.");
+                    }
+                }
+            }
+            else if (_originalParent.TryGetComponent<BenchPos>(out var benchPos))
+            {
+                if (_currentSlotArea is BattlePos)
+                {
+                    if (fishData.Description.ToLower().Contains("healer"))
+                    {
+                        ReturnToOriginalPosition("힐러는 배틀 위치에 올릴 수 없습니다.");
+                        return;
+                    }
+
+                    Transform nearestEmptySlot = _currentSlotArea.GetNearestEmptySlot(transform.position);
+                    if (nearestEmptySlot != null)
+                    {
+                        // 기존 벤치 슬롯에서 해제
+                        benchPos.ReleaseSlot(_originalParent);
+
+                        // 새로운 배틀 슬롯으로 이동
+                        _currentSlotArea.OccupySlot(nearestEmptySlot, gameObject);
+                        transform.SetParent(nearestEmptySlot);
+                        transform.position = nearestEmptySlot.position;
+
+                        // 이동 후 레이어를 0번으로 변경
+                        gameObject.layer = 0;
+
+                        Debug.Log("벤치에서 배틀필드로 유닛 이동 성공.");
+                    }
+                    else
+                    {
+                        // 빈 슬롯이 없으면 복귀
+                        ReturnToOriginalPosition("배틀필드에 빈 슬롯이 없습니다.");
+                    }
+                }
+                else
+                {
+                    // 벤치에서 다른 벤치로 이동은 아직 구현되지 않음
+                    ReturnToOriginalPosition("벤치에서 다른 벤치로는 이동할 수 없습니다.");
                 }
             }
             else
             {
-                if (_cardManager.PlayCardFromHand(true, this.cardIndex))
-                {
-                    Debug.Log("카드를 성공적으로 배치했습니다.");
-                }
-                else
-                {
-                    ReturnToOriginalPosition("카드 배치 실패. AP 부족 또는 슬롯 없음.");
-                }
+                // 예상치 못한 위치에서 드래그한 경우
+                ReturnToOriginalPosition("유효한 출발점이 아닙니다.");
             }
         }
         else
         {
+            // 유효한 슬롯이 아니면 원래 위치로 복귀
             ReturnToOriginalPosition("유효한 슬롯이 아니어서 복귀.");
         }
-
-        _currentSlotArea = null;
     }
 
     private void ReturnToOriginalPosition(string reason)
     {
-        transform.SetParent(_originalParent);
+        // 원래 위치를 찾아 부모를 다시 설정
+        Transform parent = _originalParent;
+        if (parent == null)
+        {
+            // 만약 원래 부모가 파괴되었을 경우, 적절한 부모를 찾아 설정
+            parent = _cardManager._playerHandPosition.transform;
+        }
+        transform.SetParent(parent);
         transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);
         Debug.Log(reason);
     }

@@ -21,7 +21,7 @@ public class CardManager : SingletonMono<CardManager>
 
     [Header("플레이어 위치")]
     [SerializeField] private Transform _playerDeckPosition;
-    [SerializeField] private Transform _playerHandPosition;
+    public Transform _playerHandPosition;
     private List<GameObject> _playerCardObjects = new List<GameObject>();
 
     [Header("적 위치")]
@@ -32,7 +32,7 @@ public class CardManager : SingletonMono<CardManager>
     [Header("배틀 슬롯 참조 (씬에 배치된 BattlePos들)")]
     [SerializeField] private BattlePos[] _playerBattleAreas;
     [SerializeField] private BattlePos[] _enemyBattleAreas;
-    [SerializeField] private BenchPos[] _playerBenchAreas;
+    public BenchPos[] _playerBenchAreas;
     [SerializeField] private BenchPos[] _enemyBenchAreas;
 
     [Header("카드 조정")]
@@ -431,6 +431,8 @@ public class CardManager : SingletonMono<CardManager>
         {
             GameManager.Instance.EndGame(false);
         }
+
+        CheckBattlefieldAndEnableBenchDrag();
     }
     #endregion
 
@@ -855,6 +857,52 @@ public class CardManager : SingletonMono<CardManager>
                     SetTooltipForCard(cardObj, isActive, false);
                 }
             }
+        }
+    }
+
+    #endregion
+
+    #region 밴치 -> 배틀필드로 옮기는 기능
+    public void SetBenchCardLayers(bool isPlayer, int layer)
+    {
+        var benchAreas = isPlayer ? _playerBenchAreas : _enemyBenchAreas;
+
+        foreach (var benchArea in benchAreas)
+        {
+            foreach (var cardObj in benchArea.GetOccupiedCards())
+            {
+                if (cardObj != null)
+                {
+                    cardObj.layer = layer;
+                }
+            }
+        }
+    }
+
+    private void CheckBattlefieldAndEnableBenchDrag()
+    {
+        bool playerHasEmptySlot = false;
+        foreach (var area in _playerBattleAreas)
+        {
+            foreach (var slot in area.slots)
+            {
+                if (!area.IsSlotOccupied(slot))
+                {
+                    playerHasEmptySlot = true;
+                    break;
+                }
+            }
+            if (playerHasEmptySlot) break;
+        }
+
+        if (playerHasEmptySlot)
+        {
+            Debug.Log("플레이어 배틀필드에 빈자리가 생겼습니다. 벤치 카드를 이동할 수 있습니다.");
+            SetBenchCardLayers(true, 9); // 플레이어 벤치 카드 레이어를 9번으로 설정
+        }
+        else
+        {
+            SetBenchCardLayers(true, 0); // 빈자리가 없으면 다시 0번으로 복구
         }
     }
 

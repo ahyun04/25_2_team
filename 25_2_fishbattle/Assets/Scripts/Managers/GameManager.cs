@@ -138,7 +138,7 @@ public class GameManager : SingletonMono<GameManager>
         // 이미 게임 오버 상태면 중복 호출 방지
         if (currentGameState == GameState.GameOver) return;
 
-        ChangeGameState(GameState.GameOver);
+        GameOver();
         Time.timeScale = 0f; // 게임 시간 정지
 
         _endGameText.gameObject.SetActive(true);

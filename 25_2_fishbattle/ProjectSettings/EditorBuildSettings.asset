@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Scenes/\uB0A8\uC218\uD55C/OceanMiniGameScene.unity"
     guid: bc758eea90b63974db2acf07ca15bb6b
+  - enabled: 1
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/FishCardGaemScene.unity"
+    guid: f23e0280cf2d22b47b6b70b83a843774
   m_configObjects: {}

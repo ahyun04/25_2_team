@@ -270,15 +270,18 @@ public class CardManager : SingletonMono<CardManager>
 
         cardObjects.Add(fishObject);
 
-        // 목표 위치 중앙정렬 계산
-        float totalWidth = (maxHandCards - 1) * cardSpacing;
-        float startX = -totalWidth / 2f;
-        Vector3 targetPos = handPos.position + new Vector3(startX + (hand.Count - 1) * cardSpacing, 0, 0);
-
+        // 카드를 먼저 손패의 중앙으로 이동시킨다.
         if (isAnimated)
-            fishObject.transform.DOMove(targetPos, drawAnimDuration).SetEase(Ease.OutCubic);
+        {
+            fishObject.transform.DOMove(handPos.position, drawAnimDuration)
+                .SetEase(Ease.OutCubic)
+                .OnComplete(() => RearrangeHand(isPlayer)); // 이동 완료 후 손패 전체를 재정렬
+        }
         else
-            fishObject.transform.position = targetPos;
+        {
+            fishObject.transform.position = handPos.position;
+            RearrangeHand(isPlayer); // 애니메이션 없으면 바로 재정렬
+        }
     }
 
     #endregion

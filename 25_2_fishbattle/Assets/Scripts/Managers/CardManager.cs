@@ -882,7 +882,7 @@ public class CardManager : SingletonMono<CardManager>
         }
     }
 
-    private void CheckBattlefieldAndEnableBenchDrag()
+    public void CheckBattlefieldAndEnableBenchDrag()
     {
         bool playerHasEmptySlot = false;
         foreach (var area in _playerBattleAreas)

@@ -187,6 +187,8 @@ public class CardDisplay : MonoBehaviour
                         // 이동 후 레이어를 0번으로 변경
                         gameObject.layer = 0;
 
+                        SetTooltipActive(true, false);
+
                         Debug.Log("벤치에서 배틀필드로 유닛 이동 성공.");
                     }
                     else

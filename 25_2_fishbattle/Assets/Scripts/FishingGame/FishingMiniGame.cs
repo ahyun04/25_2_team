@@ -42,6 +42,8 @@ public class FishingMiniGame : MonoBehaviour
     [SerializeField] private Image _hookAFishPanel;
     [SerializeField] private TextMeshProUGUI _hookAFishNameText;
     [SerializeField] private Button _putInBoxButton;                    // TODO: 인벤토리 구현 후 버튼 클릭 시 잡은 물고기가 인벤토리 들어가게 구현
+    [SerializeField] private Transform _fishDisplayPoint;
+    private GameObject _fishPrefab;
 
     [Header("기즈모 설정")]
     [SerializeField] private bool _drawGizmoLine = false;
@@ -198,13 +200,34 @@ public class FishingMiniGame : MonoBehaviour
                 Debug.Log("성공!");
                 _hookAFishPanel.gameObject.SetActive(true);
 
-                FishSpawner fishSpawner = GetComponent<FishSpawner>();
+                if (_fishPrefab != null)
+                {
+                    Destroy(_fishPrefab);
+                }
 
+                FishSpawner fishSpawner = GetComponent<FishSpawner>();
                 _caughtFishSO = fishSpawner.GetRandomFishByScene();
+
+                if (_caughtFishSO.Prefab != null)
+                {
+                    _fishPrefab = Instantiate(_caughtFishSO.Prefab, _fishDisplayPoint);
+                    _fishPrefab.transform.localPosition = Vector3.zero;
+
+                    if (_caughtFishSO.Prefab.name == "Fish_Flatfish")
+                    {
+                        _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -180f, 180f);
+                    }
+                    else
+                    {
+                        _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 180f);
+                    }
+
+                    _fishPrefab.transform.localScale = new Vector3(50f, 50f, 50f);
+                }
+
                 _hookAFishNameText.text = $"{_caughtFishSO.Name} 를(을) 잡았다!";
 
-                // 박스 넣기 버튼 연결
-                _putInBoxButton.onClick.RemoveAllListeners();
+                _putInBoxButton.onClick.RemoveAllListeners(); 
                 _putInBoxButton.onClick.AddListener(() => PutFishInInventory());
             }
             else
@@ -297,13 +320,24 @@ public class FishingMiniGame : MonoBehaviour
     {
         if (!_drawGizmoLine || _currentRedRect == null || _currentTargetRect == null) return;
 
-        Vector3 redCenter = _currentRedRect.position;
-        Vector3 lineEnd = redCenter + Vector3.down * _gizmoLineLength;
+        // RectTransform의 월드 좌표를 가져옴
+        Vector3 redWorldCenter = _currentRedRect.position;
 
+        // 이 선의 시작점과 끝점을 계산 (높이를 조금 더 낮춰서 선이 보이게 함)
+        Vector3 redLineStart = redWorldCenter;
+        Vector3 redLineEnd = redWorldCenter + Vector3.down * _gizmoLineLength;
+
+        // 충돌 판정
         bool isHit = CheckHit();
 
+        // 판정 결과에 따라 기즈모 색상 변경
         Gizmos.color = isHit ? Color.red : Color.green;
-        Gizmos.DrawLine(redCenter, lineEnd);
+        Gizmos.DrawLine(redLineStart, redLineEnd);
+
+        // 디버깅을 위해 노란 타겟 박스의 월드 좌표도 시각화
+        Vector3 yellowWorldCenter = _currentTargetRect.position;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(yellowWorldCenter, new Vector3(_currentTargetRect.rect.width, _currentTargetRect.rect.height, 0));
     }
 
     // 충돌 판정 (빨간선이 노란 박스를 통과하고 있는지)
@@ -311,16 +345,30 @@ public class FishingMiniGame : MonoBehaviour
     {
         if (_currentRedRect == null || _currentTargetRect == null) return false;
 
-        Vector3 redCenter = _currentRedRect.position;
+        // RectTransform의 월드 좌표와 크기를 사용
+        Rect redRectWorld = RectTransformToWorldSpace(_currentRedRect);
+        Rect yellowRectWorld = RectTransformToWorldSpace(_currentTargetRect);
 
-        Rect yellowRect = new Rect(
-            _currentTargetRect.position.x - _currentTargetRect.rect.width * 0.5f,
-            _currentTargetRect.position.y - _currentTargetRect.rect.height * 0.5f,
-            _currentTargetRect.rect.width,
-            _currentTargetRect.rect.height
+        // x축 오버랩만 확인
+        return redRectWorld.xMin < yellowRectWorld.xMax && redRectWorld.xMax > yellowRectWorld.xMin;
+    }
+
+    // RectTransform을 월드 좌표계의 Rect로 변환하는 헬퍼 함수
+    private Rect RectTransformToWorldSpace(RectTransform rectTransform)
+    {
+        Vector3[] corners = new Vector3[4];
+        rectTransform.GetWorldCorners(corners);
+        // 왼쪽 아래 코너
+        Vector3 bottomLeft = corners[0];
+        // 오른쪽 위 코너
+        Vector3 topRight = corners[2];
+
+        return new Rect(
+            bottomLeft.x,
+            bottomLeft.y,
+            topRight.x - bottomLeft.x,
+            topRight.y - bottomLeft.y
         );
-
-        return yellowRect.Contains(new Vector2(redCenter.x, yellowRect.center.y));
     }
 
     #endregion

@@ -28,4 +28,4 @@ MonoBehaviour:
   Weight: 15
   IsPlayerCard: 0
   IsCheck: 0
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 6187733111780167230, guid: 1f71ae5e4e01f4947a403031ffa72231, type: 3}

@@ -24,6 +24,9 @@ public class FishingMiniGame : MonoBehaviour
         set => _isFishing = value;
     }
 
+    [Header("낚시 텍스트")]
+    [SerializeField] private TextMeshProUGUI _bobberHitText;
+
     [Header("박스 정보")]
     private RectTransform _currentRedRect;     // 움직이는 빨간 박스
     private RectTransform _currentTargetRect;  // 고정된 노란 타겟 박스
@@ -89,12 +92,13 @@ public class FishingMiniGame : MonoBehaviour
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
         // 테스트 용
-        float waitTime = Random.Range(1f, 2f);
+        //float waitTime = Random.Range(1f, 2f);
 
-        //float waitTime = Random.Range(5f, 15f);
+        float waitTime = Random.Range(5f, 15f);
         yield return new WaitForSeconds(waitTime);
 
-        Debug.Log("물고기가 찌를 물었다!");
+        _bobberHitText.gameObject.SetActive(true);
+        _bobberHitText.text = "물고기가 찌를 물었다!";
         _isBobberHit = true;
 
         yield return StartCoroutine(WaitForPlayerInput());
@@ -120,6 +124,7 @@ public class FishingMiniGame : MonoBehaviour
 
         if (inputReceived)
         {
+            _bobberHitText.gameObject.SetActive(false);
             SpawnTargetInBar();   // 노란 박스 생성
             MovingRedBox();       // 빨간 박스 움직임 시작
         }

@@ -131,6 +131,7 @@ public class FishingMiniGame : MonoBehaviour
         else
         {
             Debug.Log("놓쳤다..");
+            _bobberHitText.gameObject.SetActive(false);
             _startFishingButton.gameObject.SetActive(true);
             _isFishing = false;
         }

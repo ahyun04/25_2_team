@@ -10,6 +10,7 @@ public class CardManager : SingletonMono<CardManager>
 {
     #region 레퍼런스
     protected override bool DontDestroy => false;
+    private UIManager _UIManager;
 
     [Header("플레이어 카드 데이터")]
     [SerializeField] private List<FishSO> _playerDeckCards = new List<FishSO>();
@@ -67,6 +68,11 @@ public class CardManager : SingletonMono<CardManager>
     #endregion
 
     #region 초기화
+    private void Start()
+    {
+        _UIManager = FindObjectOfType<UIManager>();
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -428,15 +434,27 @@ public class CardManager : SingletonMono<CardManager>
 
         if (TurnManager.Instance.PlayerKillCount >= 3)
         {
-            GameManager.Instance.EndGame(true);
+            EndGame(true);
         }
         else if (TurnManager.Instance.EnemyKillCount >= 3)
         {
-            GameManager.Instance.EndGame(false);
+            EndGame(false);
         }
 
         CheckBattlefieldAndEnableBenchDrag();
     }
+
+    private void EndGame(bool isPlayerWin)
+    {
+        if (GameManager.Instance.currentGameState == GameState.GameOver) return;
+
+        GameManager.Instance.GameOver();
+        Time.timeScale = 0f;
+
+        _UIManager.endGameText.gameObject.SetActive(true);
+        _UIManager.endGameText.text = isPlayerWin ? "승리!" : "패배";
+    }
+
     #endregion
 
     #region 간단 공격 처리

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,9 +10,10 @@ public class SceneManager : SingletonMono<SceneManager>
 
     [Header("Scene Settings")]
     [SerializeField] private string _mainMenuSceneName = "MainMenu";
-    [SerializeField] private string _lakeGameSceneName = "GameScene";
-    [SerializeField] private string _riverGameSceneName = "GameScene";
-    [SerializeField] private string _oceanGameSceneName = "GameScene";
+    [SerializeField] private string _lakeGameSceneName = "LakeMiniGameScene";
+    [SerializeField] private string _riverGameSceneName = "RiverMiniGameScene";
+    [SerializeField] private string _oceanGameSceneName = "OceanMiniGameScene";
+    [SerializeField] private string _fishCardGameSceneName = "FishCardGaemScene";
     [SerializeField] private string _loadingSceneName = "Loading";
 
     [Header("Loading Settings")]
@@ -276,6 +276,7 @@ public class SceneManager : SingletonMono<SceneManager>
         LoadScene(_lakeGameSceneName);
         LoadScene(_riverGameSceneName);
         LoadScene(_oceanGameSceneName);
+        LoadScene(_fishCardGameSceneName);
     }
 
     public void ReloadCurrentScene()

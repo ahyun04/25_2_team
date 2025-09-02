@@ -11,6 +11,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private Button _closePanelButton;
 
+    [Header("엔드 게임 텍스트")]
+    public TextMeshProUGUI endGameText;
+
     #endregion
 
     #region 초기화

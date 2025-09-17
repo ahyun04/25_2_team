@@ -14,10 +14,6 @@ public class InventoryUIController : MonoBehaviour
     void Start()
     {
         if (_inventoryHolder == null) return;
-
-        _inventoryHolder.gameObject.SetActive(false);
-        _inventoryHolder.InventorySystem.OnInventorySlotChanged += UpdateSlotUI;
-
         UpdateAllSlots();
     }
 

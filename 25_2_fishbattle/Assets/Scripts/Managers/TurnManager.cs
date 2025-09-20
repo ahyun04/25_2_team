@@ -25,7 +25,7 @@ public class TurnManager : SingletonMono<TurnManager>
     private int turnCount = 0;
 
     private CardManager _cardManager;
-    private EnemyAI _enemyAI;
+    private EnemyAI_Controller _enemyAIController;
 
     #endregion
 
@@ -34,7 +34,7 @@ public class TurnManager : SingletonMono<TurnManager>
     {
         base.Awake();
         _cardManager = FindObjectOfType<CardManager>();
-        _enemyAI = FindObjectOfType<EnemyAI>();
+        _enemyAIController = FindObjectOfType<EnemyAI_Controller>();
 
         // 게임 시작 시 킬 카운트 초기화
         PlayerKillCount = 0;
@@ -101,7 +101,7 @@ public class TurnManager : SingletonMono<TurnManager>
         _cardManager.OnTurnStart(false);
 
         // AI 실행
-        StartCoroutine(_enemyAI.EnemyTurnRoutine());
+        _enemyAIController.ExecuteTurn();
     }
 
     #endregion

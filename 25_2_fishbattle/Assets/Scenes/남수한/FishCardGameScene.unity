@@ -1007,6 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286ec63785e79d24ba139fa41101d69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerInventory: {fileID: 0}
   _playerDeckCards:
   - {fileID: 11400000, guid: 0750cb5c6432587459d797513a6e5f7d, type: 2}
   - {fileID: 11400000, guid: d4557290566441c45936622ddbbdaa2e, type: 2}
@@ -3281,26 +3282,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6194542570877806037}
-  - component: {fileID: 5818699297768634173}
+  - component: {fileID: 6194542570877806038}
   m_Layer: 0
-  m_Name: EnemyAI
+  m_Name: EnemyAI_Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5818699297768634173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4239950456861183507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59dfec43e5e184e419365759dea04945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6194542570877806037
 Transform:
   m_ObjectHideFlags: 0
@@ -3316,6 +3305,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6194542570877806038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4239950456861183507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2668b22f6ea4f44e9b95424c428fc36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

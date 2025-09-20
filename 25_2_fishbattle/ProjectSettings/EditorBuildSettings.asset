@@ -5,19 +5,25 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: "Assets/Scenes/\uB0A8\uC218\uD55C/MenuScene.unity"
     guid: ae16c1893f8355343bcedbe2b9efdc08
-  - enabled: 1
+  - enabled: 0
     path: "Assets/Scenes/\uB0A8\uC218\uD55C/LakeMiniGameScene.unity"
     guid: 1939622ca93a9c143a8964139968e9a7
-  - enabled: 1
-    path: "Assets/Scenes/\uB0A8\uC218\uD55C/RiverMiniGameScene.unity"
-    guid: a73a6f915f3e0c548ac911739d0c70c4
-  - enabled: 1
+  - enabled: 0
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/RIverMiniGameScene.unity"
+    guid: cbde560a0d155174ab1f4fdaa7d5509d
+  - enabled: 0
     path: "Assets/Scenes/\uB0A8\uC218\uD55C/OceanMiniGameScene.unity"
-    guid: bc758eea90b63974db2acf07ca15bb6b
-  - enabled: 1
+    guid: 462cb554dce7bfd49879123caa88018e
+  - enabled: 0
     path: "Assets/Scenes/\uB0A8\uC218\uD55C/FishCardGameScene.unity"
     guid: f23e0280cf2d22b47b6b70b83a843774
+  - enabled: 1
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/12/MultiplayTestScene.unity"
+    guid: 1731a6bd280bb3b4bb583f8c73a2ce4f
+  - enabled: 1
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/12/TestScene.unity"
+    guid: 46b26fb9a6fc52849ae221146bc23db7
   m_configObjects: {}

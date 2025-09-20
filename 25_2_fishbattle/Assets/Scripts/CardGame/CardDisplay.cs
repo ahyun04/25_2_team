@@ -79,7 +79,7 @@ public class CardDisplay : MonoBehaviour
         bool isFromHand = transform.parent == CardManager.Instance._playerHandPosition;
 
         bool isFromBench = false;
-        foreach (var benchArea in CardManager.Instance._playerBenchAreas)
+        foreach (var benchArea in CardManager.Instance.playerBenchAreas)
         {
             if (transform.parent == benchArea.transform)
             {

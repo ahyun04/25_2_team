@@ -21,9 +21,9 @@ EditorBuildSettings:
     path: "Assets/Scenes/\uB0A8\uC218\uD55C/FishCardGameScene.unity"
     guid: f23e0280cf2d22b47b6b70b83a843774
   - enabled: 0
-    path: "Assets/Scenes/\uB0A8\uC218\uD55C/12/MultiplayTestScene.unity"
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/\uD14C\uC2A4\uD2B8 \uBA40\uD2F0\uC52C/MultiplayTestScene.unity"
     guid: 1731a6bd280bb3b4bb583f8c73a2ce4f
   - enabled: 0
-    path: "Assets/Scenes/\uB0A8\uC218\uD55C/12/TestScene.unity"
+    path: "Assets/Scenes/\uB0A8\uC218\uD55C/\uD14C\uC2A4\uD2B8 \uBA40\uD2F0\uC52C/TestScene.unity"
     guid: 46b26fb9a6fc52849ae221146bc23db7
   m_configObjects: {}

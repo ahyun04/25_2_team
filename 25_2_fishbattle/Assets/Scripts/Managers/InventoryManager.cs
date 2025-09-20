@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BansheeGz.BGDatabase;
 
 public class InventoryManager : SingletonMono<InventoryManager>
 {

@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class InventoryHolder : MonoBehaviour
+public class InventoryHolder : SingletonMono<InventoryHolder>
 {
     #region 레퍼런스
+    protected override bool DontDestroy => true;
+
     [SerializeField] private int _inventorySize;
     [SerializeField] protected InventorySystem inventorySystem;
 
@@ -17,8 +19,10 @@ public class InventoryHolder : MonoBehaviour
     #endregion
 
     #region 초기화
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         inventorySystem = new InventorySystem(_inventorySize);
     }
 

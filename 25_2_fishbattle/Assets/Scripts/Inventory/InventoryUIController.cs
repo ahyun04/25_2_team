@@ -13,7 +13,11 @@ public class InventoryUIController : MonoBehaviour
     #region √ ±‚»≠
     void Start()
     {
-        if (_inventoryHolder == null) return;
+        if (_inventoryHolder == null)
+        {
+            _inventoryHolder = FindObjectOfType<InventoryHolder>();
+        }
+
         UpdateAllSlots();
     }
 

@@ -1,6 +1,5 @@
 using Fusion;
 using UnityEngine;
-using static Fusion.NetworkBehaviour;
 
 public class Player : NetworkBehaviour
 {

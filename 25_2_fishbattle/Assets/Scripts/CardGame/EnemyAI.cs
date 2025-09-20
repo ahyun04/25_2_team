@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class EnemyAI : MonoBehaviour
 {
+    #region 레퍼런스
     private CardManager _cardManager;
 
+    #endregion
+
+    #region 초기화
     private void Start()
     {
         _cardManager = FindObjectOfType<CardManager>();
     }
+
+    #endregion
 
     #region 적 AI 루틴
     // 적 턴 전체 루틴: 드로우는 TurnManager에서 이미 호출됨(카드Manager.OnTurnStart).

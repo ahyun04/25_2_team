@@ -5,18 +5,24 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-
-// NetworkManager 클래스
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 {
+    #region 레퍼런스
+    [Header("프리팹")]
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     [SerializeField] private NetworkPrefabRef _gameManagerPrefab;
+
+    [Header("네트워크 관련")]
     private NetworkRunner _runner;
     private NetworkInputHandler _inputHandler;
+
+    [Header("멀티 방제")]
     private string _roomName = "TestRoom"; // 기본 방 이름
     [SerializeField] private string _gameSceneName = "GameScene"; // 게임 씬 이름
+
     public Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
+    [Header("인스턴스")]
     private static NetworkManager _instance;
     public static NetworkManager Instance
     {
@@ -35,6 +41,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    #endregion
+
+    #region 초기화
     private void Awake()
     {
         if (_instance == null)
@@ -49,6 +58,10 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
         _inputHandler = gameObject.AddComponent<NetworkInputHandler>();
     }
+
+    #endregion
+
+    #region GUI
     private void OnGUI()
     {
         if (_runner == null)
@@ -101,6 +114,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    #endregion
+
+    #region 게임 실행 관련
     async void StartGame(GameMode mode)
     {
         // Fusion 러너를 생성하고 사용자 입력을 제공할 것임을 알림
@@ -187,6 +203,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
         return new Vector3(x, 1, z);
     }
 
+    #endregion
+
+    #region 내부 함수
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         input.Set(_inputHandler.GetNetworkInput());
@@ -232,4 +251,6 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log($"오브젝트가 AOI에 들어옴: {obj.Id}");
     }
+
+    #endregion
 }

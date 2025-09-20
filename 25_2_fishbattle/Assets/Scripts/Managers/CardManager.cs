@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class CardManager : SingletonMono<CardManager>
 {
     #region 레퍼런스
     protected override bool DontDestroy => false;
     private UIManager _UIManager;
+
+    [Header("인벤토리 레퍼런스")]
+    [SerializeField] private InventoryHolder _playerInventory;
 
     [Header("플레이어 카드 데이터")]
     [SerializeField] private List<FishSO> _playerDeckCards = new List<FishSO>();
@@ -71,6 +73,10 @@ public class CardManager : SingletonMono<CardManager>
     private void Start()
     {
         _UIManager = FindObjectOfType<UIManager>();
+
+        _playerInventory = FindObjectOfType<InventoryHolder>();
+
+        SetDeckFromInventory();
     }
 
     private void Update()
@@ -84,6 +90,38 @@ public class CardManager : SingletonMono<CardManager>
         UpdateKillCountText();
     }
 
+    private void SetDeckFromInventory()
+    {
+        // 기존에 미리 설정된 덱을 사용하지 않으므로, 덱을 비워줍니다.
+        _playerDeckCards.Clear();
+
+        if (_playerInventory == null)
+        {
+            Debug.LogError("플레이어 인벤토리 레퍼런스가 없습니다.");
+            return;
+        }
+
+        // 인벤토리 슬롯들을 순회하며 덱을 구성합니다.
+        foreach (var slot in _playerInventory.InventorySystem.InventorySlots)
+        {
+            // 슬롯에 아이템이 존재할 때만 처리합니다.
+            if (slot.ItemData != null)
+            {
+                // 해당 물고기 데이터(slot.ItemData)를 기반으로
+                // 카드 게임용 카드(예: CardSO)를 생성하거나 가져옵니다.
+                // 여기서는 단순화하여 물고기 데이터 자체를 덱에 추가한다고 가정합니다.
+                for (int i = 0; i < slot.StackSize; i++)
+                {
+                    // 물고기 데이터가 카드 데이터 역할을 한다고 가정
+                    _playerDeckCards.Add(slot.ItemData);
+                }
+            }
+        }
+
+        // 인벤토리의 물고기로 덱을 구성한 후, 섞기 및 드로우 로직을 호출합니다.
+        ShuffleDecks();
+        DrawStartingHands();
+    }
 
     /// <summary> 덱을 섞습니다. </summary>
     public void ShuffleDecks()

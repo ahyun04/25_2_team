@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TurnManager : SingletonMono<TurnManager>
 {
     #region 레퍼런스
-    protected override bool DontDestroy => true;
+    protected override bool DontDestroy => false;
 
     public enum TeamTurn { Player, Enemy }
 
@@ -26,6 +27,7 @@ public class TurnManager : SingletonMono<TurnManager>
 
     private CardManager _cardManager;
     private EnemyAI_Controller _enemyAIController;
+    private UIManager _uiManager;
 
     #endregion
 
@@ -35,6 +37,7 @@ public class TurnManager : SingletonMono<TurnManager>
         base.Awake();
         _cardManager = FindObjectOfType<CardManager>();
         _enemyAIController = FindObjectOfType<EnemyAI_Controller>();
+        _uiManager = FindObjectOfType<UIManager>();
 
         // 게임 시작 시 킬 카운트 초기화
         PlayerKillCount = 0;
@@ -69,7 +72,7 @@ public class TurnManager : SingletonMono<TurnManager>
         // 4. 게임 시작 AP 설정 및 플레이어 턴 시작
         PlayerAP = startAP;
         EnemyAP = startAP;
-        _cardManager.UpdateAPText();
+        _uiManager.UpdateAPText();
 
         IsGameStarted = true; // 게임 시작 상태를 true로 설정
 
@@ -144,7 +147,89 @@ public class TurnManager : SingletonMono<TurnManager>
         else
             EnemyAP = Mathf.Min(EnemyAP + amount, maxAP);
 
-        _cardManager.UpdateAPText();
+        _uiManager.UpdateAPText();
+    }
+
+    #endregion
+
+    #region 공격 처리
+    // 배틀에 올라간 해당 팀의 카드 오브젝트들로 공격 시뮬레이션
+    public IEnumerator PlayerAttackRoutine()
+    {
+        var playerBattleCards = new List<GameObject>();
+        foreach (var area in CardManager.Instance.playerBattleAreas)
+        {
+            playerBattleCards.AddRange(area.GetOccupiedCards());
+        }
+
+        var enemyBattleCards = new List<GameObject>();
+        foreach (var area in CardManager.Instance.enemyBattleAreas)
+        {
+            enemyBattleCards.AddRange(area.GetOccupiedCards());
+        }
+
+        // 공격할 유닛이 하나라도 있으면 공격 페이즈 진행
+        foreach (var attackerObj in playerBattleCards)
+        {
+            // 공격자 또는 공격자 유닛 정보가 없으면 건너뛰기
+            if (attackerObj == null || !attackerObj.TryGetComponent<FishUnit>(out var attackerUnit))
+            {
+                continue;
+            }
+
+            // 공격에 필요한 AP(AbilityToAct)가 있는지 확인
+            if (!TurnManager.Instance.SpendAP(true, attackerUnit.CardData.AbilityToAct))
+            {
+                Debug.Log($"{attackerUnit.CardData.Name}은(는) AP가 부족하여 공격할 수 없습니다.");
+                continue; // AP가 부족하면 다음 유닛으로 넘어감
+            }
+
+            // 살아있는 적 유닛 리스트를 필터링
+            var livingEnemies = enemyBattleCards.Where(e => e != null).ToList();
+            if (livingEnemies.Count == 0)
+            {
+                Debug.Log("공격할 적이 없습니다.");
+                TurnManager.Instance.AddAP(true, attackerUnit.CardData.AbilityToAct);
+                break;
+            }
+
+            // 간단한 타겟팅: 첫 번째 적을 공격
+            GameObject targetObj = livingEnemies[0];
+            if (targetObj.TryGetComponent<FishUnit>(out var targetUnit))
+            {
+                Debug.Log($"{attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격! (소모 AP: {attackerUnit.CardData.AbilityToAct})");
+                targetUnit.TakeDamage(attackerUnit.CardData.Damage);
+            }
+
+            yield return new WaitForSeconds(0.5f); // 공격 사이의 딜레이
+        }
+    }
+
+    public void CheckBattlefieldAndEnableBenchDrag()
+    {
+        bool playerHasEmptySlot = false;
+        foreach (var area in CardManager.Instance.playerBattleAreas)
+        {
+            foreach (var slot in area.slots)
+            {
+                if (!area.IsSlotOccupied(slot))
+                {
+                    playerHasEmptySlot = true;
+                    break;
+                }
+            }
+            if (playerHasEmptySlot) break;
+        }
+
+        if (playerHasEmptySlot)
+        {
+            Debug.Log("플레이어 배틀필드에 빈자리가 생겼습니다. 벤치 카드를 이동할 수 있습니다.");
+            CardManager.Instance.SetBenchCardLayers(true, 9); // 플레이어 벤치 카드 레이어를 9번으로 설정
+        }
+        else
+        {
+            CardManager.Instance.SetBenchCardLayers(true, 0); // 빈자리가 없으면 다시 0번으로 복구
+        }
     }
 
     #endregion
@@ -159,7 +244,7 @@ public class TurnManager : SingletonMono<TurnManager>
         }
 
         // CardManager의 공격 코루틴을 실행합니다.
-        StartCoroutine(_cardManager.PlayerAttackRoutine());
+        StartCoroutine(PlayerAttackRoutine());
     }
 
     /// <summary> 턐 종료(외부 버튼) — 플레이어가 종료하면 적 턴 시작, 적이 종료하면 플레이어 턴 시작 </summary>
@@ -187,7 +272,8 @@ public class TurnManager : SingletonMono<TurnManager>
         {
             EnemyKillCount++;
         }
-        _cardManager.UpdateKillCountText(); // CardManager의 UI 업데이트 메서드 호출
+
+        _uiManager.UpdateKillCountText(); // CardManager의 UI 업데이트 메서드 호출
     }
 
     #endregion

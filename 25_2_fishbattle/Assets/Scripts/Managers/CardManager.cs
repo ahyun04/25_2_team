@@ -9,10 +9,11 @@ public class CardManager : SingletonMono<CardManager>
 {
     #region 레퍼런스
     protected override bool DontDestroy => false;
-    private UIManager _UIManager;
+    private CardActionHandler _ActionHandler;
+    private PlayerHandController _PlayerHandController;
 
     [Header("인벤토리 레퍼런스")]
-    [SerializeField] private InventoryHolder _playerInventory;
+    private InventoryHolder _playerInventory;
 
     [Header("플레이어 카드 데이터")]
     [SerializeField] private List<FishSO> _playerDeckCards = new List<FishSO>();
@@ -24,13 +25,13 @@ public class CardManager : SingletonMono<CardManager>
 
     [Header("플레이어 위치")]
     [SerializeField] private Transform _playerDeckPosition;
-    public Transform _playerHandPosition;
-    private List<GameObject> _playerCardObjects = new List<GameObject>();
+    public Transform playerHandPosition;
+    public List<GameObject> playerCardObjects = new List<GameObject>();
 
     [Header("적 위치")]
     [SerializeField] private Transform _enemyDeckPosition;
-    [SerializeField] private Transform _enemyHandPosition;
-    private List<GameObject> _enemyCardObjects = new List<GameObject>();
+    public Transform enemyHandPosition;
+    public List<GameObject> enemyCardObjects = new List<GameObject>();
 
     [Header("배틀 슬롯 참조 (씬에 배치된 BattlePos들)")]
     public BattlePos[] playerBattleAreas;
@@ -39,28 +40,9 @@ public class CardManager : SingletonMono<CardManager>
     public BenchPos[] enemyBenchAreas;
 
     [Header("카드 조정")]
-    [SerializeField] private float cardSpacing = 2f;
+    public float cardSpacing = 2f;
     [SerializeField] private int maxHandCards = 5;
     [SerializeField] private float drawAnimDuration = 0.4f;
-
-    [Header("코스트 텍스트")]
-    public TextMeshProUGUI playerCostText;
-    public TextMeshProUGUI playerKillCountText;
-    public TextMeshProUGUI enemyCostText;
-    public TextMeshProUGUI enemyKillCountText;
-
-    public GameObject _blurBackGround;
-    public bool isBluring = false;
-
-    [Header("마우스 클릭 효과")]
-    private Vector3 _originalPlayerCardScale;
-    [SerializeField] private float _clickedScaleMultiplier = 1.5f;
-    [SerializeField] private float _cardFocusScaleMultiplier = 1.2f;
-    [SerializeField] private float _scaleAnimDuration = 0.2f;
-    private GameObject _currentFocusedCard = null;
-    private Vector3 _focusOffset = new Vector3(0, 6f, -2f);
-    private Vector3 _lastFocusedCardOriginalPos;
-    private bool _isHandExpanded = false;
 
     public float DrawAnimDuration => drawAnimDuration;
 
@@ -70,26 +52,27 @@ public class CardManager : SingletonMono<CardManager>
     #endregion
 
     #region 초기화
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _ActionHandler = FindObjectOfType<CardActionHandler>();
+        if (_ActionHandler == null)
+        {
+            _ActionHandler = gameObject.AddComponent<CardActionHandler>();
+        }
+
+        _ActionHandler.Setup(this);
+    }
+
     private void Start()
     {
-        _UIManager = FindObjectOfType<UIManager>();
-
         _playerInventory = FindObjectOfType<InventoryHolder>();
+        _PlayerHandController = GetComponent<PlayerHandController>();
 
         SetDeckFromInventory();
     }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            HandleMouseClick();
-        }
-
-        UpdateAPText();
-        UpdateKillCountText();
-    }
-
+    
     private void SetDeckFromInventory()
     {
         // 기존에 미리 설정된 덱을 사용하지 않으므로, 덱을 비워줍니다.
@@ -107,9 +90,6 @@ public class CardManager : SingletonMono<CardManager>
             // 슬롯에 아이템이 존재할 때만 처리합니다.
             if (slot.ItemData != null)
             {
-                // 해당 물고기 데이터(slot.ItemData)를 기반으로
-                // 카드 게임용 카드(예: CardSO)를 생성하거나 가져옵니다.
-                // 여기서는 단순화하여 물고기 데이터 자체를 덱에 추가한다고 가정합니다.
                 for (int i = 0; i < slot.StackSize; i++)
                 {
                     // 물고기 데이터가 카드 데이터 역할을 한다고 가정
@@ -123,14 +103,14 @@ public class CardManager : SingletonMono<CardManager>
         DrawStartingHands();
     }
 
-    /// <summary> 덱을 섞습니다. </summary>
+    // 덱을 섞습니다
     public void ShuffleDecks()
     {
         ShuffleDeck(_playerDeckCards);
         ShuffleDeck(_enemyDeckCards);
     }
 
-    /// <summary> 게임 시작 시 양 팀의 초기 손패를 드로우합니다. </summary>
+    // 게임 시작 시 양 팀의 초기 손패를 드로우합니다
     public void DrawStartingHands()
     {
         for (int i = 0; i < maxHandCards; i++)
@@ -138,13 +118,9 @@ public class CardManager : SingletonMono<CardManager>
             DrawOne(true, false);
             DrawOne(false, false);
         }
-
-        _originalPlayerCardScale = _playerCardObjects.Count > 0 ? _playerCardObjects[0].transform.localScale : Vector3.one;
     }
 
-    /// <summary>
-    /// 적 AI만 게임 시작 시 AP 소모 없이 배틀 필드에 1장 놓는 초기 세팅.
-    /// </summary>
+    // 적 AI만 게임 시작 시 AP 소모 없이 배틀 필드에 1장 놓는 초기 세팅.
     public void SetupInitialEnemyCard()
     {
         if (_enemyHandCards.Count > 0)
@@ -154,20 +130,18 @@ public class CardManager : SingletonMono<CardManager>
         }
     }
 
-    /// <summary>
-    /// 플레이어가 수동으로 놓는 초기 카드 배치 로직 (AP 소모 없음).
-    /// </summary>
+    // 플레이어가 수동으로 놓는 초기 카드 배치 로직 (AP 소모 없음).
     public void SetupInitialPlayerCard(int handIndex)
     {
         PlayCardObjectDirectly(true, handIndex);
         _isPlayerInitialCardPlaced = true;
     }
 
-    /// <summary> AP 소모 없이 카드를 직접 배틀 필드에 배치하는 내부 헬퍼 메서드 </summary>
+    // AP 소모 없이 카드를 직접 배틀 필드에 배치하는 내부 헬퍼 메서드
     private void PlayCardObjectDirectly(bool isPlayer, int handIndex)
     {
         var hand = isPlayer ? _playerHandCards : _enemyHandCards;
-        var handObjs = isPlayer ? _playerCardObjects : _enemyCardObjects;
+        var handObjs = isPlayer ? playerCardObjects : enemyCardObjects;
         var battleAreas = isPlayer ? playerBattleAreas : enemyBattleAreas;
 
         if (handIndex < 0 || handIndex >= hand.Count) return;
@@ -213,7 +187,7 @@ public class CardManager : SingletonMono<CardManager>
         if (fishPrefab == null)
         {
             Debug.LogError($"FishSO '{card.Name}'에 프리팹이 연결되지 않았습니다!");
-            RearrangeHand(isPlayer); // 손패 재정렬
+            _ActionHandler.RearrangeHand(isPlayer); // 손패 재정렬
             return;
         }
 
@@ -238,7 +212,7 @@ public class CardManager : SingletonMono<CardManager>
         // 4. 생성된 물고기를 슬롯에 할당
         chosenArea.OccupySlot(chosenSlot, newFishObject);
 
-        RearrangeHand(isPlayer);
+        _ActionHandler.RearrangeHand(isPlayer);
 
         Debug.Log($"초기 카드 배치 - {(isPlayer ? "플레이어" : "적")}의 카드가 배틀 필드에 놓였습니다.");
     }
@@ -258,16 +232,14 @@ public class CardManager : SingletonMono<CardManager>
         }
     }
 
-    /// <summary>
-    /// 실제 드로우 로직. isAnimated true이면 DOTween 애니메이션 사용
-    /// </summary>
+    // 실제 드로우 로직. isAnimated true이면 DOTween 애니메이션 사용
     public void DrawOne(bool isPlayer, bool isAnimated)
     {
         var deck = isPlayer ? _playerDeckCards : _enemyDeckCards;
         var hand = isPlayer ? _playerHandCards : _enemyHandCards;
-        var cardObjects = isPlayer ? _playerCardObjects : _enemyCardObjects;
+        var cardObjects = isPlayer ? playerCardObjects : enemyCardObjects;
         var deckPos = isPlayer ? _playerDeckPosition : _enemyDeckPosition;
-        var handPos = isPlayer ? _playerHandPosition : _enemyHandPosition;
+        var handPos = isPlayer ? playerHandPosition : enemyHandPosition;
 
         if (hand.Count >= maxHandCards)
         {
@@ -299,7 +271,8 @@ public class CardManager : SingletonMono<CardManager>
 
         if (isPlayer)
         {
-            _originalPlayerCardScale = fishObject.transform.localScale;
+            _PlayerHandController.SetOriginalCardScale(fishObject.transform.localScale);
+            //_originalPlayerCardScale = fishObject.transform.localScale;
             fishObject.layer = 9;
         }
 
@@ -319,432 +292,23 @@ public class CardManager : SingletonMono<CardManager>
         {
             fishObject.transform.DOMove(handPos.position, drawAnimDuration)
                 .SetEase(Ease.OutCubic)
-                .OnComplete(() => RearrangeHand(isPlayer)); // 이동 완료 후 손패 전체를 재정렬
+                .OnComplete(() => _ActionHandler.RearrangeHand(isPlayer)); // 이동 완료 후 손패 전체를 재정렬
         }
         else
         {
             fishObject.transform.position = handPos.position;
-            RearrangeHand(isPlayer); // 애니메이션 없으면 바로 재정렬
-        }
-    }
-
-    #endregion
-
-    #region 플레이어 카드 배치
-    // 플레이어가 손패의 카드 인덱스를 배치 합니다.
-    public bool PlayCardFromHand(bool isPlayer, int handIndex)
-    {
-        var hand = isPlayer ? _playerHandCards : _enemyHandCards;
-        var handObjs = isPlayer ? _playerCardObjects : _enemyCardObjects;
-
-        if (handIndex < 0 || handIndex >= hand.Count) return false;
-
-        FishSO card = hand[handIndex];
-
-        // AP 확인
-        if (!TurnManager.Instance.SpendAP(isPlayer, card.AbilityToAct))
-        {
-            Debug.Log("AP 부족으로 카드를 배치할 수 없습니다.");
-            return false;
-        }
-
-        var allPlayAreas = isPlayer ?
-            playerBattleAreas.Cast<CardSlotArea>().Concat(playerBenchAreas.Cast<CardSlotArea>()) :
-            enemyBattleAreas.Cast<CardSlotArea>().Concat(enemyBenchAreas.Cast<CardSlotArea>());
-
-        Transform chosenSlot = null;
-        CardSlotArea chosenArea = null;
-
-        foreach (var area in allPlayAreas)
-        {
-            var slot = area.GetNearestEmptySlot(Vector3.zero);
-            if (slot != null)
-            {
-                chosenSlot = slot;
-                chosenArea = area;
-                break;
-            }
-        }
-
-        if (chosenSlot == null)
-        {
-            Debug.Log("빈 슬롯이 없습니다.");
-            TurnManager.Instance.AddAP(isPlayer, card.AbilityToAct);
-            return false;
-        }
-
-        GameObject cardObj = handObjs[handIndex];
-
-        // 1. 손패에서 해당 카드 데이터 및 오브젝트 제거
-        hand.RemoveAt(handIndex);
-        handObjs.RemoveAt(handIndex);
-
-        // 2. 카드 UI 오브젝트 파괴
-        Destroy(cardObj);
-
-        // 3. FishSO에 연결된 프리팹을 생성
-        GameObject fishPrefab = card.Prefab;
-        if (fishPrefab == null)
-        {
-            Debug.LogError($"FishSO '{card.Name}'에 프리팹이 연결되지 않았습니다!");
-            TurnManager.Instance.AddAP(isPlayer, card.AbilityToAct);
-            RearrangeHand(isPlayer);
-            return false;
-        }
-
-        Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
-
-        GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
-        newFishObject.transform.SetParent(chosenArea.transform);
-
-        if (newFishObject.TryGetComponent<CardDisplay>(out var disp))
-            disp.SetupCard(card);
-
-        if (newFishObject.TryGetComponent<FishUnit>(out var fishUnit))
-        {
-            fishUnit.Setup(card, isPlayer); // isPlayer 인자를 전달
-        }
-
-        newFishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
-
-        // 4. 생성된 물고기를 슬롯에 할당
-        chosenArea.OccupySlot(chosenSlot, newFishObject);
-
-        RearrangeHand(isPlayer); // 손패 재정렬
-
-        UpdateAPText();
-
-        return true;
-    }
-
-    public void UpdateAPText()
-    {
-        playerCostText.text = $"AP: {TurnManager.Instance.PlayerAP} / 5";
-        enemyCostText.text = $"AP: {TurnManager.Instance.EnemyAP} / 5";
-    }
-
-    // 손패를 재정렬하고 인덱스를 업데이트
-    private void RearrangeHand(bool isPlayer)
-    {
-        var cardObjects = isPlayer ? _playerCardObjects : _enemyCardObjects;
-        var handPos = isPlayer ? _playerHandPosition : _enemyHandPosition;
-
-        // 플레이어 핸드의 모든 카드 오브젝트에 대해 반복
-        if (isPlayer)
-        {
-            const int RENDER_LAYER = 9;
-
-            for (int i = 0; i < cardObjects.Count; i++)
-            {
-                if (cardObjects[i].TryGetComponent<CardDisplay>(out var disp))
-                {
-                    disp.cardIndex = i;
-                    // 플레이어 핸드에 있는 물고기 레이어를 9번으로 변경
-                    cardObjects[i].layer = RENDER_LAYER;
-                }
-            }
-        }
-        else // 적 핸드 카드일 경우 기존 로직 유지
-        {
-            for (int i = 0; i < cardObjects.Count; i++)
-            {
-                if (cardObjects[i].TryGetComponent<CardDisplay>(out var disp))
-                {
-                    disp.cardIndex = i;
-                }
-            }
-        }
-
-        float totalWidth = (cardObjects.Count - 1) * cardSpacing;
-        Vector3 startPos = handPos.position - new Vector3(totalWidth / 2f, 0, 0);
-
-        for (int i = 0; i < cardObjects.Count; i++)
-        {
-            Vector3 targetPos = startPos + new Vector3(i * cardSpacing, 0, 0);
-            cardObjects[i].transform.DOMove(targetPos, 0.2f).SetEase(Ease.OutCubic);
-        }
-    }
-
-    public void UpdateKillCountText()
-    {
-        playerKillCountText.text = $"{TurnManager.Instance.PlayerKillCount} / 3";
-        enemyKillCountText.text = $"{TurnManager.Instance.EnemyKillCount}/ 3";
-
-        if (TurnManager.Instance.PlayerKillCount >= 3)
-        {
-            EndGame(true);
-        }
-        else if (TurnManager.Instance.EnemyKillCount >= 3)
-        {
-            EndGame(false);
-        }
-
-        CheckBattlefieldAndEnableBenchDrag();
-    }
-
-    private void EndGame(bool isPlayerWin)
-    {
-        if (GameManager.Instance.currentGameState == GameState.GameOver) return;
-
-        GameManager.Instance.GameOver();
-        Time.timeScale = 0f;
-
-        _UIManager.endGameText.gameObject.SetActive(true);
-        _UIManager.endGameText.text = isPlayerWin ? "승리!" : "패배";
-    }
-
-    #endregion
-
-    #region 간단 공격 처리
-    /// <summary> 단순 공격: 배틀에 올라간 해당 팀의 카드 오브젝트들로 공격 시뮬레이션 </summary>
-    public IEnumerator PlayerAttackRoutine()
-    {
-        var playerBattleCards = new List<GameObject>();
-        foreach (var area in playerBattleAreas)
-        {
-            playerBattleCards.AddRange(area.GetOccupiedCards());
-        }
-
-        var enemyBattleCards = new List<GameObject>();
-        foreach (var area in enemyBattleAreas)
-        {
-            enemyBattleCards.AddRange(area.GetOccupiedCards());
-        }
-
-        // 공격할 유닛이 하나라도 있으면 공격 페이즈 진행
-        foreach (var attackerObj in playerBattleCards)
-        {
-            // 공격자 또는 공격자 유닛 정보가 없으면 건너뛰기
-            if (attackerObj == null || !attackerObj.TryGetComponent<FishUnit>(out var attackerUnit))
-            {
-                continue;
-            }
-
-            // 공격에 필요한 AP(AbilityToAct)가 있는지 확인
-            if (!TurnManager.Instance.SpendAP(true, attackerUnit.CardData.AbilityToAct))
-            {
-                Debug.Log($"{attackerUnit.CardData.Name}은(는) AP가 부족하여 공격할 수 없습니다.");
-                continue; // AP가 부족하면 다음 유닛으로 넘어감
-            }
-
-            // 살아있는 적 유닛 리스트를 필터링
-            var livingEnemies = enemyBattleCards.Where(e => e != null).ToList();
-            if (livingEnemies.Count == 0)
-            {
-                Debug.Log("공격할 적이 없습니다.");
-                TurnManager.Instance.AddAP(true, attackerUnit.CardData.AbilityToAct);
-                break;
-            }
-
-            // 간단한 타겟팅: 첫 번째 적을 공격
-            GameObject targetObj = livingEnemies[0];
-            if (targetObj.TryGetComponent<FishUnit>(out var targetUnit))
-            {
-                Debug.Log($"{attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격! (소모 AP: {attackerUnit.CardData.AbilityToAct})");
-                targetUnit.TakeDamage(attackerUnit.CardData.Damage);
-            }
-
-            yield return new WaitForSeconds(0.5f); // 공격 사이의 딜레이
+            _ActionHandler.RearrangeHand(isPlayer); // 애니메이션 없으면 바로 재정렬
         }
     }
 
     #endregion
 
     #region 턴 시작 시 카드매니저 콜백
-    /// <summary> TurnManager가 턴을 시작할 때 호출합니다. isPlayer 여부로 드로우 처리 </summary>
+    // TurnManager가 턴을 시작할 때 호출합니다. isPlayer 여부로 드로우 처리
     public void OnTurnStart(bool isPlayer)
     {
         DrawOne(isPlayer, true);
     }
-    #endregion
-
-    #region 핸드 트리거
-    private void HandleMouseClick()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            // Case 1: 손패 영역(_playerHandPosition)을 클릭했을 때
-            if (hit.transform == _playerHandPosition)
-            {
-                SetPlayerHandScale(_clickedScaleMultiplier);
-                isBluring = true;
-                _blurBackGround.SetActive(true);
-                SetAllBattleAndBenchCardTooltips(false);
-                _isHandExpanded = true;
-                UnfocusCard();
-            }
-            // Case 2: 손패에 있는 개별 카드(PlayerCard)를 클릭했을 때
-            else if (hit.transform.CompareTag("PlayerCard"))
-            {
-                if (!_blurBackGround.activeSelf) return;
-
-                if (!_playerCardObjects.Contains(hit.transform.gameObject)) return;
-
-                if (_currentFocusedCard == hit.transform.gameObject)
-                {
-                    UnfocusCard();
-                }
-                else
-                {
-                    FocusCard(hit.transform.gameObject);
-                }
-            }
-            // Case 3: 손패 영역 외의 다른 곳을 클릭했고, "손패가 확장된 상태일 때만"
-            else if (_isHandExpanded)
-            {
-                // 손패 전체와 배경을 원래대로 되돌립니다.
-                SetPlayerHandScaleToOriginal();
-                isBluring = false;
-                _blurBackGround.SetActive(false);
-                SetAllBattleAndBenchCardTooltips(true);
-                _isHandExpanded = false;
-                UnfocusCard();
-            }
-        }
-        // 아무것도 클릭하지 않았을 때도, "손패가 확장된 상태일 때만"
-        else if (_isHandExpanded)
-        {
-            // 아무것도 클릭하지 않았을 때
-            SetPlayerHandScaleToOriginal();
-            isBluring = false;
-            _blurBackGround.SetActive(false);
-            SetAllBattleAndBenchCardTooltips(true);
-            _isHandExpanded = false;
-            UnfocusCard();
-        }
-    }
-
-    public bool IsHandExpanded()
-    {
-        return _isHandExpanded;
-    }
-
-    // 외부에서 특정 카드가 포커스된 상태를 확인할 수 있는 public 메서드
-    public bool IsCardFocused(GameObject card)
-    {
-        return _currentFocusedCard == card;
-    }
-
-    private void SetPlayerHandScale(float targetScaleMultiplier)
-    {
-        Vector3 originalScale = _originalPlayerCardScale;
-        Vector3 targetScale = originalScale * targetScaleMultiplier;
-
-        foreach (var cardObj in _playerCardObjects)
-        {
-            if (cardObj != null)
-            {
-                cardObj.transform.DOScale(targetScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
-            }
-        }
-    }
-
-    private void SetPlayerHandScaleToOriginal()
-    {
-        Vector3 originalScale = _originalPlayerCardScale;
-
-        foreach (var cardObj in _playerCardObjects)
-        {
-            if (cardObj != null)
-            {
-                cardObj.transform.DOScale(originalScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
-            }
-        }
-    }
-
-    private void FocusCard(GameObject cardToFocus)
-    {
-        // 기존에 포커스된 카드가 있다면 원래 크기로 되돌립니다.
-        if (_currentFocusedCard != null)
-        {
-            _currentFocusedCard.transform.DOScale(_originalPlayerCardScale * _clickedScaleMultiplier, _scaleAnimDuration);
-            SetTooltipForCard(_currentFocusedCard, false, false);
-
-            _currentFocusedCard.transform.DOMove(_lastFocusedCardOriginalPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
-        }
-
-        // 포커스된 카드를 제외하고 나머지 손패 카드의 레이어를 Default(0)로 변경
-        foreach (var cardObj in _playerCardObjects)
-        {
-            if (cardObj != cardToFocus)
-            {
-                cardObj.layer = 0; // Default 레이어
-            }
-        }
-
-        // 손패 외 카드면 무시
-        if (!_playerCardObjects.Contains(cardToFocus)) return;
-
-        _currentFocusedCard = cardToFocus;
-
-        // 현재 위치 저장
-        _lastFocusedCardOriginalPos = cardToFocus.transform.position;
-
-        // 포커스 크기
-        Vector3 targetScale = _originalPlayerCardScale * _clickedScaleMultiplier * _cardFocusScaleMultiplier;
-        _currentFocusedCard.transform.DOScale(targetScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
-
-        // 포커스 위치 이동
-        Vector3 targetPos = _lastFocusedCardOriginalPos + _focusOffset;
-        _currentFocusedCard.transform.DOMove(targetPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
-
-        SetTooltipForCard(_currentFocusedCard, true, true);
-    }
-
-    private void UnfocusCard()
-    {
-        if (_currentFocusedCard != null)
-        {
-            // 크기 복구
-            Vector3 originalHandScale = _originalPlayerCardScale * _clickedScaleMultiplier;
-            _currentFocusedCard.transform.DOScale(originalHandScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
-
-            // 위치 복구
-            _currentFocusedCard.transform.DOMove(_lastFocusedCardOriginalPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
-
-            SetTooltipForCard(_currentFocusedCard, false, false);
-            _currentFocusedCard = null;
-        }
-
-        // 모든 손패 카드의 레이어를 다시 Render(9)로 복구
-        foreach (var cardObj in _playerCardObjects)
-        {
-            if (cardObj != null)
-            {
-                cardObj.layer = 9; // Render 레이어
-            }
-        }
-    }
-
-    public void SetTooltipForCard(GameObject cardObject, bool isActive, bool isFocus)
-    {
-        if (cardObject.TryGetComponent<CardDisplay>(out var disp))
-        {
-            disp.SetTooltipActive(isActive, isFocus);
-        }
-    }
-
-    private void SetAllBattleAndBenchCardTooltips(bool isActive)
-    {
-        var allPlayerAreas = playerBattleAreas.Cast<CardSlotArea>().Concat(playerBenchAreas.Cast<CardSlotArea>());
-        var allEnemyAreas = enemyBattleAreas.Cast<CardSlotArea>().Concat(enemyBenchAreas.Cast<CardSlotArea>());
-        var allAreas = allPlayerAreas.Concat(allEnemyAreas);
-
-        foreach (var area in allAreas)
-        {
-            foreach (var cardObj in area.GetOccupiedCards())
-            {
-                if (cardObj != null)
-                {
-                    SetTooltipForCard(cardObj, isActive, false);
-                }
-            }
-        }
-    }
-
     #endregion
 
     #region 밴치 -> 배틀필드로 옮기는 기능
@@ -761,33 +325,6 @@ public class CardManager : SingletonMono<CardManager>
                     cardObj.layer = layer;
                 }
             }
-        }
-    }
-
-    public void CheckBattlefieldAndEnableBenchDrag()
-    {
-        bool playerHasEmptySlot = false;
-        foreach (var area in playerBattleAreas)
-        {
-            foreach (var slot in area.slots)
-            {
-                if (!area.IsSlotOccupied(slot))
-                {
-                    playerHasEmptySlot = true;
-                    break;
-                }
-            }
-            if (playerHasEmptySlot) break;
-        }
-
-        if (playerHasEmptySlot)
-        {
-            Debug.Log("플레이어 배틀필드에 빈자리가 생겼습니다. 벤치 카드를 이동할 수 있습니다.");
-            SetBenchCardLayers(true, 9); // 플레이어 벤치 카드 레이어를 9번으로 설정
-        }
-        else
-        {
-            SetBenchCardLayers(true, 0); // 빈자리가 없으면 다시 0번으로 복구
         }
     }
 

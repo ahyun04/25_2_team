@@ -16,7 +16,9 @@ public class CardDisplay : MonoBehaviour
     public bool isDragging = false;
     private Vector3 _originalPosition;
 
-    private CardManager _cardManager;                    
+    private CardManager _cardManager;   
+    private PlayerHandController _handController;
+    private CardActionHandler _actionHandler;
     [NonSerialized] public CardSlotArea _currentSlotArea;
     [NonSerialized] public Transform _currentSlot;
     private Transform _originalParent;
@@ -31,6 +33,8 @@ public class CardDisplay : MonoBehaviour
     {
         _cardManager = FindObjectOfType<CardManager>();
         _currentSlotArea = FindObjectOfType<CardSlotArea>();
+        _actionHandler = FindObjectOfType<CardActionHandler>();
+        _handController = FindObjectOfType<PlayerHandController>();
 
         if (tooltipPrefab != null)
         {
@@ -74,9 +78,9 @@ public class CardDisplay : MonoBehaviour
     {
         if (!fishData.IsPlayerCard) return;
 
-        if (CardManager.Instance.IsHandExpanded() || CardManager.Instance.IsCardFocused(gameObject)) return;
+        if (_handController.IsHandExpanded() || _handController.IsCardFocused(gameObject)) return;
 
-        bool isFromHand = transform.parent == CardManager.Instance._playerHandPosition;
+        bool isFromHand = transform.parent == CardManager.Instance.playerHandPosition;
 
         bool isFromBench = false;
         foreach (var benchArea in CardManager.Instance.playerBenchAreas)
@@ -142,7 +146,7 @@ public class CardDisplay : MonoBehaviour
         // 유효한 슬롯에 드롭했는지 확인
         if (_currentSlotArea != null && _currentSlotArea.IsCardInside)
         {
-            if (_originalParent == _cardManager._playerHandPosition.transform)
+            if (_originalParent == _cardManager.playerHandPosition.transform)
             {
                 // 힐러는 배틀 슬롯에 올릴 수 없도록 확인 (필요시)
                 if (_currentSlotArea is BattlePos && fishData.Description.ToLower().Contains("healer"))
@@ -157,7 +161,7 @@ public class CardDisplay : MonoBehaviour
                 }
                 else
                 {
-                    if (!_cardManager.PlayCardFromHand(true, this.cardIndex))
+                    if (!_actionHandler.PlayCardFromHand(true, this.cardIndex))
                     {
                         ReturnToOriginalPosition("카드 배치 실패. AP 부족 또는 슬롯 없음.");
                     }
@@ -223,7 +227,7 @@ public class CardDisplay : MonoBehaviour
         if (parent == null)
         {
             // 만약 원래 부모가 파괴되었을 경우, 적절한 부모를 찾아 설정
-            parent = _cardManager._playerHandPosition.transform;
+            parent = _cardManager.playerHandPosition.transform;
         }
         transform.SetParent(parent);
         transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.OutCubic);

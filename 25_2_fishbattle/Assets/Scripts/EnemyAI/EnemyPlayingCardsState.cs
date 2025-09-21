@@ -22,7 +22,7 @@ public class EnemyPlayingCardsState : EnemyBaseState
             if (cardToPlay != null)
             {
                 int cardIndex = context.cardManager._enemyHandCards.IndexOf(cardToPlay);
-                if (context.cardManager.PlayCardFromHand(false, cardIndex))
+                if (context.cardActionHandler.PlayCardFromHand(false, cardIndex))
                 {
                     Debug.Log($"적 AI가 카드 [{cardToPlay.Name}]를 배치했습니다.");
                     yield return new WaitForSeconds(0.25f);

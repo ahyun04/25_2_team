@@ -626,7 +626,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5da8de4eb394c4c489c5e3cc7d647d75, type: 2}
   m_sharedMaterial: {fileID: 8432350809928289718, guid: 5da8de4eb394c4c489c5e3cc7d647d75,
@@ -885,7 +885,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5da8de4eb394c4c489c5e3cc7d647d75, type: 2}
   m_sharedMaterial: {fileID: 8432350809928289718, guid: 5da8de4eb394c4c489c5e3cc7d647d75,
@@ -973,6 +973,8 @@ GameObject:
   m_Component:
   - component: {fileID: 752951345}
   - component: {fileID: 752951346}
+  - component: {fileID: 752951347}
+  - component: {fileID: 752951348}
   m_Layer: 0
   m_Name: CardManager
   m_TagString: Untagged
@@ -1007,28 +1009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286ec63785e79d24ba139fa41101d69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerInventory: {fileID: 0}
-  _playerDeckCards:
-  - {fileID: 11400000, guid: 0750cb5c6432587459d797513a6e5f7d, type: 2}
-  - {fileID: 11400000, guid: d4557290566441c45936622ddbbdaa2e, type: 2}
-  - {fileID: 11400000, guid: 9e805a8cb7d166340b65133276ecac61, type: 2}
-  - {fileID: 11400000, guid: 0f79e0fbe1cb0054fb953c9baeab556c, type: 2}
-  - {fileID: 11400000, guid: d33f9ca2623002043bdba74697ca9e67, type: 2}
-  - {fileID: 11400000, guid: 0796c4e621ccd3e45a1eaef5dc4b449e, type: 2}
-  - {fileID: 11400000, guid: 848d6e5bdacf69e4e91e7d014af36aff, type: 2}
-  - {fileID: 11400000, guid: b08a561cd3a185744b21e478f284962d, type: 2}
-  - {fileID: 11400000, guid: d77434e690ea4c34889f83818e157155, type: 2}
-  - {fileID: 11400000, guid: 36cae9bb477205d4ab9b92afd8266bae, type: 2}
-  - {fileID: 11400000, guid: 0750cb5c6432587459d797513a6e5f7d, type: 2}
-  - {fileID: 11400000, guid: d4557290566441c45936622ddbbdaa2e, type: 2}
-  - {fileID: 11400000, guid: 9e805a8cb7d166340b65133276ecac61, type: 2}
-  - {fileID: 11400000, guid: 0f79e0fbe1cb0054fb953c9baeab556c, type: 2}
-  - {fileID: 11400000, guid: d33f9ca2623002043bdba74697ca9e67, type: 2}
-  - {fileID: 11400000, guid: 0796c4e621ccd3e45a1eaef5dc4b449e, type: 2}
-  - {fileID: 11400000, guid: 848d6e5bdacf69e4e91e7d014af36aff, type: 2}
-  - {fileID: 11400000, guid: b08a561cd3a185744b21e478f284962d, type: 2}
-  - {fileID: 11400000, guid: d77434e690ea4c34889f83818e157155, type: 2}
-  - {fileID: 11400000, guid: 36cae9bb477205d4ab9b92afd8266bae, type: 2}
+  _playerDeckCards: []
   _playerHandCards: []
   _enemyDeckCards:
   - {fileID: 11400000, guid: e084e18fe41bf1d479d4f0c7717dae1d, type: 2}
@@ -1053,9 +1034,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e71f4ecd9f56efc419577c045486e97d, type: 2}
   _enemyHandCards: []
   _playerDeckPosition: {fileID: 1909393564}
-  _playerHandPosition: {fileID: 2138524771}
+  playerHandPosition: {fileID: 2138524771}
+  playerCardObjects: []
   _enemyDeckPosition: {fileID: 1414340730}
-  _enemyHandPosition: {fileID: 2146589507}
+  enemyHandPosition: {fileID: 2146589507}
+  enemyCardObjects: []
   playerBattleAreas:
   - {fileID: 1315005111}
   enemyBattleAreas:
@@ -1067,14 +1050,34 @@ MonoBehaviour:
   cardSpacing: 2
   maxHandCards: 5
   drawAnimDuration: 0.4
-  playerCostText: {fileID: 449891315}
-  playerKillCountText: {fileID: 653717087}
-  enemyCostText: {fileID: 1286507000}
-  enemyKillCountText: {fileID: 935550676}
+--- !u!114 &752951347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752951344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11bcb87f29f2c1042973cd65dc16cf46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &752951348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752951344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a24dd78366ad943a54c953ddec72b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _blurBackGround: {fileID: 1502139764}
   isBluring: 0
-  _clickedScaleMultiplier: 1.3
-  _cardFocusScaleMultiplier: 1.6
+  _clickedScaleMultiplier: 1.5
+  _cardFocusScaleMultiplier: 1.2
   _scaleAnimDuration: 0.2
 --- !u!1 &805157324
 GameObject:
@@ -1232,7 +1235,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5da8de4eb394c4c489c5e3cc7d647d75, type: 2}
   m_sharedMaterial: {fileID: 8432350809928289718, guid: 5da8de4eb394c4c489c5e3cc7d647d75,
@@ -1615,7 +1618,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5da8de4eb394c4c489c5e3cc7d647d75, type: 2}
   m_sharedMaterial: {fileID: 8432350809928289718, guid: 5da8de4eb394c4c489c5e3cc7d647d75,
@@ -1994,6 +1997,10 @@ MonoBehaviour:
   _inventoryPanel: {fileID: 0}
   _closePanelButton: {fileID: 0}
   endGameText: {fileID: 255247889}
+  _playerAPText: {fileID: 449891315}
+  _enemyAPText: {fileID: 1286507000}
+  _playerKillCountText: {fileID: 653717087}
+  _enemyKillCountText: {fileID: 935550676}
 --- !u!1 &1385981172
 GameObject:
   m_ObjectHideFlags: 0
@@ -3317,7 +3324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2668b22f6ea4f44e9b95424c428fc36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

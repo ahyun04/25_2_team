@@ -16,6 +16,7 @@ public class FishUnit : MonoBehaviour
     private CardSlotArea _slotArea;
 
     private bool _isPlayerUnit;
+    public bool IsDead { get; private set; } = false;
     #endregion
 
     #region 초기화
@@ -37,6 +38,8 @@ public class FishUnit : MonoBehaviour
     #region 전투 로직
     public void TakeDamage(int damage)
     {
+        if (IsDead) return;
+
         _currentHp -= damage;
         Debug.Log($"{_cardData.Name}이(가) {damage}의 데미지를 받아 현재 HP: {_currentHp}");
 
@@ -58,6 +61,9 @@ public class FishUnit : MonoBehaviour
 
     public void Die()
     {
+        if (IsDead) return; // Die()가 중복 호출되는 것을 방지
+        IsDead = true;
+
         if (_isPlayerUnit)
         {
             TurnManager.Instance.AddKill(false);
@@ -77,7 +83,9 @@ public class FishUnit : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+
+        Destroy(gameObject, 0.1f);
     }
 
     #endregion

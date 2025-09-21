@@ -28,7 +28,7 @@ public class EnemyAttackingState : EnemyBaseState
             // (공격 대상을 매번 새로 확인해야 합니다. 이전 공격으로 유닛이 죽었을 수 있기 때문입니다.)
             var livingPlayerUnits = context.cardManager.playerBattleAreas
                 .SelectMany(area => area.GetOccupiedCards())
-                .Where(p => p != null)
+                .Where(p => p != null && p.GetComponent<FishUnit>()?.IsDead == false)
                 .ToList();
 
             if (livingPlayerUnits.Count == 0)

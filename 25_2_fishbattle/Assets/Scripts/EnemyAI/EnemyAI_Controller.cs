@@ -4,19 +4,31 @@ using UnityEngine;
 
 public class EnemyAI_Controller : MonoBehaviour
 {
+    #region 레퍼런스
+    [Header("레퍼런스")]
     private CardManager CardManager;
     public CardManager cardManager => CardManager;
 
+    private CardActionHandler CardActionHandler;
+    public CardActionHandler cardActionHandler => CardActionHandler;
+
     private EnemyBaseState _currentState;
 
+    #endregion
+
+    #region 초기화
     private void Start()
     {
         CardManager = FindObjectOfType<CardManager>();
+        CardActionHandler = FindObjectOfType<CardActionHandler>();
 
         // 시작 상태를 Idle(대기) 상태로 설정합니다.
         ChangeState(new EnemyIdleState());
     }
 
+    #endregion
+
+    #region 핵심 메서드
     // 외부(TurnManager)에서 턴 시작을 알리는 메서드
     public void ExecuteTurn()
     {
@@ -39,4 +51,6 @@ public class EnemyAI_Controller : MonoBehaviour
             StartCoroutine(_currentState.ExecuteState(this));
         }
     }
+
+    #endregion
 }

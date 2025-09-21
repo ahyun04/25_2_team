@@ -8,6 +8,8 @@ public class CardSlotArea : MonoBehaviour
     #region 레퍼런스
     public bool IsCardInside { get; private set; }
 
+    private UIManager _uiManager;
+
     [Header("슬롯 설정")]
     public Transform[] slots;        // 슬롯 위치들
 
@@ -38,6 +40,11 @@ public class CardSlotArea : MonoBehaviour
             slotOccupants[slot] = null;
     }
 
+    private void Start()
+    {
+        _uiManager = FindObjectOfType<UIManager>();
+    }
+
     #endregion
 
     #region 카드 트리거 이벤트
@@ -46,7 +53,7 @@ public class CardSlotArea : MonoBehaviour
         if (other.CompareTag(allowedTag))
         {
             IsCardInside = true;
-            CardManager.Instance.SetTooltipForCard(other.gameObject, true, false);
+            _uiManager.SetTooltipForCard(other.gameObject, true, false);
         }
     }
 
@@ -55,7 +62,7 @@ public class CardSlotArea : MonoBehaviour
         if (other.CompareTag(allowedTag))
         {
             IsCardInside = false;
-            CardManager.Instance.SetTooltipForCard(other.gameObject, false, false);
+            _uiManager.SetTooltipForCard(other.gameObject, false, false);
         }
     }
     #endregion

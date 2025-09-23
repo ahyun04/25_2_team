@@ -9,17 +9,20 @@ public class FishDatabaseSO : ScriptableObject
     public List<FishSO> fishItems = new List<FishSO>();        
 
     private Dictionary<int, FishSO> fishItemsById;                
-    private Dictionary<string, FishSO> fishItemsByName;           
+    private Dictionary<string, FishSO> fishItemsByName;
+    private Dictionary<bool, FishSO> fishItemsByIsPlayerCard;
 
     public void Initialize()
     {
         fishItemsById = new Dictionary<int, FishSO>();             
         fishItemsByName = new Dictionary<string, FishSO>();
+        fishItemsByIsPlayerCard = new Dictionary<bool, FishSO>();
 
         foreach (var item in fishItems)                       
         {
             fishItemsById[item.FishId] = item;
             fishItemsByName[item.Name] = item;
+            fishItemsByIsPlayerCard[item.IsPlayerCard] = item;
         }
     }
 
@@ -44,6 +47,19 @@ public class FishDatabaseSO : ScriptableObject
         }
 
         if (fishItemsByName.TryGetValue(name, out FishSO item))            
+            return item;
+
+        return null;
+    }
+
+    public FishSO GetItemByIsPlayerCard(bool isPlayerCard)
+    {
+        if (fishItemsByIsPlayerCard == null)
+        {
+            Initialize();
+        }
+
+        if (fishItemsByIsPlayerCard.TryGetValue(isPlayerCard, out FishSO item))
             return item;
 
         return null;

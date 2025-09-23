@@ -14,26 +14,28 @@ public class FishSpawner : MonoBehaviour
     public FishSO GetRandomFishByScene()
     {
         FishHabitatType habitat = GetHabitatFromScene();
-        List<FishSO> fishList = _fishDatabase.GetItemByType(habitat);
+        List<FishSO> fishListByHabitat = _fishDatabase.GetItemByType(habitat);
+        List<FishSO> availableFish = fishListByHabitat.Where(fish => fish.IsPlayerCard).ToList();
 
-        if (fishList == null || fishList.Count == 0)
+        if (availableFish == null || availableFish.Count == 0)
         {
-            Debug.LogWarning($"[FishSpawner] {habitat} 타입 물고기가 없습니다.");
+            Debug.LogWarning($"[FishSpawner] {habitat} 타입의 잡을 수 있는 플레이어 카드 물고기가 없습니다.");
             return null;
         }
 
-        float totalWeight = fishList.Sum(fish => fish.Weight);
+        // 3. 필터링된 리스트를 기반으로 가중치 랜덤 로직을 실행합니다.
+        float totalWeight = availableFish.Sum(fish => fish.Weight);
         float roll = Random.Range(0f, totalWeight);
         float accumulator = 0f;
 
-        foreach (var fish in fishList)
+        foreach (var fish in availableFish)
         {
             accumulator += fish.Weight;
             if (roll <= accumulator)
                 return fish;
         }
 
-        return fishList.FirstOrDefault(); // fallback
+        return availableFish.FirstOrDefault(); // fallback
     }
 
     private FishHabitatType GetHabitatFromScene()

@@ -6,6 +6,9 @@ public class EnemyReplacingUnitsState : EnemyBaseState
 {
     public override IEnumerator ExecuteState(EnemyAI_Controller context)
     {
+        // [주석 추가] 벤치 유닛을 배틀 필드로 올릴지 말지 '고민'하는 시간을 표현하는 딜레이
+        yield return new WaitForSeconds(1.0f);
+
         // 적 배틀 슬롯 배열을 순회합니다.
         foreach (var battleArea in context.cardManager.enemyBattleAreas)
         {
@@ -64,6 +67,9 @@ public class EnemyReplacingUnitsState : EnemyBaseState
                             cardDisplay._currentSlot = battleSlot;
                         }
 
+                        // 유닛 이동이 끝난 후, 다음 행동(턴 종료)으로 넘어가기 전의 짧은 딜레이
+                        yield return new WaitForSeconds(0.5f);
+
                         context.ChangeState(new EnemyEndingTurnState());
                         yield break;
                     }
@@ -72,6 +78,9 @@ public class EnemyReplacingUnitsState : EnemyBaseState
         }
 
         Debug.Log("적 벤치 유닛 교체 로직 실행.");
+
+        // 교체할 유닛이 없더라도, 턴을 종료하기 전 모든 행동이 완료되었음을 보여주는 최종 딜레이
+        yield return new WaitForSeconds(0.5f);
 
         // 자신의 역할이 끝나면, 다음 상태로 전환
         context.ChangeState(new EnemyEndingTurnState());

@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainMenuSceneName: MenuScene
   _lakeGameSceneName: LakeMiniGameScene
-  _riverGameSceneName: RIverMiniGameScene
+  _riverGameSceneName: RiverMiniGameScene
   _oceanGameSceneName: OceanMiniGameScene
+  _fishCardGameSceneName: FishCardGameScene
   _loadingSceneName: Loading
   _minimumLoadingTime: 2
   useLoadingScreen: 1

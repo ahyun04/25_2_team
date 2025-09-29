@@ -14,6 +14,7 @@ public class SceneManager : SingletonMono<SceneManager>
     [SerializeField] private string _riverGameSceneName = "RiverMiniGameScene";
     [SerializeField] private string _oceanGameSceneName = "OceanMiniGameScene";
     [SerializeField] private string _fishCardGameSceneName = "FishCardGaemScene";
+    [SerializeField] private string _mapSelectionSceneName = "MapSelectionScene";
     [SerializeField] private string _loadingSceneName = "Loading";
 
     [Header("Loading Settings")]
@@ -269,6 +270,11 @@ public class SceneManager : SingletonMono<SceneManager>
     public void LoadMainMenu()
     {
         LoadScene(_mainMenuSceneName);
+    }
+
+    public void LoadMapSelectionSceneName()
+    {
+        LoadScene(_mapSelectionSceneName);
     }
 
     public void LoadGameScene()

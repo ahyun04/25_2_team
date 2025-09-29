@@ -1,0 +1,99 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class Map : MonoBehaviour
+{
+    #region 레퍼런스
+    [Header("맵 정보")]
+    public FishHabitatType FishHabitatType;
+    public string mapName = "Lake";
+
+    [System.Serializable]
+    public class MapEvents
+    {
+        public UnityEvent<FishHabitatType> OnMapEntered;
+        public UnityEvent<string> OnMapExited;
+    }
+
+    public MapEvents mapEvents;
+
+    #endregion
+
+    #region 초기화
+    void Start()
+    {
+        SetupBuilding();
+        CreateNameTag();
+    }
+
+    private void SetupBuilding()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            Material mat = renderer.material;
+            switch (FishHabitatType)
+            {
+                case FishHabitatType.Lake:
+                    mat.color = Color.red;
+                    break;
+                case FishHabitatType.River:
+                    mat.color = Color.green;
+                    break;
+                case FishHabitatType.Ocean:
+                    mat.color = Color.yellow;
+                    break;
+            }
+        }
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+            col.isTrigger = true;
+    }
+
+    #endregion
+
+    #region 트리거
+    private void OnTriggerEnter(Collider other)
+    {
+        Player player = other.GetComponent<Player>();
+        if (player != null)
+        {
+            mapEvents.OnMapEntered?.Invoke(FishHabitatType);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Player player = other.GetComponent<Player>();
+        if (player != null)
+        {
+            mapEvents.OnMapExited?.Invoke(mapName);
+            Debug.Log($"{mapName} 을 떠났습니다.");
+        }
+    }
+
+    #endregion
+
+    #region 네임태그
+    private void CreateNameTag()
+    {
+        // 건물 위에 이름표 생성
+        GameObject nameTag = new GameObject("NameTag");
+        nameTag.transform.SetParent(transform);
+        nameTag.transform.localPosition = Vector3.up * 1.5f;
+
+        TextMesh textMesh = nameTag.AddComponent<TextMesh>();
+        textMesh.text = mapName;
+        textMesh.characterSize = 0.2f;
+        textMesh.anchor = TextAnchor.MiddleCenter;
+        textMesh.color = Color.white;
+        textMesh.fontSize = 20;
+
+        nameTag.AddComponent<MapBoard>();
+    }
+
+    #endregion
+}

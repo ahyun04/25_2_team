@@ -8,6 +8,7 @@ public class BackMenuUI : MonoBehaviour
     #region 레퍼런스
     [Header("레퍼런스")]
     [SerializeField] private Button _loadMainMenuButton;
+    [SerializeField] private Button _mapSelectionButton;
 
     #endregion
 
@@ -15,6 +16,7 @@ public class BackMenuUI : MonoBehaviour
     private void Start()
     {
         SetupButtons();
+        GoMainMenu();
 
         // 이벤트 구독
         GameEvents.OnSceneChanged += OnSceneChanged;
@@ -32,6 +34,12 @@ public class BackMenuUI : MonoBehaviour
     private void SetupButtons()
     {
         // 씬 로딩 버튼
+        if (_mapSelectionButton != null)
+            _mapSelectionButton.onClick.AddListener(() => SceneManager.Instance.LoadMapSelectionSceneName());
+    }
+
+    private void GoMainMenu()
+    {
         if (_loadMainMenuButton != null)
             _loadMainMenuButton.onClick.AddListener(() => SceneManager.Instance.LoadMainMenu());
     }

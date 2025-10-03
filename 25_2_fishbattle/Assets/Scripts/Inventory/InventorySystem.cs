@@ -28,6 +28,50 @@ public class InventorySystem
     #endregion
 
     #region 아이템 제거 및 정리
+    public bool AddToInventory(FishSO fish, int amount)
+    {
+        int amountToAdd = amount;
+
+        // 기존에 있던 아이템 슬롯을 찾아 스택을 채웁니다.
+        for (int i = 0; i < _inventorySlots.Count; i++)
+        {
+            var slot = _inventorySlots[i];
+            if (!slot.IsEmpty && slot.ItemData == fish && !slot.IsFull)
+            {
+                int amountCanAdd = slot.ItemData.MaxStackSize - slot.StackSize;
+                int addAmount = Mathf.Min(amountToAdd, amountCanAdd);
+
+                slot.AddToStack(addAmount);
+                amountToAdd -= addAmount;
+
+                OnInventorySlotChanged?.Invoke(slot);
+
+                if (amountToAdd <= 0) return true; // 모든 아이템을 다 추가했으면 성공
+            }
+        }
+
+        // 남은 아이템을 빈 슬롯에 새로 추가합니다.
+        for (int i = 0; i < _inventorySlots.Count; i++)
+        {
+            var slot = _inventorySlots[i];
+            if (slot.IsEmpty)
+            {
+                int addAmount = Mathf.Min(amountToAdd, fish.MaxStackSize);
+
+                slot.UpdateInventorySlot(fish, addAmount);
+                amountToAdd -= addAmount;
+
+                OnInventorySlotChanged?.Invoke(slot);
+
+                if (amountToAdd <= 0) return true; // 모든 아이템을 다 추가했으면 성공
+            }
+        }
+
+        Debug.LogWarning("인벤토리가 가득 찼습니다!");
+
+        return false;
+    }
+
     public void RemoveItem(FishSO fish, int amount)
     {
         int remainAmount = amount;

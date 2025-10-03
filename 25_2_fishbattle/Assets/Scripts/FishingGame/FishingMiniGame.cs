@@ -63,7 +63,6 @@ public class FishingMiniGame : MonoBehaviour
     void Start()
     {
         _playerInventory = FindObjectOfType<InventoryHolder>();
-
         _startFishingButton.onClick.AddListener(StartFishing);
         _barObj.SetActive(false);
         _hookAFishPanel.gameObject.SetActive(false);

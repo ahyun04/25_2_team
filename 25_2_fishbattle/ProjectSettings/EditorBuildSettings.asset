@@ -6,20 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MapSelectionScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
     path: Assets/Scenes/MenuScene.unity
     guid: ae16c1893f8355343bcedbe2b9efdc08
+  - enabled: 1
+    path: Assets/Scenes/MapSelectionScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/LakeMiniGameScene.unity
     guid: 1939622ca93a9c143a8964139968e9a7
   - enabled: 1
     path: Assets/Scenes/RiverMiniGameScene.unity
-    guid: cbde560a0d155174ab1f4fdaa7d5509d
+    guid: 15a6b98f536979144843d47ecfec1345
   - enabled: 1
     path: Assets/Scenes/OceanMiniGameScene.unity
-    guid: 462cb554dce7bfd49879123caa88018e
+    guid: bd54cbcf48c37cf4fa322999b3d6ba67
   - enabled: 1
     path: Assets/Scenes/FishCardGameScene.unity
     guid: f23e0280cf2d22b47b6b70b83a843774

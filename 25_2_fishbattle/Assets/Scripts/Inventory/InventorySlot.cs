@@ -13,6 +13,7 @@ public class InventorySlot
     public int StackSize => _stackSize;
 
     public bool IsEmpty => ItemData == null || StackSize <= 0;
+    public bool IsFull => !IsEmpty && StackSize >= ItemData.MaxStackSize;
 
     #endregion
 
@@ -32,6 +33,12 @@ public class InventorySlot
     {
         _itemData = null;
         _stackSize = -1;
+    }
+
+    public void UpdateInventorySlot(FishSO data, int amount)
+    {
+        _itemData = data;
+        _stackSize = amount;
     }
 
     public void AddToStack(int amount)

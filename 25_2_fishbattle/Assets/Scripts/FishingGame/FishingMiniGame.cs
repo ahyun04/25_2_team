@@ -1,7 +1,6 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,6 +22,8 @@ public class FishingMiniGame : MonoBehaviour
         get => _isFishing;
         set => _isFishing = value;
     }
+
+    public bool IsMiniGameRunning => _fishingCoroutine != null;
 
     [Header("낚시 텍스트")]
     [SerializeField] private TextMeshProUGUI _bobberHitText;
@@ -48,8 +49,10 @@ public class FishingMiniGame : MonoBehaviour
     [Header("물고기 확인 패널")]
     [SerializeField] private Image _hookAFishPanel;
     [SerializeField] private TextMeshProUGUI _hookAFishNameText;
-    [SerializeField] private Button _putInBoxButton;                    // TODO: 인벤토리 구현 후 버튼 클릭 시 잡은 물고기가 인벤토리 들어가게 구현
+    [SerializeField] private Button _putInBoxButton;
     [SerializeField] private Transform _fishDisplayPoint;
+
+    public bool IsResultPanelActive => _hookAFishPanel.gameObject.activeInHierarchy;
     private GameObject _fishPrefab;
 
     [Header("기즈모 설정")]
@@ -141,7 +144,6 @@ public class FishingMiniGame : MonoBehaviour
         }
 
         _isBobberHit = false;
-        _fishingCoroutine = null;
     }
 
     #endregion
@@ -315,6 +317,7 @@ public class FishingMiniGame : MonoBehaviour
         }
 
         _startFishingButton.gameObject.SetActive(true);
+        _fishingCoroutine = null;
     }
 
     #endregion

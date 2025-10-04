@@ -21,13 +21,23 @@ public class NetFishing : MonoBehaviour
     [SerializeField] private int _mashTarget = 100;             // 목표 연타 횟수
     [SerializeField] private int _catchAmount = 10;             // 잡을 물고기 수
 
+    [Header("결과 창 UI")]
+    [SerializeField] private TextMeshProUGUI _resultText;
+    [SerializeField] private GameObject _resultPanel;
+    [SerializeField] private Transform _contentParent; // Grid Layout Group이 있는 Content 오브젝트
+    [SerializeField] private GameObject _resultFishPrefab; // Result_Fish 프리팹
+    [SerializeField] private Button _putInInventoryButton;
+
     [Header("필수 레퍼런스")]
     [SerializeField] private FishSpawner _fishSpawner;        
     [SerializeField] private InventoryHolder _playerInventory; 
     [SerializeField] private UICooldown _uiCooldown;
 
     private Coroutine _netFishingCoroutine;
+    public bool IsMiniGameRunning => _netFishingCoroutine != null;
     private int _currentMashCount = 0;
+
+    private List<FishSO> _lastCaughtNetFish;
 
     #endregion
 
@@ -143,17 +153,38 @@ public class NetFishing : MonoBehaviour
     // 물고기 획득 및 인벤토리 추가
     private IEnumerator CatchFishWithNet()
     {
+        _lastCaughtNetFish = new List<FishSO>();
+        // 1. 물고기 10마리를 잡아 리스트에 임시 저장
         for (int i = 0; i < _catchAmount; i++)
         {
             FishSO caughtFish = _fishSpawner.GetRandomFishByScene();
             if (caughtFish != null)
             {
-                _playerInventory.InventorySystem.AddToInventory(caughtFish, 1);
+                _lastCaughtNetFish.Add(caughtFish);
             }
         }
 
-        yield return new WaitForSeconds(0.5f);
-        ResetFishing();
+        // 2. 결과 창 Content에 이전에 있던 아이템들 삭제
+        foreach (Transform child in _contentParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // 3. 리스트에 있는 물고기들을 UI에 표시
+        foreach (FishSO fish in _lastCaughtNetFish)
+        {
+            GameObject fishUIObject = Instantiate(_resultFishPrefab, _contentParent);
+            fishUIObject.GetComponent<ResultFishUI>().SetData(fish);
+        }
+
+        // 4. 결과 창을 켜고, 버튼 리스너 설정
+        _resultPanel.SetActive(true);
+        _resultText.text = $"그물 결과창";
+        _putInInventoryButton.onClick.RemoveAllListeners();
+        _putInInventoryButton.onClick.AddListener(AddNetFishToInventory);
+
+        // ResetFishing() 호출을 여기서 제거합니다. 버튼을 눌렀을 때 호출될 것입니다.
+        yield return null;
     }
 
     // 낚시 상태 초기화
@@ -161,6 +192,35 @@ public class NetFishing : MonoBehaviour
     {
         _statusText.text = "";
         _netFishingCoroutine = null;
+    }
+
+    public void AddNetFishToInventory()
+    {
+        if (_lastCaughtNetFish == null) return;
+
+        foreach (FishSO fish in _lastCaughtNetFish)
+        {
+            _playerInventory.InventorySystem.AddToInventory(fish, 1);
+        }
+        Debug.Log("그물로 잡은 물고기를 인벤토리에 넣었습니다.");
+
+        _resultPanel.SetActive(false); // 결과 창 닫기
+        _resultText.text = "";
+        _lastCaughtNetFish.Clear(); // 임시 리스트 비우기
+        ResetFishing(); // 낚시 상태 초기화
+    }
+
+    // 강제 종료 시 결과 창도 닫도록 수정
+    public void ForceStopMinigame()
+    {
+        if (_netFishingCoroutine == null) return;
+        Debug.Log("통발로 인해 그물 낚시가 중단되었습니다.");
+        StopCoroutine(_netFishingCoroutine);
+
+        _resultPanel.SetActive(false); // 결과 창 닫기 추가
+        _statusText.gameObject.SetActive(false);
+        _netMinigamePanel.SetActive(false);
+        ResetFishing();
     }
 
     #endregion

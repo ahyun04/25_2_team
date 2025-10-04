@@ -27,6 +27,10 @@ public class FishingMiniGame : MonoBehaviour
     [Header("낚시 텍스트")]
     [SerializeField] private TextMeshProUGUI _bobberHitText;
 
+    [Header("미니게임 랜덤 최소/최대 값")]
+    [SerializeField] private float _minWaitTime = 5f;           // 최소 대기 시간
+    [SerializeField] private float _maxWaitTime = 15f;          // 최대 대기 시간
+
     [Header("박스 정보")]
     private RectTransform _currentRedRect;     // 움직이는 빨간 박스
     private RectTransform _currentTargetRect;  // 고정된 노란 타겟 박스
@@ -92,10 +96,8 @@ public class FishingMiniGame : MonoBehaviour
         _isFishing = true;
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
-        // 테스트 용
-        //float waitTime = Random.Range(1f, 1.5f);
-
-        float waitTime = Random.Range(5f, 15f);
+        // 랜덤 시간 대기
+        float waitTime = Random.Range(_minWaitTime, _maxWaitTime);
         yield return new WaitForSeconds(waitTime);
 
         _bobberHitText.gameObject.SetActive(true);
@@ -132,6 +134,7 @@ public class FishingMiniGame : MonoBehaviour
         else
         {
             Debug.Log("놓쳤다..");
+            _bobberHitText.text = "";
             _bobberHitText.gameObject.SetActive(false);
             _startFishingButton.gameObject.SetActive(true);
             _isFishing = false;
@@ -297,6 +300,7 @@ public class FishingMiniGame : MonoBehaviour
     private void EndMiniGame()
     {
         _barObj.SetActive(false);
+        _bobberHitText.text = "";
 
         if (_currentRedRect != null)
         {

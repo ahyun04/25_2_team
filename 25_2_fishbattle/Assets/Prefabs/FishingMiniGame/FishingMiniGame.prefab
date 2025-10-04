@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4054221062737048897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3124594618317831497}
+  - component: {fileID: 65929207282000930}
+  - component: {fileID: 693053117143058540}
+  m_Layer: 0
+  m_Name: FishingMiniGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3124594618317831497
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4054221062737048897}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65929207282000930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4054221062737048897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8f689573d1f0f4998b9e698340cf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startFishingButton: {fileID: 0}
+  _bobberHitText: {fileID: 0}
+  _minWaitTime: 5
+  _maxWaitTime: 15
+  _barObj: {fileID: 0}
+  _targetPositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _targetBoxPrefab: {fileID: 6656574297739845654, guid: 0a54a0d802967ef4d9c9d535716f97d6,
+    type: 3}
+  _redBoxPrefab: {fileID: 2425853186932807808, guid: 84f7e38589953434a8b458a13e550f11,
+    type: 3}
+  _height: 100
+  _moveSpeed: 500
+  _hookAFishPanel: {fileID: 0}
+  _hookAFishNameText: {fileID: 0}
+  _putInBoxButton: {fileID: 0}
+  _fishDisplayPoint: {fileID: 0}
+  _drawGizmoLine: 1
+  _gizmoLineLength: 120
+  _fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}
+  _playerInventory: {fileID: 0}
+--- !u!114 &693053117143058540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4054221062737048897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6aada492dba12148a975ba752e1b5af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}

@@ -8,7 +8,7 @@ public class NetFishing : MonoBehaviour
 {
     #region 레퍼런스
     [Header("UI 요소")]
-    [SerializeField] private TextMeshProUGUI _statusText;       // 현재 상태 알림 텍스트 (예: 기다리는 중...)
+    [SerializeField] private TextMeshProUGUI _statusText;       // 현재 상태 알림 텍스트
     [SerializeField] private GameObject _netMinigamePanel;      // 미니게임 UI 패널
     [SerializeField] private TextMeshProUGUI _mashCountText;    // 연타 횟수 표시 텍스트
     [SerializeField] private TextMeshProUGUI _timerText;        // 남은 시간 표시 텍스트
@@ -24,11 +24,11 @@ public class NetFishing : MonoBehaviour
     [Header("결과 창 UI")]
     [SerializeField] private TextMeshProUGUI _resultText;
     [SerializeField] private GameObject _resultPanel;
-    [SerializeField] private Transform _contentParent; // Grid Layout Group이 있는 Content 오브젝트
-    [SerializeField] private GameObject _resultFishPrefab; // Result_Fish 프리팹
+    [SerializeField] private Transform _contentParent; 
+    [SerializeField] private GameObject _resultFishPrefab; 
     [SerializeField] private Button _putInInventoryButton;
 
-    [Header("필수 레퍼런스")]
+    [Header("레퍼런스")]
     [SerializeField] private FishSpawner _fishSpawner;        
     [SerializeField] private InventoryHolder _playerInventory; 
     [SerializeField] private UICooldown _uiCooldown;
@@ -44,6 +44,13 @@ public class NetFishing : MonoBehaviour
     #region 초기화
     void Start()
     {
+        _playerInventory = InventoryHolder.Instance;
+
+        if (_fishSpawner == null)
+        {
+            _fishSpawner = FindObjectOfType<FishSpawner>();
+        }
+
         _statusText.gameObject.SetActive(false);
         _netMinigamePanel.SetActive(false);
     }
@@ -97,7 +104,7 @@ public class NetFishing : MonoBehaviour
         if (inputReceived)
         {
             // 반응 성공 시, 연타 미니게임 시작
-            _uiCooldown.StartCooldown();
+            FishingHolder.Instance.FishingSystem.StartNetCooldown();
             Debug.Log("반응 성공! 미니게임 시작!");
             _netMinigamePanel.SetActive(true);
             StartCoroutine(NetMinigameRoutine());
@@ -154,7 +161,7 @@ public class NetFishing : MonoBehaviour
     private IEnumerator CatchFishWithNet()
     {
         _lastCaughtNetFish = new List<FishSO>();
-        // 1. 물고기 10마리를 잡아 리스트에 임시 저장
+        // 물고기 10마리를 잡아 리스트에 임시 저장
         for (int i = 0; i < _catchAmount; i++)
         {
             FishSO caughtFish = _fishSpawner.GetRandomFishByScene();
@@ -164,26 +171,25 @@ public class NetFishing : MonoBehaviour
             }
         }
 
-        // 2. 결과 창 Content에 이전에 있던 아이템들 삭제
+        // 결과 창 Content에 이전에 있던 아이템들 삭제
         foreach (Transform child in _contentParent)
         {
             Destroy(child.gameObject);
         }
 
-        // 3. 리스트에 있는 물고기들을 UI에 표시
+        // 리스트에 있는 물고기들을 UI에 표시
         foreach (FishSO fish in _lastCaughtNetFish)
         {
             GameObject fishUIObject = Instantiate(_resultFishPrefab, _contentParent);
             fishUIObject.GetComponent<ResultFishUI>().SetData(fish);
         }
 
-        // 4. 결과 창을 켜고, 버튼 리스너 설정
+        // 결과 창을 켜고, 버튼 리스너 설정
         _resultPanel.SetActive(true);
         _resultText.text = $"그물 결과창";
         _putInInventoryButton.onClick.RemoveAllListeners();
         _putInInventoryButton.onClick.AddListener(AddNetFishToInventory);
 
-        // ResetFishing() 호출을 여기서 제거합니다. 버튼을 눌렀을 때 호출될 것입니다.
         yield return null;
     }
 

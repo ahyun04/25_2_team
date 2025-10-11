@@ -22,28 +22,33 @@ public class EnhancementManager : MonoBehaviour
     #endregion
 
     #region 초기화
-    private void OnEnable()
-    {
-        // UI가 활성화될 때마다 데이터 시스템에 구독하여 최신 상태를 반영
-        EnhancementHolder.Instance.EnhancementSystem.OnEnhancementStateChanged += UpdateUI;
-        UpdateUI();
-    }
-
     private void OnDisable()
     {
-        // UI가 비활성화되면 구독 해제
-        EnhancementHolder.Instance.EnhancementSystem.OnEnhancementStateChanged -= UpdateUI;
+        // OnDisable은 Start에서 구독했다면 그대로 두어도 좋습니다.
+        if (EnhancementHolder.Instance != null) // 안전장치 추가
+        {
+            EnhancementHolder.Instance.EnhancementSystem.OnEnhancementStateChanged -= UpdateUI;
+        }
     }
 
     private void Start()
     {
         _game = FindObjectOfType<FishingMiniGame>();
-
         _enhanceButton.onClick.AddListener(OnEnhanceButtonClick);
 
         for (int i = 0; i < _materialSlots.Count; i++)
         {
             _materialSlots[i].Initialize(i);
+        }
+
+        if (EnhancementHolder.Instance != null)
+        {
+            EnhancementHolder.Instance.EnhancementSystem.OnEnhancementStateChanged += UpdateUI;
+            UpdateUI(); // 첫 UI 상태 업데이트
+        }
+        else
+        {
+            Debug.LogError("EnhancementHolder를 찾을 수 없습니다!");
         }
     }
 

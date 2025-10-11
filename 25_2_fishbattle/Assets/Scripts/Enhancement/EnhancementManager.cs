@@ -24,8 +24,7 @@ public class EnhancementManager : MonoBehaviour
     #region 초기화
     private void OnDisable()
     {
-        // OnDisable은 Start에서 구독했다면 그대로 두어도 좋습니다.
-        if (EnhancementHolder.Instance != null) // 안전장치 추가
+        if (EnhancementHolder.Instance != null)
         {
             EnhancementHolder.Instance.EnhancementSystem.OnEnhancementStateChanged -= UpdateUI;
         }

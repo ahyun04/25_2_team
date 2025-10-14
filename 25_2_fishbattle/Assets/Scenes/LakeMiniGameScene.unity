@@ -6092,12 +6092,12 @@ PrefabInstance:
     - target: {fileID: 65929207282000930, guid: b2c3050cc5ec40f4fad4febbea1078ad,
         type: 3}
       propertyPath: _maxWaitTime
-      value: 2
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 65929207282000930, guid: b2c3050cc5ec40f4fad4febbea1078ad,
         type: 3}
       propertyPath: _minWaitTime
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 65929207282000930, guid: b2c3050cc5ec40f4fad4febbea1078ad,
         type: 3}

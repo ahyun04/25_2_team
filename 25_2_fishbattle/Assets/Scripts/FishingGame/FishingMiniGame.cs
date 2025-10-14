@@ -141,6 +141,7 @@ public class FishingMiniGame : MonoBehaviour
             _bobberHitText.gameObject.SetActive(false);
             _startFishingButton.gameObject.SetActive(true);
             _isFishing = false;
+            _fishingCoroutine = null;
         }
 
         _isBobberHit = false;

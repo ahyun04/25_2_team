@@ -34,16 +34,18 @@ public class Map : MonoBehaviour
         if (renderer != null)
         {
             Material mat = renderer.material;
+            string colorPropertyName = "_BaseColor";
+
             switch (FishHabitatType)
             {
                 case FishHabitatType.Lake:
-                    mat.color = Color.red;
+                    mat.SetColor(colorPropertyName, Color.red);
                     break;
                 case FishHabitatType.River:
-                    mat.color = Color.green;
+                    mat.SetColor(colorPropertyName, Color.green);
                     break;
                 case FishHabitatType.Ocean:
-                    mat.color = Color.yellow;
+                    mat.SetColor(colorPropertyName, Color.yellow);
                     break;
             }
         }
@@ -72,6 +74,12 @@ public class Map : MonoBehaviour
         {
             mapEvents.OnMapExited?.Invoke(mapName);
             Debug.Log($"{mapName} 을 떠났습니다.");
+
+            MapStateSystem mapStateSystem = FindObjectOfType<MapStateSystem>();
+            if (mapStateSystem != null)
+            {
+                mapStateSystem.selectionPanel.SetActive(false);
+            }
         }
     }
 

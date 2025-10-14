@@ -6091,6 +6091,16 @@ PrefabInstance:
       objectReference: {fileID: 1281775390}
     - target: {fileID: 65929207282000930, guid: b2c3050cc5ec40f4fad4febbea1078ad,
         type: 3}
+      propertyPath: _maxWaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 65929207282000930, guid: b2c3050cc5ec40f4fad4febbea1078ad,
+        type: 3}
+      propertyPath: _minWaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65929207282000930, guid: b2c3050cc5ec40f4fad4febbea1078ad,
+        type: 3}
       propertyPath: _bobberHitText
       value: 
       objectReference: {fileID: 1677927805}
@@ -6524,6 +6534,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Inventory_Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1467740990238158049, guid: 4ff0645c37966c140af0964fc3248b77,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1480867003772173757, guid: 4ff0645c37966c140af0964fc3248b77,
         type: 3}

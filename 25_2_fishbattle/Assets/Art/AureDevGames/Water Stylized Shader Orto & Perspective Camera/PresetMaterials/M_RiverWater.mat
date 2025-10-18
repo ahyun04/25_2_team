@@ -28,7 +28,6 @@ Material:
   m_ValidKeywords:
   - _PERSPECTIVE
   - _REFLECTIONS
-  - _WORLD_SPACE_UV
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -131,7 +130,7 @@ Material:
     - _SurfaceFoamSpeed: 1.43
     - _SurfaceFoamTiling: 0.69
     - _TileSize: 200
-    - _WORLD_SPACE_UV: 1
+    - _WORLD_SPACE_UV: 0
     - _WaterAlpha: 1
     - _WaterMetallic: 0.42
     - _WaterSmoothness: 0.29
@@ -148,13 +147,13 @@ Material:
     - _DeepColor: {r: 0, g: 0, b: 0, a: 0.40392157}
     - _FoamUVsOffset: {r: 1, g: 1, b: 0, a: 0}
     - _FresnelColor: {r: 2.670157, g: 2.670157, b: 2.670157, a: 0}
-    - _HorizonColor: {r: 7.3772106, g: 3.6607668, b: 6.6577153, a: 1}
+    - _HorizonColor: {r: 3.6692936, g: 5.0874734, b: 7.3772106, a: 1}
     - _IntersectionFoamColor: {r: 1.1486984, g: 1.1486984, b: 1.1486984, a: 1}
     - _PositionRipples: {r: 0, g: 0, b: 0, a: 0}
-    - _SecondaryFoamColor: {r: 0.17370345, g: 1.1849058, b: 0.6515868, a: 0.011764706}
-    - _ShallowColor: {r: 0.14559627, g: 0.5396226, b: 0.16129379, a: 1}
+    - _SecondaryFoamColor: {r: 0.17370345, g: 0.9122119, b: 1.1849058, a: 0.011764706}
+    - _ShallowColor: {r: 0.13171947, g: 0.6522771, b: 0.754717, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0.2627451}
-    - _SurfaceFoamColor: {r: 0.21495599, g: 1.2830188, b: 0.7506971, a: 0.0627451}
+    - _SurfaceFoamColor: {r: 0.21495599, g: 1.1968812, b: 1.2830188, a: 0.0627451}
     - _TopColor: {r: 0, g: 0.17848217, b: 0.5622641, a: 0.44705883}
     - _UV: {r: 0, g: 0, b: 0, a: 0}
     - _UVRipples: {r: 0, g: 0, b: 0, a: 0}

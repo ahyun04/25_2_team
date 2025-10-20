@@ -24,35 +24,7 @@ public class Map : MonoBehaviour
     #region √ ±‚»≠
     void Start()
     {
-        SetupBuilding();
         CreateNameTag();
-    }
-
-    private void SetupBuilding()
-    {
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            Material mat = renderer.material;
-            string colorPropertyName = "_BaseColor";
-
-            switch (FishHabitatType)
-            {
-                case FishHabitatType.Lake:
-                    mat.SetColor(colorPropertyName, Color.red);
-                    break;
-                case FishHabitatType.River:
-                    mat.SetColor(colorPropertyName, Color.green);
-                    break;
-                case FishHabitatType.Ocean:
-                    mat.SetColor(colorPropertyName, Color.yellow);
-                    break;
-            }
-        }
-
-        Collider col = GetComponent<Collider>();
-        if (col != null)
-            col.isTrigger = true;
     }
 
     #endregion

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveSpeed = 8f;
     [SerializeField] private float _rotationSpeed = 10.0f;
     private bool _isMoving = false;
+    public Animator _animator;
 
     [System.Serializable]
     public class PlayerEvents 
@@ -20,6 +21,15 @@ public class Player : MonoBehaviour
     }
 
     public PlayerEvents playerEvents;
+
+    #endregion
+
+    #region
+
+    private void Start()
+    {
+        _animator = GetComponentInChildren<Animator>();
+    }
 
     #endregion
 
@@ -69,12 +79,14 @@ public class Player : MonoBehaviour
     private void StartMoving()
     {
         _isMoving = true;
+        _animator.SetBool("Walk", true);
         playerEvents.OnMoveStarted?.Invoke();
     }
 
     private void StopMoving()
     {
         _isMoving = false;
+        _animator.SetBool("Walk", false);
         playerEvents.OnMoveStoped?.Invoke();
     }
 

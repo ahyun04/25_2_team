@@ -10,7 +10,6 @@ public class UIManager : MonoBehaviour
     #region 레퍼런스
     [Header("인벤토리 패널")]
     [SerializeField] private GameObject _inventoryPanel;
-    [SerializeField] private GameObject _enhancementPanel;
     [SerializeField] private Button _closePanelButton;
     [SerializeField] private Button _enhancementCloseButton;
 
@@ -29,7 +28,6 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _closePanelButton.onClick.AddListener(() => _inventoryPanel.SetActive(false));
-        _enhancementCloseButton.onClick.AddListener(() => _enhancementPanel.SetActive(false));
     }
 
     private void Update()

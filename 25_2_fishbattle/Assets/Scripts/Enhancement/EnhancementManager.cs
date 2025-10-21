@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,31 +48,6 @@ public class EnhancementManager : MonoBehaviour
         {
             Debug.LogError("EnhancementHolder를 찾을 수 없습니다!");
         }
-    }
-
-    private void Update()
-    {
-        if (!_game.IsFishing && Input.GetKeyDown(KeyCode.E))
-        {
-            TogglePanel();
-        }
-    }
-
-    private void TogglePanel()
-    {
-        // 현재 패널이 켜져 있는지 확인합니다.
-        bool isCurrentlyActive = enhancementPanel.activeSelf;
-
-        // 만약 패널이 켜져 있는 상태에서 끄려고 하는 경우라면,
-        if (isCurrentlyActive)
-        {
-            // UI를 끄기 전에 먼저 모든 재료를 인벤토리로 되돌립니다.
-            // 이렇게 하면 OnDisable이 호출되기 전에 모든 데이터 처리와 UI 업데이트 신호가 완료됩니다.
-            EnhancementHolder.Instance.EnhancementSystem.ReturnAllMaterialsToInventory();
-        }
-
-        // 패널의 활성화 상태를 반전시켜 켜거나 끕니다.
-        enhancementPanel.SetActive(!isCurrentlyActive);
     }
 
     #endregion

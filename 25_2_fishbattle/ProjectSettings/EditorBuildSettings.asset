@@ -16,10 +16,13 @@ EditorBuildSettings:
     guid: 1939622ca93a9c143a8964139968e9a7
   - enabled: 1
     path: Assets/Scenes/RiverMiniGameScene.unity
-    guid: 15a6b98f536979144843d47ecfec1345
+    guid: 804eb00a03a77754ca75b2ed699b574c
   - enabled: 1
     path: Assets/Scenes/OceanMiniGameScene.unity
-    guid: bd54cbcf48c37cf4fa322999b3d6ba67
+    guid: da34f444e16fe794a8d5519c11bf55d4
+  - enabled: 1
+    path: Assets/Scenes/EnhancementScene.unity
+    guid: 3f46bcc13f0e8a5479ad1032bf5aa273
   - enabled: 1
     path: Assets/Scenes/FishCardGameScene.unity
     guid: f23e0280cf2d22b47b6b70b83a843774

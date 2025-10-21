@@ -7,13 +7,13 @@ public class Map : MonoBehaviour
 {
     #region 레퍼런스
     [Header("맵 정보")]
-    public FishHabitatType FishHabitatType;
+    public MapType MapType;
     public string mapName = "Lake";
 
     [System.Serializable]
     public class MapEvents
     {
-        public UnityEvent<FishHabitatType> OnMapEntered;
+        public UnityEvent<MapType> OnMapEntered;
         public UnityEvent<string> OnMapExited;
     }
 
@@ -35,7 +35,7 @@ public class Map : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player != null)
         {
-            mapEvents.OnMapEntered?.Invoke(FishHabitatType);
+            mapEvents.OnMapEntered?.Invoke(MapType);
         }
     }
 

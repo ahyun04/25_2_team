@@ -37,11 +37,11 @@ public class MapStateSystem : MonoBehaviour
 
         foreach (Map map in allMaps)
         {
-            if (map.FishHabitatType == FishHabitatType.Lake)
+            if (map.MapType == MapType.Lake)
                 _maps.Add(map);
-            else if (map.FishHabitatType == FishHabitatType.River)
+            else if (map.MapType == MapType.River)
                 _maps.Add(map);
-            else if (map.FishHabitatType == FishHabitatType.Ocean)
+            else if (map.MapType == MapType.Ocean)
                 _maps.Add(map);
         }
     }
@@ -49,19 +49,19 @@ public class MapStateSystem : MonoBehaviour
     #endregion
 
     #region 맵 선택
-    public void OnPlayerEnteredMap(FishHabitatType mapType)
+    public void OnPlayerEnteredMap(MapType mapType)
     {
         switch (mapType)
         {
-            case FishHabitatType.Lake:
+            case MapType.Lake:
                 SceneManager.Instance.LoadScene("LakeMiniGameScene");
                 Debug.Log("호수 낚시터 씬으로 이동!");
                 break;
-            case FishHabitatType.River:
+            case MapType.River:
                 SceneManager.Instance.LoadScene("RiverMiniGameScene");
                 Debug.Log("강 낚시터 씬으로 이동!");
                 break;
-            case FishHabitatType.Ocean:
+            case MapType.Ocean:
                 if (selectionPanel != null)
                 {
                     selectionPanel.SetActive(true);
@@ -71,6 +71,10 @@ public class MapStateSystem : MonoBehaviour
                 {
                     Debug.LogWarning("Selection Panel이 연결되지 않았습니다!");
                 }
+                break;
+            case MapType.Enhancement:
+                SceneManager.Instance.LoadScene("EnhancementScene");
+                Debug.Log("강 낚시터 씬으로 이동!");
                 break;
             default:
                 Debug.LogWarning($"'{mapType}'에 해당하는 씬이 없습니다.");

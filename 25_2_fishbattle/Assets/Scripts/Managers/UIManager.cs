@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     #region ÃÊ±âÈ­
     void Start()
     {
-        _closePanelButton.onClick.AddListener(() => _inventoryPanel.SetActive(false));
+        _closePanelButton.onClick.AddListener(ClosePanle);
     }
 
     private void Update()
@@ -100,6 +100,12 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void ClosePanle()
+    {
+        _inventoryPanel.SetActive(false);
+        ReleaseManager.Instance.CloseReleasePanle();
     }
     #endregion
 }

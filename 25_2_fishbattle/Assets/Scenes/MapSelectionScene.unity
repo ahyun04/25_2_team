@@ -4856,7 +4856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b40bb3ad50a72642a994cc2e38c29d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapType: 0
+  MapType: 2
   mapName: OceanMiniGameScene
   mapEvents:
     OnMapEntered:
@@ -23596,7 +23596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b40bb3ad50a72642a994cc2e38c29d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapType: 0
+  MapType: 1
   mapName: RiverMiniGameScene
   mapEvents:
     OnMapEntered:

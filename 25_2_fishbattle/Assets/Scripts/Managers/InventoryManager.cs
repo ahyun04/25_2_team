@@ -24,6 +24,7 @@ public class InventoryManager : SingletonMono<InventoryManager>
         if (!_game.IsFishing && Input.GetKeyDown(KeyCode.I))
         {
             ToggleInventory();
+            ReleaseManager.Instance.CloseReleasePanle();
         }
     }
 

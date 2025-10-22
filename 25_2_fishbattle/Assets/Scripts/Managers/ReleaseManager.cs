@@ -128,6 +128,10 @@ public class ReleaseManager : SingletonMono<ReleaseManager>
         Debug.Log($"전체({currentCount}마리) 방생 완료");
     }
 
-
+    public void CloseReleasePanle()
+    {
+        _releaseConfirmPanel.SetActive(false);
+        _releaseAmountPanel.SetActive(false);
+    }
     #endregion
 }

@@ -108,10 +108,7 @@ public class SceneManager : SingletonMono<SceneManager>
     #endregion
 
     #region 씬 로딩
-
-    /// <summary>
-    /// 기본 씬 로딩 (로딩 화면 없음)
-    /// </summary>
+    // 기본 씬 로딩 (로딩 화면 없음)
     public void LoadScene(string sceneName)
     {
         if (isLoading)
@@ -132,9 +129,7 @@ public class SceneManager : SingletonMono<SceneManager>
         }
     }
 
-    /// <summary>
-    /// 로딩 화면을 사용한 씬 로딩
-    /// </summary>
+    // 로딩 화면을 사용한 씬 로딩
     public void LoadSceneWithLoadingScreen(string sceneName)
     {
         if (isLoading)
@@ -147,9 +142,7 @@ public class SceneManager : SingletonMono<SceneManager>
         StartCoroutine(LoadSceneWithLoading(sceneName));
     }
 
-    /// <summary>
-    /// 페이드 효과와 함께 씬 로딩
-    /// </summary>
+    // 페이드 효과와 함께 씬 로딩
     private IEnumerator LoadSceneWithFade(string sceneName)
     {
         isLoading = true;
@@ -167,9 +160,7 @@ public class SceneManager : SingletonMono<SceneManager>
         isLoading = false;
     }
 
-    /// <summary>
-    /// 로딩 화면을 사용한 씬 로딩
-    /// </summary>
+    // 로딩 화면을 사용한 씬 로딩
     private IEnumerator LoadSceneWithLoading(string sceneName)
     {
         isLoading = true;
@@ -215,9 +206,7 @@ public class SceneManager : SingletonMono<SceneManager>
         isLoading = false;
     }
 
-    /// <summary>
-    /// 비동기 씬 로딩
-    /// </summary>
+    // 비동기 씬 로딩
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
@@ -233,7 +222,7 @@ public class SceneManager : SingletonMono<SceneManager>
 
     #endregion
 
-    #region 페에드 이펙트
+    #region 페이드 이펙트
 
     private IEnumerator FadeIn()
     {

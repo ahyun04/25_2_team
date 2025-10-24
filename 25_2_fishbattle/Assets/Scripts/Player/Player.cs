@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     private bool _isMoving = false;
     public Animator _animator;
 
+    private Rigidbody _rb;
+    private Vector3 _moveInput;
+
     [System.Serializable]
     public class PlayerEvents 
     {
@@ -29,6 +32,12 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _animator = GetComponentInChildren<Animator>();
+        _rb = GetComponent<Rigidbody>();
+
+        if (_rb == null) 
+            Debug.LogError("Player에 Rigidbody 컴포넌트가 없습니다!");
+
+        _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     #endregion
@@ -36,40 +45,54 @@ public class Player : MonoBehaviour
     #region 업데이트
     private void Update()
     {
+        HandleInputAndAnimation();
+    }
+
+    private void FixedUpdate()
+    {
         HandleMovement();
     }
 
     #endregion
 
     #region 움직임
-    private void HandleMovement()
+
+    private void HandleInputAndAnimation()
     {
-        // 입력 받기
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 moveDirection = new Vector3(horizontal, 0, vertical);
+        _moveInput = new Vector3(horizontal, 0, vertical).normalized;
 
-        if (moveDirection.magnitude > 0.1f)
+        if (_moveInput.magnitude > 0.1f)
         {
             if (!_isMoving)
                 StartMoving();
-
-            // 이동 처리
-            moveDirection = moveDirection.normalized;
-            transform.Translate(moveDirection * _moveSpeed * Time.deltaTime, Space.World);
-
-            // 회전 처리
-            if (moveDirection != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
-            }
         }
         else
         {
             if (_isMoving)
                 StopMoving();
+        }
+    }
+    private void HandleMovement()
+    {
+        // 입력이 없으면 이동/회전 처리 안함
+        if (_moveInput.magnitude < 0.1f) return;
+
+        // 이동 처리
+        // Space.World (월드 좌표 기준) 이동을 위해 현재 위치에서 더함
+        Vector3 newPosition = _rb.position + _moveInput * _moveSpeed * Time.fixedDeltaTime;
+        _rb.MovePosition(newPosition);
+
+        // 회전 처리
+        if (_moveInput != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(_moveInput);
+
+            // 더 부드러운 물리 회전
+            Quaternion newRotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            _rb.MoveRotation(newRotation);
         }
     }
 

@@ -7,6 +7,7 @@ public class PlayerHandController : MonoBehaviour
 {
     #region 레퍼런스
     private UIManager _UIManager;
+    private CardActionHandler _cardActionHandler;
 
     [Header("블러")]
     public GameObject _blurBackGround;
@@ -30,6 +31,7 @@ public class PlayerHandController : MonoBehaviour
     private void Start()
     {
         _UIManager = FindObjectOfType<UIManager>();
+        _cardActionHandler = GetComponent<CardActionHandler>();
     }
 
     private void Update()
@@ -85,7 +87,8 @@ public class PlayerHandController : MonoBehaviour
                 _blurBackGround.SetActive(false);
                 _UIManager.SetAllBattleAndBenchCardTooltips(true);
                 _isHandExpanded = false;
-                UnfocusCard();
+                ClearFocusState();
+                _cardActionHandler.RearrangeHand(true);
             }
         }
         // 아무것도 클릭하지 않았을 때도, "손패가 확장된 상태일 때만"
@@ -97,7 +100,8 @@ public class PlayerHandController : MonoBehaviour
             _blurBackGround.SetActive(false);
             _UIManager.SetAllBattleAndBenchCardTooltips(true);
             _isHandExpanded = false;
-            UnfocusCard();
+            ClearFocusState();
+            _cardActionHandler.RearrangeHand(true);
         }
     }
 
@@ -190,6 +194,26 @@ public class PlayerHandController : MonoBehaviour
             _currentFocusedCard.transform.DOMove(_lastFocusedCardOriginalPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
 
             _UIManager.SetTooltipForCard(_currentFocusedCard, false, false);
+            _currentFocusedCard = null;
+        }
+
+        // 모든 손패 카드의 레이어를 다시 Render(9)로 복구
+        foreach (var cardObj in CardManager.Instance.playerCardObjects)
+        {
+            if (cardObj != null)
+            {
+                cardObj.layer = 9; // Render 레이어
+            }
+        }
+    }
+
+    private void ClearFocusState()
+    {
+        if (_currentFocusedCard != null)
+        {
+            // 툴팁 끄기
+            _UIManager.SetTooltipForCard(_currentFocusedCard, false, false);
+            // 참조 해제
             _currentFocusedCard = null;
         }
 

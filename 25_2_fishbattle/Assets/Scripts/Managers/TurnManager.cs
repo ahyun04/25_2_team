@@ -25,6 +25,8 @@ public class TurnManager : SingletonMono<TurnManager>
     [SerializeField] private int maxAP = 5;
     private int turnCount = 0;
 
+    private bool _isSwitchingTurns = false;
+
     private CardManager _cardManager;
     private EnemyAI_Controller _enemyAIController;
     private UIManager _uiManager;
@@ -91,6 +93,12 @@ public class TurnManager : SingletonMono<TurnManager>
             PlayerAP = Mathf.Min(PlayerAP + 1, maxAP);
 
         _cardManager.OnTurnStart(true);
+
+        _isSwitchingTurns = false;
+        if (_uiManager != null)
+        {
+            _uiManager.SetButtonUIsForPlayerTurn(true);
+        }
     }
 
     public void StartEnemyTurn()
@@ -103,8 +111,13 @@ public class TurnManager : SingletonMono<TurnManager>
 
         _cardManager.OnTurnStart(false);
 
+        if (_uiManager != null)
+        {
+            _uiManager.SetButtonUIsForPlayerTurn(false); // 적 턴이므로 비활성화 (잠금)
+        }
+
         // AI 실행
-        _enemyAIController.ExecuteTurn();
+        _enemyAIController.ExecuteTurn(); 
     }
 
     #endregion
@@ -243,15 +256,23 @@ public class TurnManager : SingletonMono<TurnManager>
             return;
         }
 
+        if (_isSwitchingTurns)
+        {
+            Debug.Log("턴 전환 중에는 공격할 수 없습니다.");
+            return;
+        }
+
         // CardManager의 공격 코루틴을 실행합니다.
         StartCoroutine(PlayerAttackRoutine());
     }
 
-    /// <summary> 턐 종료(외부 버튼) — 플레이어가 종료하면 적 턴 시작, 적이 종료하면 플레이어 턴 시작 </summary>
     public void EndTurn()
     {
         if (CurrentTurn == TeamTurn.Player)
         {
+            if (_isSwitchingTurns) return;
+            _isSwitchingTurns = true;
+
             Debug.Log("플레이어 턴 종료 -> 적 턴 시작");
             StartEnemyTurn();
         }

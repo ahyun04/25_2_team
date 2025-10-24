@@ -22,12 +22,29 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _playerKillCountText;
     [SerializeField] private TextMeshProUGUI _enemyKillCountText;
 
+    [Header("턴 종료 버튼")]
+    [SerializeField] private Button _endTurnButton;
+    [SerializeField] private GameObject _endTurnLockOverlay;
+
+    [Header("공격 버튼")]
+    [SerializeField] private Button _attackButton;
+    [SerializeField] private GameObject _attackLockOverlay;
+
     #endregion
 
     #region 초기화
     void Start()
     {
-        _closePanelButton.onClick.AddListener(ClosePanle);
+        if (_closePanelButton != null)
+            _closePanelButton.onClick.AddListener(ClosePanle);
+
+        if (_endTurnButton != null) 
+            _endTurnButton.onClick.AddListener(OnEndTurnButtonClicked);
+
+        if (_attackButton != null)
+            _attackButton.onClick.AddListener(OnAttackButtonClicked);
+
+        SetButtonUIsForPlayerTurn(true);
     }
 
     private void Update()
@@ -42,6 +59,39 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region UI 업데이트 메서드
+    private void OnEndTurnButtonClicked()
+    {
+        TurnManager.Instance.EndTurn();
+    }
+
+    private void OnAttackButtonClicked()
+    {
+        TurnManager.Instance.OnAttackButtonClicked();
+    }
+
+    public void SetButtonUIsForPlayerTurn(bool isPlayerTurn)
+    {
+        // 버튼 자체의 상호작용 가능 여부
+        if (_endTurnButton != null)
+        {
+            _endTurnButton.interactable = isPlayerTurn;
+        }
+        if (_attackButton != null)
+        {
+            _attackButton.interactable = isPlayerTurn;
+        }
+
+        // 잠금 오버레이 활성화/비활성화
+        if (_endTurnLockOverlay != null)
+        {
+            _endTurnLockOverlay.SetActive(!isPlayerTurn); // 플레이어 턴이 아니면 잠금 활성화
+        }
+        if (_attackLockOverlay != null)
+        {
+            _attackLockOverlay.SetActive(!isPlayerTurn); // 플레이어 턴이 아니면 잠금 활성화
+        }
+    }
+
     public void UpdateAPText()
     {
         _playerAPText.text = $"AP: {TurnManager.Instance.PlayerAP} / 5";

@@ -6,7 +6,7 @@ public class EnemyReplacingUnitsState : EnemyBaseState
 {
     public override IEnumerator ExecuteState(EnemyAI_Controller context)
     {
-        // [주석 추가] 벤치 유닛을 배틀 필드로 올릴지 말지 '고민'하는 시간을 표현하는 딜레이
+        // 벤치 유닛을 배틀 필드로 올릴지 말지 '고민'하는 시간을 표현하는 딜레이
         yield return new WaitForSeconds(1.0f);
 
         // 적 배틀 슬롯 배열을 순회합니다.

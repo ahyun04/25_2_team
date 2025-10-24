@@ -85,6 +85,8 @@ public class FishingMiniGame : MonoBehaviour
     #region 낚시 흐름
     private void StartFishing()
     {
+        if (!MiniGameManager.TryStartMiniGame()) return;
+
         _startFishingButton.gameObject.SetActive(false);
 
         if (_fishingCoroutine == null)
@@ -142,6 +144,8 @@ public class FishingMiniGame : MonoBehaviour
             _startFishingButton.gameObject.SetActive(true);
             _isFishing = false;
             _fishingCoroutine = null;
+
+            MiniGameManager.EndMiniGame();
         }
 
         _isBobberHit = false;
@@ -242,13 +246,17 @@ public class FishingMiniGame : MonoBehaviour
 
                 _putInBoxButton.onClick.RemoveAllListeners(); 
                 _putInBoxButton.onClick.AddListener(() => PutFishInInventory());
+
+                _barObj.SetActive(false);
+                _bobberHitText.text = "";
+                if (_currentRedRect != null) { Destroy(_currentRedRect.gameObject); _currentRedRect = null; }
+                if (_currentTargetRect != null) { Destroy(_currentTargetRect.gameObject); _currentTargetRect = null; }
             }
             else
             {
                 Debug.Log("실패!");
+                EndMiniGame();
             }
-
-            EndMiniGame();
         }
     }
 
@@ -257,7 +265,6 @@ public class FishingMiniGame : MonoBehaviour
         if (_caughtFishSO == null) return;
 
         var inventorySystem = _playerInventory.InventorySystem;
-        Debug.Log($"이벤트 리스너 수: {inventorySystem.OnInventorySlotChanged?.GetInvocationList().Length}");
         bool added = false;
 
         foreach (var slot in inventorySystem.InventorySlots)
@@ -297,6 +304,10 @@ public class FishingMiniGame : MonoBehaviour
         }
 
         _hookAFishPanel.gameObject.SetActive(false);
+
+        _startFishingButton.gameObject.SetActive(true);
+        _fishingCoroutine = null;
+        MiniGameManager.EndMiniGame();
     }
 
     // 미니게임 종료 처리
@@ -319,6 +330,8 @@ public class FishingMiniGame : MonoBehaviour
 
         _startFishingButton.gameObject.SetActive(true);
         _fishingCoroutine = null;
+
+        MiniGameManager.EndMiniGame();
     }
 
     #endregion

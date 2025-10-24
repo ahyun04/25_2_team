@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3555267154773303165}
   - component: {fileID: 8072682632212932683}
   m_Layer: 0
-  m_Name: MapSelctionMenuUI
+  m_Name: ESCMenuUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

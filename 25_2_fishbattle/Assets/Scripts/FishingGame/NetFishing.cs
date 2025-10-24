@@ -61,6 +61,8 @@ public class NetFishing : MonoBehaviour
     // 그물 낚시 시작
     public void StartNetFishing()
     {
+        if (!MiniGameManager.TryStartMiniGame()) return;
+
         if (_netFishingCoroutine == null)
         {
             _netFishingCoroutine = StartCoroutine(FishingWithNetRoutine());
@@ -198,6 +200,8 @@ public class NetFishing : MonoBehaviour
     {
         _statusText.text = "";
         _netFishingCoroutine = null;
+
+        MiniGameManager.EndMiniGame();
     }
 
     public void AddNetFishToInventory()

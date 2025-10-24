@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MapSelctionMenuUI : MonoBehaviour
+public class ESCMenuUI : MonoBehaviour
 {
     public GameObject ESC_Panel;
 

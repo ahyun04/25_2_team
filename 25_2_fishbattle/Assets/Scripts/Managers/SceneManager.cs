@@ -309,6 +309,12 @@ public class SceneManager : SingletonMono<SceneManager>
         currentSceneName = scene.name;
         LoadingProgress = 0f;
 
+        if (Time.timeScale == 0f)
+        {
+            Debug.LogWarning("Time.timeScale이 0인 상태로 씬이 로드되어 1로 복구합니다.");
+            Time.timeScale = 1f;
+        }
+
         // SceneConfig가 GameState를 처리하도록 이벤트만 발생
         GameEvents.SceneChanged(currentSceneName);
 

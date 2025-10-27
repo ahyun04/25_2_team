@@ -1715,6 +1715,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_17_Spring (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7090469869769311035, guid: 68615dc7459e15c439e908a0fb0eca20,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2550,6 +2555,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6543207145389071558, guid: eb16140d76ecc904c86e523ad605c503,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4584,6 +4594,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_17_Spring (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7090469869769311035, guid: 68615dc7459e15c439e908a0fb0eca20,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4684,6 +4699,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7212931895794114193, guid: 3e415568e5f2caa4f87553e1ab9fb039,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6621,6 +6641,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1705849801}
     m_Modifications:
+    - target: {fileID: 3215642217904897343, guid: 32e2aecb1d2cba641997bda967720e93,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     - target: {fileID: 7057614784337283787, guid: 32e2aecb1d2cba641997bda967720e93,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -7004,6 +7029,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_17_Spring (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7090469869769311035, guid: 68615dc7459e15c439e908a0fb0eca20,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13795,6 +13825,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5287939142792861866, guid: 32e1404801021c445bee568a78fb9af5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     - target: {fileID: 5578301725833216484, guid: 32e1404801021c445bee568a78fb9af5,
         type: 3}
       propertyPath: m_Name
@@ -14858,6 +14893,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_29_Spring
       objectReference: {fileID: 0}
+    - target: {fileID: 926531288176161166, guid: e7650fa4a2f1e3d4fb5f48ed62ac5239,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     - target: {fileID: 933757459451184342, guid: e7650fa4a2f1e3d4fb5f48ed62ac5239,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -15388,6 +15428,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7212931895794114193, guid: 3e415568e5f2caa4f87553e1ab9fb039,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16915,6 +16960,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_17_Spring
       objectReference: {fileID: 0}
+    - target: {fileID: 7090469869769311035, guid: 68615dc7459e15c439e908a0fb0eca20,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18665,6 +18715,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_17_Spring (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7090469869769311035, guid: 68615dc7459e15c439e908a0fb0eca20,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20696,6 +20751,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7212931895794114193, guid: 3e415568e5f2caa4f87553e1ab9fb039,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22764,6 +22824,11 @@ PrefabInstance:
       value: 0.102
       objectReference: {fileID: 0}
     - target: {fileID: 4083085731947448298, guid: cb0a24110a297cb4d8fcbcefcc318f43,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f83f044840020c48b72c183913f16ee, type: 2}
+    - target: {fileID: 8865715584636215676, guid: cb0a24110a297cb4d8fcbcefcc318f43,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

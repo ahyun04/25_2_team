@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 10.0f;
     private bool _isMoving = false;
     public Animator _animator;
-    public Animator _buketAnimator;
-    public Animator _fishStickAnimator;
+    /*public Animator _buketAnimator;
+    public Animator _fishStickAnimator;*/
 
     private Rigidbody _rb;
     private Vector3 _moveInput;
@@ -116,15 +116,15 @@ public class Player : MonoBehaviour
     private void WalkAnimator()
     {
         _animator.SetBool("Walk", true);
-        _buketAnimator.SetBool("Walk", true);
-        _fishStickAnimator.SetBool("Walk", true);
+        /*_buketAnimator.SetBool("Walk", true);
+        _fishStickAnimator.SetBool("Walk", true);*/
     }
 
     public void IdleAnimator()
     {
         _animator.SetBool("Walk", false);
-        _buketAnimator.SetBool("Walk", false);
-        _fishStickAnimator.SetBool("Walk", false);
+        /*_buketAnimator.SetBool("Walk", false);
+        _fishStickAnimator.SetBool("Walk", false);*/
     }
 
     #endregion

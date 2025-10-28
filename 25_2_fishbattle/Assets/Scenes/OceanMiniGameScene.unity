@@ -5126,10 +5126,10 @@ MonoBehaviour:
   _releaseAmountPanel: {fileID: 2111451319}
   _releasedText: {fileID: 1532492914}
   _amountInputField: {fileID: 1668956505}
-  _confirmAmountButton: {fileID: 0}
-  _confirmYesButton: {fileID: 0}
-  _confirmNoButton: {fileID: 0}
-  _confirmAllReleaseButton: {fileID: 0}
+  _confirmAmountButton: {fileID: 1834635816}
+  _confirmYesButton: {fileID: 1738726689}
+  _confirmNoButton: {fileID: 1449348735}
+  _confirmAllReleaseButton: {fileID: 1019091718}
 --- !u!4 &1690723657
 Transform:
   m_ObjectHideFlags: 0

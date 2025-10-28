@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 10.0f;
     private bool _isMoving = false;
     public Animator _animator;
+    public Animator _buketAnimator;
+    public Animator _fishStickAnimator;
 
     private Rigidbody _rb;
     private Vector3 _moveInput;
@@ -36,8 +38,6 @@ public class Player : MonoBehaviour
 
         if (_rb == null) 
             Debug.LogError("Player에 Rigidbody 컴포넌트가 없습니다!");
-
-        _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     #endregion
@@ -102,15 +102,29 @@ public class Player : MonoBehaviour
     private void StartMoving()
     {
         _isMoving = true;
-        _animator.SetBool("Walk", true);
+        WalkAnimator();
         playerEvents.OnMoveStarted?.Invoke();
     }
 
     private void StopMoving()
     {
         _isMoving = false;
-        _animator.SetBool("Walk", false);
+        IdleAnimator();
         playerEvents.OnMoveStoped?.Invoke();
+    }
+
+    private void WalkAnimator()
+    {
+        _animator.SetBool("Walk", true);
+        _buketAnimator.SetBool("Walk", true);
+        _fishStickAnimator.SetBool("Walk", true);
+    }
+
+    public void IdleAnimator()
+    {
+        _animator.SetBool("Walk", false);
+        _buketAnimator.SetBool("Walk", false);
+        _fishStickAnimator.SetBool("Walk", false);
     }
 
     #endregion

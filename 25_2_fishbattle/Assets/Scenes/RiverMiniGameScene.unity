@@ -11429,10 +11429,10 @@ MonoBehaviour:
   _releaseAmountPanel: {fileID: 2002638642}
   _releasedText: {fileID: 780872687}
   _amountInputField: {fileID: 779860256}
-  _confirmAmountButton: {fileID: 0}
-  _confirmYesButton: {fileID: 0}
-  _confirmNoButton: {fileID: 0}
-  _confirmAllReleaseButton: {fileID: 0}
+  _confirmAmountButton: {fileID: 1276351542}
+  _confirmYesButton: {fileID: 859176087}
+  _confirmNoButton: {fileID: 1081413326}
+  _confirmAllReleaseButton: {fileID: 324783135}
 --- !u!4 &1690723657
 Transform:
   m_ObjectHideFlags: 0

@@ -11,9 +11,7 @@ public class SceneLightingSetup : MonoBehaviour
     void Start()
     {
         if (SkyboxManager.Instance != null)
-        {
             SkyboxManager.Instance.SetSkybox(sceneSkybox);
-        }
         else
         {
             Debug.LogError("SkyboxManager가 씬에 존재하지 않습니다! 첫 씬에 SkyboxManager를 배치했는지 확인하세요.");

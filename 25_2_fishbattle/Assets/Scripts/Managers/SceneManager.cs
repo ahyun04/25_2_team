@@ -27,6 +27,8 @@ public class SceneManager : SingletonMono<SceneManager>
     [SerializeField] private float _fadeSpeed = 1f;
     [SerializeField] private Color _fadeColor = Color.black;
 
+    private Dictionary<string, Vector3> _lastPlayerPositions = new Dictionary<string, Vector3>();
+
     private string currentSceneName;
     private string targetSceneName;
     private bool isLoading = false;
@@ -117,6 +119,8 @@ public class SceneManager : SingletonMono<SceneManager>
             return;
         }
 
+        TrySavePlayerPosition();
+
         targetSceneName = sceneName;
 
         if (useFadeEffect)
@@ -137,6 +141,8 @@ public class SceneManager : SingletonMono<SceneManager>
             Debug.LogWarning("이미 씬 로딩 중입니다.");
             return;
         }
+
+        TrySavePlayerPosition();
 
         targetSceneName = sceneName;
         StartCoroutine(LoadSceneWithLoading(sceneName));
@@ -326,6 +332,44 @@ public class SceneManager : SingletonMono<SceneManager>
         Debug.Log($"씬 언로드 완료: {scene.name}");
     }
 
+    #endregion
+
+    #region 플레이어 위치 저장/불러오기
+    // 현재 씬의 플레이어 위치를 딕셔너리에 저장합니다.
+    public void SavePlayerPosition(Vector3 position)
+    {
+        string sceneName = GetCurrentSceneName();
+        if (string.IsNullOrEmpty(sceneName)) return;
+
+        _lastPlayerPositions[sceneName] = position;
+        Debug.Log($"[{sceneName}] 씬의 플레이어 위치 저장: {position}");
+    }
+
+    // 현재 씬의 저장된 위치를 불러오고, 딕셔너리에서 삭제합니다.
+    // 저장된 위치가 있으면 Vector3, 없으면 null
+    public Vector3? GetAndClearSavedPosition()
+    {
+        string sceneName = GetCurrentSceneName();
+        if (string.IsNullOrEmpty(sceneName)) return null;
+
+        if (_lastPlayerPositions.TryGetValue(sceneName, out Vector3 position))
+        {
+            Debug.Log($"[{sceneName}] 씬의 저장된 위치 불러오기: {position}");
+            _lastPlayerPositions.Remove(sceneName);
+            return position;
+        }
+
+        return null; // 저장된 위치 없음
+    }
+
+    // 씬을 떠나기 직전, 현재 씬의 플레이어 위치를 저장하려고 시도합니다.
+    private void TrySavePlayerPosition()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+
+        if (player != null)
+            SavePlayerPosition(player.transform.position);
+    }
     #endregion
 
     #region 유틸리티

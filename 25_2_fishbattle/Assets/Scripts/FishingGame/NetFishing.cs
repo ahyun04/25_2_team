@@ -18,7 +18,7 @@ public class NetFishing : MonoBehaviour
     [SerializeField] private float _maxWaitTime = 15f;          // 최대 대기 시간
     [SerializeField] private float _reactionTimeLimit = 2f;     // 반응해야 하는 시간
     [SerializeField] private float _mashTimeLimit = 10f;        // 연타 제한 시간
-    [SerializeField] private int _mashTarget = 100;             // 목표 연타 횟수
+    [SerializeField] private int _mashTarget = 60;             // 목표 연타 횟수
     [SerializeField] private int _catchAmount = 10;             // 잡을 물고기 수
 
     [Header("결과 창 UI")]

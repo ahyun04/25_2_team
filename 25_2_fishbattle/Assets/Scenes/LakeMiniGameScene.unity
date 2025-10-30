@@ -11686,7 +11686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &953372161
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25314,6 +25314,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NetFishing
+      objectReference: {fileID: 0}
+    - target: {fileID: 1728333904354648334, guid: ae3d0da44248c4b4699d9120250acf28,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3502463131420107365, guid: ae3d0da44248c4b4699d9120250acf28,
         type: 3}

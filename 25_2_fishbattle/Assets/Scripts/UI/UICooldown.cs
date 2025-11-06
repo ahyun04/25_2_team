@@ -8,13 +8,16 @@ public class UICooldown : MonoBehaviour
     [Header("UI 레퍼런스")]
     [SerializeField] private Image _netCooldownImage;
     [SerializeField] private Image _trapCooldownImage;
+    [SerializeField] private Image _generalCooldownImage; 
     [SerializeField] private TextMeshProUGUI _netCooldownText;
     [SerializeField] private Button _netButton;
     [SerializeField] private Button _fishTrapButton;
+    [SerializeField] private Button _generalFishingButton; 
 
     [Header("제어할 스크립트")]
     [SerializeField] private NetFishing _netFishing;
     [SerializeField] private FishTrapManager _fishTrapManager;
+    [SerializeField] private FishingMiniGame _fishingMiniGame; 
 
     #endregion
 
@@ -24,8 +27,12 @@ public class UICooldown : MonoBehaviour
         if (_netCooldownImage) _netCooldownImage.gameObject.SetActive(false);
         if (_netCooldownText) _netCooldownText.gameObject.SetActive(false);
         if (_trapCooldownImage) _trapCooldownImage.gameObject.SetActive(false);
-    }
+        if (_generalCooldownImage) _generalCooldownImage.gameObject.SetActive(false); 
 
+        _netButton.onClick.AddListener(OnNetButtonClick);
+        _fishTrapButton.onClick.AddListener(OnTrapButtonClick);
+        _generalFishingButton.onClick.AddListener(OnGeneralFishingClick);
+    }
     #endregion
 
     #region 구독
@@ -33,8 +40,10 @@ public class UICooldown : MonoBehaviour
     {
         if (FishingHolder.Instance != null)
         {
-            UpdateUI();
+            FishingHolder.Instance.FishingSystem.OnFishingStateChanged += UpdateUI;
         }
+
+        UpdateUI();
     }
 
     private void OnDisable()
@@ -44,56 +53,57 @@ public class UICooldown : MonoBehaviour
             FishingHolder.Instance.FishingSystem.OnFishingStateChanged -= UpdateUI;
         }
     }
-
     #endregion
 
-    #region 초기화
-    void Start()
+    #region 버튼 클릭 핸들러
+    private void OnNetButtonClick()
     {
-        if (FishingHolder.Instance != null)
+        if (FishingHolder.Instance.FishingSystem.CanUseNet())
         {
-            FishingHolder.Instance.FishingSystem.OnFishingStateChanged += UpdateUI;
+            _netFishing.StartNetFishing();
         }
+    }
 
-        _netButton.onClick.AddListener(() => {
-            if (FishingHolder.Instance.FishingSystem.CanUseNet())
-            {
-                _netFishing.StartNetFishing();
-            }
-        });
+    private void OnTrapButtonClick()
+    {
+        var system = FishingHolder.Instance.FishingSystem;
+        if (system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect)
+        {
+            _fishTrapManager.CollectAndShowResult();
+        }
+        else if (system.CanStartTrap())
+        {
+            system.StartTrap();
+        }
+    }
 
-        _fishTrapButton.onClick.AddListener(() => {
-            var system = FishingHolder.Instance.FishingSystem;
-            if (system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect)
-            {
-                _fishTrapManager.CollectAndShowResult();
-            }
-            else if (system.CanStartTrap())
-            {
-                system.StartTrap();
-            }
-        });
-
-        UpdateUI();
+    private void OnGeneralFishingClick()
+    {
+        _fishingMiniGame.StartFishing();
     }
 
     #endregion
 
     #region 업데이트 UI
+    private void Update()
+    {
+        UpdateUI();
+    }
+
     private void UpdateUI()
     {
         if (FishingHolder.Instance == null) return;
 
         var system = FishingHolder.Instance.FishingSystem;
-        _netButton.interactable = system.CanUseNet();
 
+        // 그물 낚시
         bool isNetOnCooldown = system.IsNetOnCooldown;
         _netCooldownImage.gameObject.SetActive(isNetOnCooldown);
         _netCooldownText.gameObject.SetActive(isNetOnCooldown);
 
         if (isNetOnCooldown)
         {
-            _netCooldownImage.fillAmount = system.NetCooldownTimer / 15.0f;
+            _netCooldownImage.fillAmount = system.NetCooldownTimer / 15.0f; // 15.0f는 FishingSystem의 상수 사용 권장
             _netCooldownText.text = Mathf.RoundToInt(system.NetCooldownTimer).ToString();
         }
         else
@@ -101,9 +111,24 @@ public class UICooldown : MonoBehaviour
             _netCooldownImage.fillAmount = 0;
         }
 
-        _fishTrapButton.interactable = system.CanStartTrap() || system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect;
+        // 통발
+        bool canUseTrap = system.CanStartTrap() || system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect;
+        _fishTrapButton.interactable = canUseTrap;
         _trapCooldownImage.gameObject.SetActive(system.IsTrapOnCooldown);
+
+        // 일반 낚시
+        if (_fishingMiniGame != null)
+        {
+            // 현재 일반 낚시 미니게임이 실행 중인지 확인
+            bool isGeneralActive = _fishingMiniGame.IsMiniGameRunning;
+
+            if (_generalCooldownImage)
+            {
+                _generalCooldownImage.gameObject.SetActive(isGeneralActive);
+                _generalCooldownImage.fillAmount = isGeneralActive ? 1 : 0;
+            }
+        }
     }
 
     #endregion
-}
+}   

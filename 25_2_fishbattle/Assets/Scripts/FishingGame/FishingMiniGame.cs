@@ -8,9 +8,6 @@ using TMPro;
 public class FishingMiniGame : MonoBehaviour
 {
     #region 레퍼런스
-    [Header("낚시 시작 버튼")]
-    [SerializeField] private Button _startFishingButton;
-
     [Header("코루틴")]
     private Coroutine _fishingCoroutine;
 
@@ -70,7 +67,6 @@ public class FishingMiniGame : MonoBehaviour
     void Start()
     {
         _playerInventory = FindObjectOfType<InventoryHolder>();
-        _startFishingButton.onClick.AddListener(StartFishing);
         _barObj.SetActive(false);
         _hookAFishPanel.gameObject.SetActive(false);
     }
@@ -83,11 +79,9 @@ public class FishingMiniGame : MonoBehaviour
     #endregion
 
     #region 낚시 흐름
-    private void StartFishing()
+    public void StartFishing()
     {
         if (!MiniGameManager.TryStartMiniGame()) return;
-
-        _startFishingButton.gameObject.SetActive(false);
 
         if (_fishingCoroutine == null)
         {
@@ -141,7 +135,6 @@ public class FishingMiniGame : MonoBehaviour
             Debug.Log("놓쳤다..");
             _bobberHitText.text = "";
             _bobberHitText.gameObject.SetActive(false);
-            _startFishingButton.gameObject.SetActive(true);
             _isFishing = false;
             _fishingCoroutine = null;
 
@@ -304,8 +297,6 @@ public class FishingMiniGame : MonoBehaviour
         }
 
         _hookAFishPanel.gameObject.SetActive(false);
-
-        _startFishingButton.gameObject.SetActive(true);
         _fishingCoroutine = null;
         MiniGameManager.EndMiniGame();
     }
@@ -328,7 +319,6 @@ public class FishingMiniGame : MonoBehaviour
             _currentTargetRect = null;
         }
 
-        _startFishingButton.gameObject.SetActive(true);
         _fishingCoroutine = null;
 
         MiniGameManager.EndMiniGame();

@@ -1,4 +1,3 @@
-// FishTrapManager.cs (완전히 교체)
 using UnityEngine;
 using TMPro;
 using System.Collections;

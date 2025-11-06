@@ -94,20 +94,31 @@ public class UICooldown : MonoBehaviour
     {
         if (FishingHolder.Instance == null) return;
 
+        bool isAnyActiveMiniGameRunning = MiniGameManager.IsMiniGameRunning;
+
         var system = FishingHolder.Instance.FishingSystem;
+
+        bool isNetActive = _netFishing != null && _netFishing.IsMiniGameRunning;
 
         // 그물 낚시
         bool isNetOnCooldown = system.IsNetOnCooldown;
-        _netCooldownImage.gameObject.SetActive(isNetOnCooldown);
+        _netCooldownImage.gameObject.SetActive(isNetActive || isNetOnCooldown);
         _netCooldownText.gameObject.SetActive(isNetOnCooldown);
 
         if (isNetOnCooldown)
         {
-            _netCooldownImage.fillAmount = system.NetCooldownTimer / 15.0f; // 15.0f는 FishingSystem의 상수 사용 권장
+            // '시스템 쿨타임'일 때: fillAmount 감소, 텍스트 표시
+            _netCooldownImage.fillAmount = system.NetCooldownTimer / 15.0f;
             _netCooldownText.text = Mathf.RoundToInt(system.NetCooldownTimer).ToString();
+        }
+        else if (isNetActive)
+        {
+            // '미니게임 실행 중'일 때: fillAmount 100%, 텍스트 숨김
+            _netCooldownImage.fillAmount = 1;
         }
         else
         {
+            // 둘 다 아닐 때
             _netCooldownImage.fillAmount = 0;
         }
 

@@ -390,4 +390,19 @@ public class FishingMiniGame : MonoBehaviour
     }
 
     #endregion
+
+    #region 씬 변경 처리
+    private void OnDisable()
+    {
+        // 만약 일반 낚시 코루틴이 여전히 실행 중이었다면
+        if (_fishingCoroutine != null)
+        {
+            Debug.Log("FishingMiniGame이 비활성화/파괴되어 미니게임을 강제 종료합니다.");
+            // 상태 플래그와 매니저 플래그 리셋
+            _fishingCoroutine = null;
+            MiniGameManager.EndMiniGame();
+        }
+    }
+
+    #endregion
 }

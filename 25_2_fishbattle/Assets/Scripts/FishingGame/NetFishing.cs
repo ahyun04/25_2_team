@@ -234,4 +234,20 @@ public class NetFishing : MonoBehaviour
     }
 
     #endregion
+
+    #region 씬 변경 처리
+    private void OnDisable()
+    {
+        // 만약 그물 낚시 코루틴이 여전히 실행 중이었다면
+        if (_netFishingCoroutine != null)
+        {
+            Debug.Log("NetFishing이 비활성화/파괴되어 미니게임을 강제 종료합니다.");
+            // 코루틴은 오브젝트 파괴 시 자동으로 멈추므로, 
+            // 상태 플래그와 매니저 플래그만 리셋합니다.
+            _netFishingCoroutine = null;
+            MiniGameManager.EndMiniGame();
+        }
+    }
+
+    #endregion
 }

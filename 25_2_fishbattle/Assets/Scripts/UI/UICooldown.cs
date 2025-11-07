@@ -67,12 +67,31 @@ public class UICooldown : MonoBehaviour
     private void OnTrapButtonClick()
     {
         var system = FishingHolder.Instance.FishingSystem;
+
+        // 수확 대기 중
         if (system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect)
         {
+            // 다른 미니게임이 실행 중인지 확인
+            if (MiniGameManager.IsMiniGameRunning)
+            {
+                MiniGameManager.TryStartMiniGame();
+                return;
+            }
+
+            // 다른 미니게임이 없다면, 즉시 수확
             _fishTrapManager.CollectAndShowResult();
         }
+        // 통발 설치 가능 상태일 때
         else if (system.CanStartTrap())
         {
+            // 다른 미니게임이 실행 중인지 확인
+            if (MiniGameManager.IsMiniGameRunning)
+            {
+                MiniGameManager.TryStartMiniGame();
+                return;
+            }
+
+            // 다른 미니게임이 없다면, 통발 설치 시작
             system.StartTrap();
         }
     }

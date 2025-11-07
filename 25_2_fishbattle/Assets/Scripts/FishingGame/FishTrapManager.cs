@@ -44,8 +44,13 @@ public class FishTrapManager : MonoBehaviour
             _trapTimerText.gameObject.SetActive(true);
             _trapTimerText.text = $"통발 시간 : {Mathf.CeilToInt(system.TrapTimer)}초";
         }
-        else 
+        else if (system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect)
+        {
+            _trapTimerText.gameObject.SetActive(true);
             _trapTimerText.text = "대기 중";
+        }  
+        else
+            _trapTimerText.gameObject.SetActive(false);
 
         // 통발이 수확 가능 상태가 되면, 다른 낚시가 끝날 때까지 기다렸다가 결과창을 보여주는 코루틴을 시작
         if (system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect && !_isWaitingToShowResult)

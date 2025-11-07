@@ -44,10 +44,8 @@ public class FishTrapManager : MonoBehaviour
             _trapTimerText.gameObject.SetActive(true);
             _trapTimerText.text = $"통발 시간 : {Mathf.CeilToInt(system.TrapTimer)}초";
         }
-        else
-        {
-            _trapTimerText.gameObject.SetActive(false);
-        }
+        else 
+            _trapTimerText.text = "대기 중";
 
         // 통발이 수확 가능 상태가 되면, 다른 낚시가 끝날 때까지 기다렸다가 결과창을 보여주는 코루틴을 시작
         if (system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect && !_isWaitingToShowResult)
@@ -80,7 +78,7 @@ public class FishTrapManager : MonoBehaviour
         }
 
         Debug.Log("모든 낚시가 종료되었습니다. 통발 결과를 표시합니다.");
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
 
         // 데이터 시스템에 수확했다고 알림
         FishingHolder.Instance.FishingSystem.CollectTrap();

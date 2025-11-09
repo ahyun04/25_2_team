@@ -68,7 +68,7 @@ public class UICooldown : MonoBehaviour
     {
         var system = FishingHolder.Instance.FishingSystem;
 
-        // 수확 대기 중
+        // 수확 가능 상태(ReadyToCollect)일 때
         if (system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect)
         {
             // 다른 미니게임이 실행 중인지 확인
@@ -78,7 +78,7 @@ public class UICooldown : MonoBehaviour
                 return;
             }
 
-            // 다른 미니게임이 없다면, 즉시 수확
+            // 미니게임이 실행 중이 아니면 수확
             _fishTrapManager.CollectAndShowResult();
         }
         // 통발 설치 가능 상태일 때
@@ -91,7 +91,7 @@ public class UICooldown : MonoBehaviour
                 return;
             }
 
-            // 다른 미니게임이 없다면, 통발 설치 시작
+            // 미니게임이 실행 중이 아니면 설치
             system.StartTrap();
         }
     }
@@ -113,43 +113,43 @@ public class UICooldown : MonoBehaviour
     {
         if (FishingHolder.Instance == null) return;
 
-        bool isAnyActiveMiniGameRunning = MiniGameManager.IsMiniGameRunning;
+        bool isDeepSea = DeepSeaManager.Instance != null;
 
         var system = FishingHolder.Instance.FishingSystem;
 
         bool isNetActive = _netFishing != null && _netFishing.IsMiniGameRunning;
 
-        // 그물 낚시
+        // --- 그물 낚시 ---
         bool isNetOnCooldown = system.IsNetOnCooldown;
+        _netButton.interactable = system.CanUseNet() && !isDeepSea;
+
         _netCooldownImage.gameObject.SetActive(isNetActive || isNetOnCooldown);
         _netCooldownText.gameObject.SetActive(isNetOnCooldown);
 
         if (isNetOnCooldown)
         {
-            // '시스템 쿨타임'일 때: fillAmount 감소, 텍스트 표시
             _netCooldownImage.fillAmount = system.NetCooldownTimer / 15.0f;
             _netCooldownText.text = Mathf.RoundToInt(system.NetCooldownTimer).ToString();
         }
         else if (isNetActive)
         {
-            // '미니게임 실행 중'일 때: fillAmount 100%, 텍스트 숨김
             _netCooldownImage.fillAmount = 1;
         }
         else
         {
-            // 둘 다 아닐 때
             _netCooldownImage.fillAmount = 0;
         }
 
-        // 통발
+        // --- 통발 ---
         bool canUseTrap = system.CanStartTrap() || system.CurrentTrapState == FishingSystem.TrapState.ReadyToCollect;
-        _fishTrapButton.interactable = canUseTrap;
+        _fishTrapButton.interactable = canUseTrap && !isDeepSea;
         _trapCooldownImage.gameObject.SetActive(system.IsTrapOnCooldown);
 
-        // 일반 낚시
+        // --- 일반 낚시 ---
         if (_fishingMiniGame != null)
         {
-            // 현재 일반 낚시 미니게임이 실행 중인지 확인
+            _generalFishingButton.interactable = true;
+
             bool isGeneralActive = _fishingMiniGame.IsMiniGameRunning;
 
             if (_generalCooldownImage)

@@ -13523,7 +13523,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _resultText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1351032784}
     - target: {fileID: 3502463131420107365, guid: ae3d0da44248c4b4699d9120250acf28,
         type: 3}
       propertyPath: _statusText
@@ -13543,12 +13543,12 @@ PrefabInstance:
         type: 3}
       propertyPath: _resultPanel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1351032783}
     - target: {fileID: 3502463131420107365, guid: ae3d0da44248c4b4699d9120250acf28,
         type: 3}
       propertyPath: _contentParent
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1351032782}
     - target: {fileID: 3502463131420107365, guid: ae3d0da44248c4b4699d9120250acf28,
         type: 3}
       propertyPath: _mashCountText
@@ -13568,7 +13568,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _putInInventoryButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1351032785}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/OceanMiniGameScene.unity
     guid: da34f444e16fe794a8d5519c11bf55d4
   - enabled: 1
+    path: Assets/Scenes/DeepOceanMiniGameScene.unity
+    guid: 1b1aa76317df9be49bef7e79b528cca6
+  - enabled: 1
     path: Assets/Scenes/EnhancementScene.unity
     guid: 3f46bcc13f0e8a5479ad1032bf5aa273
   - enabled: 1

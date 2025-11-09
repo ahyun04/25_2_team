@@ -28,6 +28,7 @@ public class FishingMiniGame : MonoBehaviour
     [Header("미니게임 랜덤 최소/최대 값")]
     [SerializeField] private float _minWaitTime = 5f;           // 최소 대기 시간
     [SerializeField] private float _maxWaitTime = 15f;          // 최대 대기 시간
+    [SerializeField] private float chance = 1f;                 // 심해 가는 확률 (1f = 100%)
 
     [Header("박스 정보")]
     private RectTransform _currentRedRect;     // 움직이는 빨간 박스
@@ -206,44 +207,28 @@ public class FishingMiniGame : MonoBehaviour
             if (isHit)
             {
                 _isFishing = false;
-
                 Debug.Log("성공!");
-                _hookAFishPanel.gameObject.SetActive(true);
 
-                if (_fishPrefab != null)
+                // 심해 씬 이동
+                var sceneManager = SceneManager.Instance;
+
+                // SceneManager가 있고, 현재 씬이 '바다' 씬인지 확인
+                if (sceneManager != null && sceneManager.GetCurrentSceneName() == sceneManager.OceanGameSceneName)
                 {
-                    Destroy(_fishPrefab);
+                    if (Random.value <= chance)
+                    {
+                        Debug.Log("심해 발견! 심해 씬으로 이동합니다.");
+
+                        // 현재 미니게임 UI와 상태를 먼저 정리
+                        EndMiniGame();
+                        sceneManager.LoadScene(sceneManager.DeepOceanGameSceneName);
+
+                        return;
+                    }
                 }
 
-                FishSpawner fishSpawner = GetComponent<FishSpawner>();
-                _caughtFishSO = fishSpawner.GetRandomFishByScene();
-
-                if (_caughtFishSO.Prefab != null)
-                {
-                    _fishPrefab = Instantiate(_caughtFishSO.Prefab, _fishDisplayPoint);
-                    _fishPrefab.transform.localPosition = Vector3.zero;
-
-                    if (_caughtFishSO.Prefab.name == "Fish_Flatfish")
-                    {
-                        _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -180f, 180f);
-                    }
-                    else
-                    {
-                        _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 180f);
-                    }
-
-                    _fishPrefab.transform.localScale = new Vector3(50f, 50f, 50f);
-                }
-
-                _hookAFishNameText.text = $"{_caughtFishSO.Name} 를(을) 잡았다!";
-
-                _putInBoxButton.onClick.RemoveAllListeners(); 
-                _putInBoxButton.onClick.AddListener(() => PutFishInInventory());
-
-                _barObj.SetActive(false);
-                _bobberHitText.text = "";
-                if (_currentRedRect != null) { Destroy(_currentRedRect.gameObject); _currentRedRect = null; }
-                if (_currentTargetRect != null) { Destroy(_currentTargetRect.gameObject); _currentTargetRect = null; }
+                // 심해로 이동하지 않으면, 평소대로 물고기 결과창 표시
+                ShowFishResult();
             }
             else
             {
@@ -251,6 +236,46 @@ public class FishingMiniGame : MonoBehaviour
                 EndMiniGame();
             }
         }
+    }
+
+    private void ShowFishResult()
+    {
+        _hookAFishPanel.gameObject.SetActive(true);
+
+        if (_fishPrefab != null)
+        {
+            Destroy(_fishPrefab);
+        }
+
+        FishSpawner fishSpawner = GetComponent<FishSpawner>();
+        _caughtFishSO = fishSpawner.GetRandomFishByScene();
+
+        if (_caughtFishSO.Prefab != null)
+        {
+            _fishPrefab = Instantiate(_caughtFishSO.Prefab, _fishDisplayPoint);
+            _fishPrefab.transform.localPosition = Vector3.zero;
+
+            if (_caughtFishSO.Prefab.name == "Fish_Flatfish")
+            {
+                _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -180f, 180f);
+            }
+            else
+            {
+                _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 180f);
+            }
+
+            _fishPrefab.transform.localScale = new Vector3(50f, 50f, 50f);
+        }
+
+        _hookAFishNameText.text = $"{_caughtFishSO.Name} 를(을) 잡았다!";
+
+        _putInBoxButton.onClick.RemoveAllListeners();
+        _putInBoxButton.onClick.AddListener(() => PutFishInInventory());
+
+        _barObj.SetActive(false);
+        _bobberHitText.text = "";
+        if (_currentRedRect != null) { Destroy(_currentRedRect.gameObject); _currentRedRect = null; }
+        if (_currentTargetRect != null) { Destroy(_currentTargetRect.gameObject); _currentTargetRect = null; }
     }
 
     private void PutFishInInventory()

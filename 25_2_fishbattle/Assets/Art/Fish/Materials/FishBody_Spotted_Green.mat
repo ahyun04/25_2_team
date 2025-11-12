@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FishBody_Mask
+  m_Name: FishBody_Spotted_Green
   m_Shader: {fileID: -6465566751694194690, guid: 62b14620de9dfa04f85d0ec891d4ff02,
     type: 3}
   m_Parent: {fileID: 0}
@@ -78,7 +78,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PatternMask:
-        m_Texture: {fileID: 2800000, guid: 0a4f45591686416498a527fdd5a50242, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6dc583da14c778443b8600fc7790ebf7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -133,9 +133,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.8396226, g: 0.18614274, b: 0.18614274, a: 1}
+    - _BaseColor: {r: 0.20117983, g: 0.7372549, b: 0.1490196, a: 1}
     - _Color: {r: 0.8396226, g: 0.18614271, b: 0.18614271, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _PatternColor: {r: 1, g: 1, b: 1, a: 0}
+    - _PatternColor: {r: 0.95649016, g: 1, b: 0.68490565, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

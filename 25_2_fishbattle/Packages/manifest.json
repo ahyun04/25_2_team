@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.unify.unified-universal-blur": "https://github.com/lukakldiashvili/Unified-Universal-Blur.git",
+    "com.unity.ai.navigation": "1.1.7",
     "com.unity.cinemachine": "2.10.5",
     "com.unity.collab-proxy": "2.8.2",
     "com.unity.feature.2d": "2.0.1",

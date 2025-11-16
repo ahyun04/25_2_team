@@ -20,6 +20,11 @@ public class NPCIdleState : NPCBaseState
         float idleTime = Random.Range(_minIdleTime, _maxIdleTime);
         yield return new WaitForSeconds(idleTime);
 
+        while (context.IsPausedByDialogue)
+        {
+            yield return null;
+        }
+
         // Move 상태로 전환
         context.ChangeState(new NPCMoveState());
     }

@@ -240,9 +240,9 @@ public class BgDbToSoConverterWindow : EditorWindow
     private string GetEntityName(BGEntity entity)
     {
         if (entity == null) return null;
-        if (entity is DB_FishLake lake) return lake._name;
-        if (entity is DB_FishRiver river) return river._name;
-        if (entity is DB_FishOcean ocean) return ocean._name;
+        if (entity is DB_FishLake lake) return lake.name;
+        if (entity is DB_FishRiver river) return river.name;
+        if (entity is DB_FishOcean ocean) return ocean.name;
         return null;
     }
 
@@ -256,9 +256,9 @@ public class BgDbToSoConverterWindow : EditorWindow
         if (entity == null) return 0;
 
         // 알려진 BG 엔티티 타입에서 직접 읽기
-        if (entity is DB_FishLake lake) return Mathf.Abs(lake._FishId);
-        if (entity is DB_FishRiver river) return Mathf.Abs(river._FishId);
-        if (entity is DB_FishOcean ocean) return Mathf.Abs(ocean._FishId);
+        if (entity is DB_FishLake lake) return Mathf.Abs(lake.FishId);
+        if (entity is DB_FishRiver river) return Mathf.Abs(river.FishId);
+        if (entity is DB_FishOcean ocean) return Mathf.Abs(ocean.FishId);
 
         // 리플렉션 후보 검색
         try
@@ -347,57 +347,57 @@ public class BgDbToSoConverterWindow : EditorWindow
         // 각 엔티티 타입별로 캐스팅하여 필드 읽기
         if (entity is DB_FishLake lake)
         {
-            fishId = lake._FishId;
-            hp = lake._Hp;
-            abilityToAct = lake._AbilityToAct;
-            abilityIconPath = lake._AbilityToAct_icon;
-            skillName = lake._Skill_name;
-            damage = lake._Damage;
-            heal = lake._Heal;
-            support = lake._Support;
-            probability = lake._Probability;
-            description = lake._Description;
-            maxStack = lake._MaxStackSize;
-            weight = lake._Weight;
-            isPlayerCard = lake._IsPlayerCard;
-            isCheck = lake._Check;
-            prefabPath = lake._Prefab;
+            fishId = lake.FishId;
+            hp = lake.Hp;
+            abilityToAct = lake.AbilityToAct;
+            abilityIconPath = lake.AbilityToAct_icon;
+            skillName = lake.Skill_name;
+            damage = lake.Damage;
+            heal = lake.Heal;
+            support = lake.Support;
+            probability = lake.Probability;
+            description = lake.Description;
+            maxStack = lake.MaxStackSize;
+            weight = lake.Weight;
+            isPlayerCard = lake.IsPlayerCard;
+            isCheck = lake.Check;
+            prefabPath = lake.Prefab;
         }
         else if (entity is DB_FishRiver river)
         {
-            fishId = river._FishId;
-            hp = river._Hp;
-            abilityToAct = river._AbilityToAct;
-            abilityIconPath = river._AbilityToAct_icon;
-            skillName = river._Skill_name;
-            damage = river._Damage;
-            heal = river._Heal;
-            support = river._Support;
-            probability = river._Probability;
-            description = river._Description;
-            maxStack = river._MaxStackSize;
-            weight = river._Weight;
-            isPlayerCard = river._IsPlayerCard;
-            isCheck = river._Check;
-            prefabPath = river._Prefab;
+            fishId = river.FishId;
+            hp = river.Hp;
+            abilityToAct = river.AbilityToAct;
+            abilityIconPath = river.AbilityToAct_icon;
+            skillName = river.Skill_name;
+            damage = river.Damage;
+            heal = river.Heal;
+            support = river.Support;
+            probability = river.Probability;
+            description = river.Description;
+            maxStack = river.MaxStackSize;
+            weight = river.Weight;
+            isPlayerCard = river.IsPlayerCard;
+            isCheck = river.Check;
+            prefabPath = river.Prefab;
         }
         else if (entity is DB_FishOcean ocean)
         {
-            fishId = ocean._FishId;
-            hp = ocean._Hp;
-            abilityToAct = ocean._AbilityToAct;
-            abilityIconPath = ocean._AbilityToAct_icon;
-            skillName = ocean._Skill_name;
-            damage = ocean._Damage;
-            heal = ocean._Heal;
-            support = ocean._Support;
-            probability = ocean._Probability;
-            description = ocean._Description;
-            maxStack = ocean._MaxStackSize;
-            weight = ocean._Weight;
-            isPlayerCard = ocean._IsPlayerCard;
-            isCheck = ocean._Check;
-            prefabPath = ocean._Prefab;
+            fishId = ocean.FishId;
+            hp = ocean.Hp;
+            abilityToAct = ocean.AbilityToAct;
+            abilityIconPath = ocean.AbilityToAct_icon;
+            skillName = ocean.Skill_name;
+            damage = ocean.Damage;
+            heal = ocean.Heal;
+            support = ocean.Support;
+            probability = ocean.Probability;
+            description = ocean.Description;
+            maxStack = ocean.MaxStackSize;
+            weight = ocean.Weight;
+            isPlayerCard = ocean.IsPlayerCard;
+            isCheck = ocean.Check;
+            prefabPath = ocean.Prefab;
         }
 
         // SO에 할당

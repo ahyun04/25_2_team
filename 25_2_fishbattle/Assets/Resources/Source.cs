@@ -10,138 +10,138 @@ using BansheeGz.BGDatabase;
 #pragma warning disable 414
 
 [Preserve]
-public partial class DB_FishRiver : BGEntity
+public sealed partial class DB_FishRiver : BGEntity
 {
 	private static BansheeGz.BGDatabase.BGMetaRow _metaDefault;
-	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ?? (_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5307155828711052178UL,11210579068189473933UL), () => _metaDefault = null));
+	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ??= BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5307155828711052178UL,11210579068189473933UL), () => _metaDefault = null);
 	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
 	public static int CountEntities => MetaDefault.CountEntities;
-	public System.Int32 _FishId
+	public System.Int32 FishId
 	{
-		get => __FishId[Index];
-		set => __FishId.SetValue(this, value);
+		get => _FishId[Index];
+		set => _FishId.SetValue(this, value);
 	}
-	public System.String _name
+	public System.String name
 	{
-		get => __name[Index];
-		set => __name[Index] = value;
+		get => _name[Index];
+		set => _name[Index] = value;
 	}
-	public System.Int32 _Hp
+	public System.Int32 Hp
 	{
-		get => __Hp[Index];
-		set => __Hp.SetValue(this, value);
+		get => _Hp[Index];
+		set => _Hp.SetValue(this, value);
 	}
-	public System.Int32 _AbilityToAct
+	public System.Int32 AbilityToAct
 	{
-		get => __AbilityToAct[Index];
-		set => __AbilityToAct.SetValue(this, value);
+		get => _AbilityToAct[Index];
+		set => _AbilityToAct.SetValue(this, value);
 	}
-	public System.String _AbilityToAct_icon
+	public System.String AbilityToAct_icon
 	{
-		get => __AbilityToAct_icon[Index];
-		set => __AbilityToAct_icon[Index] = value;
+		get => _AbilityToAct_icon[Index];
+		set => _AbilityToAct_icon[Index] = value;
 	}
-	public System.String _Skill_name
+	public System.String Skill_name
 	{
-		get => __Skill_name[Index];
-		set => __Skill_name[Index] = value;
+		get => _Skill_name[Index];
+		set => _Skill_name[Index] = value;
 	}
-	public System.Int32 _Damage
+	public System.Int32 Damage
 	{
-		get => __Damage[Index];
-		set => __Damage.SetValue(this, value);
+		get => _Damage[Index];
+		set => _Damage.SetValue(this, value);
 	}
-	public System.Int32 _Heal
+	public System.Int32 Heal
 	{
-		get => __Heal[Index];
-		set => __Heal.SetValue(this, value);
+		get => _Heal[Index];
+		set => _Heal.SetValue(this, value);
 	}
-	public System.Int32 _Support
+	public System.Int32 Support
 	{
-		get => __Support[Index];
-		set => __Support.SetValue(this, value);
+		get => _Support[Index];
+		set => _Support.SetValue(this, value);
 	}
-	public System.String _Habitat
+	public System.String Habitat
 	{
-		get => __Habitat[Index];
-		set => __Habitat[Index] = value;
+		get => _Habitat[Index];
+		set => _Habitat[Index] = value;
 	}
-	public System.Int32 _Probability
+	public System.Int32 Probability
 	{
-		get => __Probability[Index];
-		set => __Probability.SetValue(this, value);
+		get => _Probability[Index];
+		set => _Probability.SetValue(this, value);
 	}
-	public System.String _Description
+	public System.String Description
 	{
-		get => __Description[Index];
-		set => __Description[Index] = value;
+		get => _Description[Index];
+		set => _Description[Index] = value;
 	}
-	public System.Single _Fish_length
+	public System.Single Fish_length
 	{
-		get => __Fish_length[Index];
-		set => __Fish_length.SetValue(this, value);
+		get => _Fish_length[Index];
+		set => _Fish_length.SetValue(this, value);
 	}
-	public System.Int32 _MaxStackSize
+	public System.Int32 MaxStackSize
 	{
-		get => __MaxStackSize[Index];
-		set => __MaxStackSize.SetValue(this, value);
+		get => _MaxStackSize[Index];
+		set => _MaxStackSize.SetValue(this, value);
 	}
-	public System.Single _Weight
+	public System.Single Weight
 	{
-		get => __Weight[Index];
-		set => __Weight.SetValue(this, value);
+		get => _Weight[Index];
+		set => _Weight.SetValue(this, value);
 	}
-	public System.Boolean _IsPlayerCard
+	public System.Boolean IsPlayerCard
 	{
-		get => __IsPlayerCard[Index];
-		set => __IsPlayerCard.SetValue(this, value);
+		get => _IsPlayerCard[Index];
+		set => _IsPlayerCard.SetValue(this, value);
 	}
-	public System.Boolean _Check
+	public System.Boolean Check
 	{
-		get => __Check[Index];
-		set => __Check.SetValue(this, value);
+		get => _Check[Index];
+		set => _Check.SetValue(this, value);
 	}
-	public System.String _Prefab
+	public System.String Prefab
 	{
-		get => __Prefab[Index];
-		set => __Prefab[Index] = value;
+		get => _Prefab[Index];
+		set => _Prefab[Index] = value;
 	}
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
-	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4976901650265358197UL, 9559963750065549952UL), () => _ufle12jhs77__FishId = null));
-	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77__name;
-	public static BansheeGz.BGDatabase.BGFieldEntityName __name => _ufle12jhs77__name ?? (_ufle12jhs77__name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5415392848779497364UL, 2559740640425672838UL), () => _ufle12jhs77__name = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Hp;
-	public static BansheeGz.BGDatabase.BGFieldInt __Hp => _ufle12jhs77__Hp ?? (_ufle12jhs77__Hp = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5403434908924482586UL, 1618225153200641182UL), () => _ufle12jhs77__Hp = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__AbilityToAct;
-	public static BansheeGz.BGDatabase.BGFieldInt __AbilityToAct => _ufle12jhs77__AbilityToAct ?? (_ufle12jhs77__AbilityToAct = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4840671935118261721UL, 15418950457266718885UL), () => _ufle12jhs77__AbilityToAct = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__AbilityToAct_icon;
-	public static BansheeGz.BGDatabase.BGFieldString __AbilityToAct_icon => _ufle12jhs77__AbilityToAct_icon ?? (_ufle12jhs77__AbilityToAct_icon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4890664631387380985UL, 8030082837726385557UL), () => _ufle12jhs77__AbilityToAct_icon = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Skill_name;
-	public static BansheeGz.BGDatabase.BGFieldString __Skill_name => _ufle12jhs77__Skill_name ?? (_ufle12jhs77__Skill_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5400631693221497834UL, 3487511046303810455UL), () => _ufle12jhs77__Skill_name = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Damage;
-	public static BansheeGz.BGDatabase.BGFieldInt __Damage => _ufle12jhs77__Damage ?? (_ufle12jhs77__Damage = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4763915640078501843UL, 4362679078778737828UL), () => _ufle12jhs77__Damage = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Heal;
-	public static BansheeGz.BGDatabase.BGFieldInt __Heal => _ufle12jhs77__Heal ?? (_ufle12jhs77__Heal = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5717107081168863611UL, 12688967423318131130UL), () => _ufle12jhs77__Heal = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Support;
-	public static BansheeGz.BGDatabase.BGFieldInt __Support => _ufle12jhs77__Support ?? (_ufle12jhs77__Support = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4955468064340827489UL, 4818128033666500255UL), () => _ufle12jhs77__Support = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Habitat;
-	public static BansheeGz.BGDatabase.BGFieldString __Habitat => _ufle12jhs77__Habitat ?? (_ufle12jhs77__Habitat = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4706771234986255749UL, 1446375266631473081UL), () => _ufle12jhs77__Habitat = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Probability;
-	public static BansheeGz.BGDatabase.BGFieldInt __Probability => _ufle12jhs77__Probability ?? (_ufle12jhs77__Probability = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4780960114952119424UL, 15036994820575784590UL), () => _ufle12jhs77__Probability = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Description;
-	public static BansheeGz.BGDatabase.BGFieldString __Description => _ufle12jhs77__Description ?? (_ufle12jhs77__Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5453964088521413050UL, 1279680616890487981UL), () => _ufle12jhs77__Description = null));
-	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Fish_length;
-	public static BansheeGz.BGDatabase.BGFieldFloat __Fish_length => _ufle12jhs77__Fish_length ?? (_ufle12jhs77__Fish_length = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5037568044438845758UL, 10381041534865328819UL), () => _ufle12jhs77__Fish_length = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__MaxStackSize;
-	public static BansheeGz.BGDatabase.BGFieldInt __MaxStackSize => _ufle12jhs77__MaxStackSize ?? (_ufle12jhs77__MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5583897987533328609UL, 8076968942157528504UL), () => _ufle12jhs77__MaxStackSize = null));
-	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Weight;
-	public static BansheeGz.BGDatabase.BGFieldFloat __Weight => _ufle12jhs77__Weight ?? (_ufle12jhs77__Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(4690210422877305221UL, 3290983632278445503UL), () => _ufle12jhs77__Weight = null));
-	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__IsPlayerCard;
-	public static BansheeGz.BGDatabase.BGFieldBool __IsPlayerCard => _ufle12jhs77__IsPlayerCard ?? (_ufle12jhs77__IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5041248350966831574UL, 14420023317927583405UL), () => _ufle12jhs77__IsPlayerCard = null));
-	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__Check;
-	public static BansheeGz.BGDatabase.BGFieldBool __Check => _ufle12jhs77__Check ?? (_ufle12jhs77__Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5083853200461738610UL, 8045118963229304763UL), () => _ufle12jhs77__Check = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Prefab;
-	public static BansheeGz.BGDatabase.BGFieldString __Prefab => _ufle12jhs77__Prefab ?? (_ufle12jhs77__Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4740898709528725063UL, 3981132854393923254UL), () => _ufle12jhs77__Prefab = null));
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_FishId;
+	public static BansheeGz.BGDatabase.BGFieldInt _FishId => _ufle12jhs77_FishId ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4976901650265358197UL, 9559963750065549952UL), () => _ufle12jhs77_FishId = null);
+	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_name;
+	public static BansheeGz.BGDatabase.BGFieldEntityName _name => _ufle12jhs77_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5415392848779497364UL, 2559740640425672838UL), () => _ufle12jhs77_name = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Hp;
+	public static BansheeGz.BGDatabase.BGFieldInt _Hp => _ufle12jhs77_Hp ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5403434908924482586UL, 1618225153200641182UL), () => _ufle12jhs77_Hp = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_AbilityToAct;
+	public static BansheeGz.BGDatabase.BGFieldInt _AbilityToAct => _ufle12jhs77_AbilityToAct ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4840671935118261721UL, 15418950457266718885UL), () => _ufle12jhs77_AbilityToAct = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_AbilityToAct_icon;
+	public static BansheeGz.BGDatabase.BGFieldString _AbilityToAct_icon => _ufle12jhs77_AbilityToAct_icon ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4890664631387380985UL, 8030082837726385557UL), () => _ufle12jhs77_AbilityToAct_icon = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Skill_name;
+	public static BansheeGz.BGDatabase.BGFieldString _Skill_name => _ufle12jhs77_Skill_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5400631693221497834UL, 3487511046303810455UL), () => _ufle12jhs77_Skill_name = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Damage;
+	public static BansheeGz.BGDatabase.BGFieldInt _Damage => _ufle12jhs77_Damage ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4763915640078501843UL, 4362679078778737828UL), () => _ufle12jhs77_Damage = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Heal;
+	public static BansheeGz.BGDatabase.BGFieldInt _Heal => _ufle12jhs77_Heal ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5717107081168863611UL, 12688967423318131130UL), () => _ufle12jhs77_Heal = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Support;
+	public static BansheeGz.BGDatabase.BGFieldInt _Support => _ufle12jhs77_Support ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4955468064340827489UL, 4818128033666500255UL), () => _ufle12jhs77_Support = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Habitat;
+	public static BansheeGz.BGDatabase.BGFieldString _Habitat => _ufle12jhs77_Habitat ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4706771234986255749UL, 1446375266631473081UL), () => _ufle12jhs77_Habitat = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Probability;
+	public static BansheeGz.BGDatabase.BGFieldInt _Probability => _ufle12jhs77_Probability ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4780960114952119424UL, 15036994820575784590UL), () => _ufle12jhs77_Probability = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Description;
+	public static BansheeGz.BGDatabase.BGFieldString _Description => _ufle12jhs77_Description ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5453964088521413050UL, 1279680616890487981UL), () => _ufle12jhs77_Description = null);
+	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_Fish_length;
+	public static BansheeGz.BGDatabase.BGFieldFloat _Fish_length => _ufle12jhs77_Fish_length ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5037568044438845758UL, 10381041534865328819UL), () => _ufle12jhs77_Fish_length = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_MaxStackSize;
+	public static BansheeGz.BGDatabase.BGFieldInt _MaxStackSize => _ufle12jhs77_MaxStackSize ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5583897987533328609UL, 8076968942157528504UL), () => _ufle12jhs77_MaxStackSize = null);
+	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_Weight;
+	public static BansheeGz.BGDatabase.BGFieldFloat _Weight => _ufle12jhs77_Weight ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(4690210422877305221UL, 3290983632278445503UL), () => _ufle12jhs77_Weight = null);
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77_IsPlayerCard;
+	public static BansheeGz.BGDatabase.BGFieldBool _IsPlayerCard => _ufle12jhs77_IsPlayerCard ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5041248350966831574UL, 14420023317927583405UL), () => _ufle12jhs77_IsPlayerCard = null);
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77_Check;
+	public static BansheeGz.BGDatabase.BGFieldBool _Check => _ufle12jhs77_Check ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5083853200461738610UL, 8045118963229304763UL), () => _ufle12jhs77_Check = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Prefab;
+	public static BansheeGz.BGDatabase.BGFieldString _Prefab => _ufle12jhs77_Prefab ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4740898709528725063UL, 3981132854393923254UL), () => _ufle12jhs77_Prefab = null);
 	private DB_FishRiver() : base(MetaDefault) {}
 	private DB_FishRiver(BGId id) : base(MetaDefault, id) {}
 	private DB_FishRiver(BGMetaEntity meta) : base(meta) {}
@@ -155,9 +155,53 @@ public partial class DB_FishRiver : BGEntity
 	public static DB_FishRiver NewEntity() => (DB_FishRiver) MetaDefault.NewEntity();
 	public static DB_FishRiver NewEntity(BGId entityId) => (DB_FishRiver) MetaDefault.NewEntity(entityId);
 	public static DB_FishRiver NewEntity(Action<DB_FishRiver> callback) => (DB_FishRiver) MetaDefault.NewEntity(new BGMetaEntity.NewEntityContext(entity => callback((DB_FishRiver)entity)));
+	public static void InitializeCodeGenRuntime()
+	{
+		_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5307155828711052178UL,11210579068189473933UL), ReleaseCodeGenRuntime);
+		_ufle12jhs77_FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4976901650265358197UL, 9559963750065549952UL));
+		_ufle12jhs77_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(_metaDefault, new BGId(5415392848779497364UL, 2559740640425672838UL));
+		_ufle12jhs77_Hp = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5403434908924482586UL, 1618225153200641182UL));
+		_ufle12jhs77_AbilityToAct = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4840671935118261721UL, 15418950457266718885UL));
+		_ufle12jhs77_AbilityToAct_icon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4890664631387380985UL, 8030082837726385557UL));
+		_ufle12jhs77_Skill_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(5400631693221497834UL, 3487511046303810455UL));
+		_ufle12jhs77_Damage = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4763915640078501843UL, 4362679078778737828UL));
+		_ufle12jhs77_Heal = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5717107081168863611UL, 12688967423318131130UL));
+		_ufle12jhs77_Support = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4955468064340827489UL, 4818128033666500255UL));
+		_ufle12jhs77_Habitat = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4706771234986255749UL, 1446375266631473081UL));
+		_ufle12jhs77_Probability = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4780960114952119424UL, 15036994820575784590UL));
+		_ufle12jhs77_Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(5453964088521413050UL, 1279680616890487981UL));
+		_ufle12jhs77_Fish_length = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(_metaDefault, new BGId(5037568044438845758UL, 10381041534865328819UL));
+		_ufle12jhs77_MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5583897987533328609UL, 8076968942157528504UL));
+		_ufle12jhs77_Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(_metaDefault, new BGId(4690210422877305221UL, 3290983632278445503UL));
+		_ufle12jhs77_IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(_metaDefault, new BGId(5041248350966831574UL, 14420023317927583405UL));
+		_ufle12jhs77_Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(_metaDefault, new BGId(5083853200461738610UL, 8045118963229304763UL));
+		_ufle12jhs77_Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4740898709528725063UL, 3981132854393923254UL));
+	}
+	public static void ReleaseCodeGenRuntime()
+	{
+		_metaDefault = null;
+		_ufle12jhs77_FishId = null;
+		_ufle12jhs77_name = null;
+		_ufle12jhs77_Hp = null;
+		_ufle12jhs77_AbilityToAct = null;
+		_ufle12jhs77_AbilityToAct_icon = null;
+		_ufle12jhs77_Skill_name = null;
+		_ufle12jhs77_Damage = null;
+		_ufle12jhs77_Heal = null;
+		_ufle12jhs77_Support = null;
+		_ufle12jhs77_Habitat = null;
+		_ufle12jhs77_Probability = null;
+		_ufle12jhs77_Description = null;
+		_ufle12jhs77_Fish_length = null;
+		_ufle12jhs77_MaxStackSize = null;
+		_ufle12jhs77_Weight = null;
+		_ufle12jhs77_IsPlayerCard = null;
+		_ufle12jhs77_Check = null;
+		_ufle12jhs77_Prefab = null;
+	}
 
 	[Preserve]
-	public class Factory : BGEntity.EntityFactory
+	public sealed class Factory : BGEntity.EntityFactory
 	{
 		public BGEntity NewEntity(BGMetaEntity meta) => new DB_FishRiver(meta);
 		public BGEntity NewEntity(BGMetaEntity meta, BGId id) => new DB_FishRiver(meta, id);
@@ -188,138 +232,138 @@ public partial class DB_FishRiver : BGEntity
 }
 
 [Preserve]
-public partial class DB_FishOcean : BGEntity
+public sealed partial class DB_FishOcean : BGEntity
 {
 	private static BansheeGz.BGDatabase.BGMetaRow _metaDefault;
-	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ?? (_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5640068678953238307UL,10303491490289556620UL), () => _metaDefault = null));
+	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ??= BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5640068678953238307UL,10303491490289556620UL), () => _metaDefault = null);
 	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
 	public static int CountEntities => MetaDefault.CountEntities;
-	public System.Int32 _FishId
+	public System.Int32 FishId
 	{
-		get => __FishId[Index];
-		set => __FishId.SetValue(this, value);
+		get => _FishId[Index];
+		set => _FishId.SetValue(this, value);
 	}
-	public System.String _name
+	public System.String name
 	{
-		get => __name[Index];
-		set => __name[Index] = value;
+		get => _name[Index];
+		set => _name[Index] = value;
 	}
-	public System.Int32 _Hp
+	public System.Int32 Hp
 	{
-		get => __Hp[Index];
-		set => __Hp.SetValue(this, value);
+		get => _Hp[Index];
+		set => _Hp.SetValue(this, value);
 	}
-	public System.Int32 _AbilityToAct
+	public System.Int32 AbilityToAct
 	{
-		get => __AbilityToAct[Index];
-		set => __AbilityToAct.SetValue(this, value);
+		get => _AbilityToAct[Index];
+		set => _AbilityToAct.SetValue(this, value);
 	}
-	public System.String _AbilityToAct_icon
+	public System.String AbilityToAct_icon
 	{
-		get => __AbilityToAct_icon[Index];
-		set => __AbilityToAct_icon[Index] = value;
+		get => _AbilityToAct_icon[Index];
+		set => _AbilityToAct_icon[Index] = value;
 	}
-	public System.String _Skill_name
+	public System.String Skill_name
 	{
-		get => __Skill_name[Index];
-		set => __Skill_name[Index] = value;
+		get => _Skill_name[Index];
+		set => _Skill_name[Index] = value;
 	}
-	public System.Int32 _Damage
+	public System.Int32 Damage
 	{
-		get => __Damage[Index];
-		set => __Damage.SetValue(this, value);
+		get => _Damage[Index];
+		set => _Damage.SetValue(this, value);
 	}
-	public System.Int32 _Heal
+	public System.Int32 Heal
 	{
-		get => __Heal[Index];
-		set => __Heal.SetValue(this, value);
+		get => _Heal[Index];
+		set => _Heal.SetValue(this, value);
 	}
-	public System.Int32 _Support
+	public System.Int32 Support
 	{
-		get => __Support[Index];
-		set => __Support.SetValue(this, value);
+		get => _Support[Index];
+		set => _Support.SetValue(this, value);
 	}
-	public System.String _Habitat
+	public System.String Habitat
 	{
-		get => __Habitat[Index];
-		set => __Habitat[Index] = value;
+		get => _Habitat[Index];
+		set => _Habitat[Index] = value;
 	}
-	public System.Int32 _Probability
+	public System.Int32 Probability
 	{
-		get => __Probability[Index];
-		set => __Probability.SetValue(this, value);
+		get => _Probability[Index];
+		set => _Probability.SetValue(this, value);
 	}
-	public System.String _Description
+	public System.String Description
 	{
-		get => __Description[Index];
-		set => __Description[Index] = value;
+		get => _Description[Index];
+		set => _Description[Index] = value;
 	}
-	public System.Single _Fish_length
+	public System.Single Fish_length
 	{
-		get => __Fish_length[Index];
-		set => __Fish_length.SetValue(this, value);
+		get => _Fish_length[Index];
+		set => _Fish_length.SetValue(this, value);
 	}
-	public System.Int32 _MaxStackSize
+	public System.Int32 MaxStackSize
 	{
-		get => __MaxStackSize[Index];
-		set => __MaxStackSize.SetValue(this, value);
+		get => _MaxStackSize[Index];
+		set => _MaxStackSize.SetValue(this, value);
 	}
-	public System.Single _Weight
+	public System.Single Weight
 	{
-		get => __Weight[Index];
-		set => __Weight.SetValue(this, value);
+		get => _Weight[Index];
+		set => _Weight.SetValue(this, value);
 	}
-	public System.Boolean _IsPlayerCard
+	public System.Boolean IsPlayerCard
 	{
-		get => __IsPlayerCard[Index];
-		set => __IsPlayerCard.SetValue(this, value);
+		get => _IsPlayerCard[Index];
+		set => _IsPlayerCard.SetValue(this, value);
 	}
-	public System.Boolean _Check
+	public System.Boolean Check
 	{
-		get => __Check[Index];
-		set => __Check.SetValue(this, value);
+		get => _Check[Index];
+		set => _Check.SetValue(this, value);
 	}
-	public System.String _Prefab
+	public System.String Prefab
 	{
-		get => __Prefab[Index];
-		set => __Prefab[Index] = value;
+		get => _Prefab[Index];
+		set => _Prefab[Index] = value;
 	}
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
-	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4869277298640378294UL, 12018445722170645927UL), () => _ufle12jhs77__FishId = null));
-	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77__name;
-	public static BansheeGz.BGDatabase.BGFieldEntityName __name => _ufle12jhs77__name ?? (_ufle12jhs77__name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5203231371621610676UL, 1611488776779468702UL), () => _ufle12jhs77__name = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Hp;
-	public static BansheeGz.BGDatabase.BGFieldInt __Hp => _ufle12jhs77__Hp ?? (_ufle12jhs77__Hp = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5174232290305173436UL, 8781243275405380012UL), () => _ufle12jhs77__Hp = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__AbilityToAct;
-	public static BansheeGz.BGDatabase.BGFieldInt __AbilityToAct => _ufle12jhs77__AbilityToAct ?? (_ufle12jhs77__AbilityToAct = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5649281079788065407UL, 11146473597595040660UL), () => _ufle12jhs77__AbilityToAct = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__AbilityToAct_icon;
-	public static BansheeGz.BGDatabase.BGFieldString __AbilityToAct_icon => _ufle12jhs77__AbilityToAct_icon ?? (_ufle12jhs77__AbilityToAct_icon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5490623126734554464UL, 1786460506161355675UL), () => _ufle12jhs77__AbilityToAct_icon = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Skill_name;
-	public static BansheeGz.BGDatabase.BGFieldString __Skill_name => _ufle12jhs77__Skill_name ?? (_ufle12jhs77__Skill_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4931582514236600376UL, 11487933112305656496UL), () => _ufle12jhs77__Skill_name = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Damage;
-	public static BansheeGz.BGDatabase.BGFieldInt __Damage => _ufle12jhs77__Damage ?? (_ufle12jhs77__Damage = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5021764334931791088UL, 9232856134938593937UL), () => _ufle12jhs77__Damage = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Heal;
-	public static BansheeGz.BGDatabase.BGFieldInt __Heal => _ufle12jhs77__Heal ?? (_ufle12jhs77__Heal = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5313162659324563983UL, 11283291948044818353UL), () => _ufle12jhs77__Heal = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Support;
-	public static BansheeGz.BGDatabase.BGFieldInt __Support => _ufle12jhs77__Support ?? (_ufle12jhs77__Support = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4791112449711073990UL, 1522697784962837635UL), () => _ufle12jhs77__Support = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Habitat;
-	public static BansheeGz.BGDatabase.BGFieldString __Habitat => _ufle12jhs77__Habitat ?? (_ufle12jhs77__Habitat = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4654565597486598867UL, 6804213883635270036UL), () => _ufle12jhs77__Habitat = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Probability;
-	public static BansheeGz.BGDatabase.BGFieldInt __Probability => _ufle12jhs77__Probability ?? (_ufle12jhs77__Probability = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5542925424727744446UL, 1935838597131035327UL), () => _ufle12jhs77__Probability = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Description;
-	public static BansheeGz.BGDatabase.BGFieldString __Description => _ufle12jhs77__Description ?? (_ufle12jhs77__Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4795895922861455503UL, 9757022360212192412UL), () => _ufle12jhs77__Description = null));
-	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Fish_length;
-	public static BansheeGz.BGDatabase.BGFieldFloat __Fish_length => _ufle12jhs77__Fish_length ?? (_ufle12jhs77__Fish_length = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5740234681256206584UL, 13802125812242256523UL), () => _ufle12jhs77__Fish_length = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__MaxStackSize;
-	public static BansheeGz.BGDatabase.BGFieldInt __MaxStackSize => _ufle12jhs77__MaxStackSize ?? (_ufle12jhs77__MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5410317259768974674UL, 6070994931239109292UL), () => _ufle12jhs77__MaxStackSize = null));
-	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Weight;
-	public static BansheeGz.BGDatabase.BGFieldFloat __Weight => _ufle12jhs77__Weight ?? (_ufle12jhs77__Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5354675168134305164UL, 15169478222838396563UL), () => _ufle12jhs77__Weight = null));
-	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__IsPlayerCard;
-	public static BansheeGz.BGDatabase.BGFieldBool __IsPlayerCard => _ufle12jhs77__IsPlayerCard ?? (_ufle12jhs77__IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4776345315621728512UL, 7416418653739574153UL), () => _ufle12jhs77__IsPlayerCard = null));
-	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__Check;
-	public static BansheeGz.BGDatabase.BGFieldBool __Check => _ufle12jhs77__Check ?? (_ufle12jhs77__Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5743780943701751951UL, 16826233822115326893UL), () => _ufle12jhs77__Check = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Prefab;
-	public static BansheeGz.BGDatabase.BGFieldString __Prefab => _ufle12jhs77__Prefab ?? (_ufle12jhs77__Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4974573511864330598UL, 7118378120430754744UL), () => _ufle12jhs77__Prefab = null));
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_FishId;
+	public static BansheeGz.BGDatabase.BGFieldInt _FishId => _ufle12jhs77_FishId ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4869277298640378294UL, 12018445722170645927UL), () => _ufle12jhs77_FishId = null);
+	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_name;
+	public static BansheeGz.BGDatabase.BGFieldEntityName _name => _ufle12jhs77_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5203231371621610676UL, 1611488776779468702UL), () => _ufle12jhs77_name = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Hp;
+	public static BansheeGz.BGDatabase.BGFieldInt _Hp => _ufle12jhs77_Hp ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5174232290305173436UL, 8781243275405380012UL), () => _ufle12jhs77_Hp = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_AbilityToAct;
+	public static BansheeGz.BGDatabase.BGFieldInt _AbilityToAct => _ufle12jhs77_AbilityToAct ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5649281079788065407UL, 11146473597595040660UL), () => _ufle12jhs77_AbilityToAct = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_AbilityToAct_icon;
+	public static BansheeGz.BGDatabase.BGFieldString _AbilityToAct_icon => _ufle12jhs77_AbilityToAct_icon ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5490623126734554464UL, 1786460506161355675UL), () => _ufle12jhs77_AbilityToAct_icon = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Skill_name;
+	public static BansheeGz.BGDatabase.BGFieldString _Skill_name => _ufle12jhs77_Skill_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4931582514236600376UL, 11487933112305656496UL), () => _ufle12jhs77_Skill_name = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Damage;
+	public static BansheeGz.BGDatabase.BGFieldInt _Damage => _ufle12jhs77_Damage ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5021764334931791088UL, 9232856134938593937UL), () => _ufle12jhs77_Damage = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Heal;
+	public static BansheeGz.BGDatabase.BGFieldInt _Heal => _ufle12jhs77_Heal ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5313162659324563983UL, 11283291948044818353UL), () => _ufle12jhs77_Heal = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Support;
+	public static BansheeGz.BGDatabase.BGFieldInt _Support => _ufle12jhs77_Support ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4791112449711073990UL, 1522697784962837635UL), () => _ufle12jhs77_Support = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Habitat;
+	public static BansheeGz.BGDatabase.BGFieldString _Habitat => _ufle12jhs77_Habitat ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4654565597486598867UL, 6804213883635270036UL), () => _ufle12jhs77_Habitat = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Probability;
+	public static BansheeGz.BGDatabase.BGFieldInt _Probability => _ufle12jhs77_Probability ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5542925424727744446UL, 1935838597131035327UL), () => _ufle12jhs77_Probability = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Description;
+	public static BansheeGz.BGDatabase.BGFieldString _Description => _ufle12jhs77_Description ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4795895922861455503UL, 9757022360212192412UL), () => _ufle12jhs77_Description = null);
+	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_Fish_length;
+	public static BansheeGz.BGDatabase.BGFieldFloat _Fish_length => _ufle12jhs77_Fish_length ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5740234681256206584UL, 13802125812242256523UL), () => _ufle12jhs77_Fish_length = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_MaxStackSize;
+	public static BansheeGz.BGDatabase.BGFieldInt _MaxStackSize => _ufle12jhs77_MaxStackSize ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5410317259768974674UL, 6070994931239109292UL), () => _ufle12jhs77_MaxStackSize = null);
+	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_Weight;
+	public static BansheeGz.BGDatabase.BGFieldFloat _Weight => _ufle12jhs77_Weight ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5354675168134305164UL, 15169478222838396563UL), () => _ufle12jhs77_Weight = null);
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77_IsPlayerCard;
+	public static BansheeGz.BGDatabase.BGFieldBool _IsPlayerCard => _ufle12jhs77_IsPlayerCard ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4776345315621728512UL, 7416418653739574153UL), () => _ufle12jhs77_IsPlayerCard = null);
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77_Check;
+	public static BansheeGz.BGDatabase.BGFieldBool _Check => _ufle12jhs77_Check ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(5743780943701751951UL, 16826233822115326893UL), () => _ufle12jhs77_Check = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Prefab;
+	public static BansheeGz.BGDatabase.BGFieldString _Prefab => _ufle12jhs77_Prefab ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4974573511864330598UL, 7118378120430754744UL), () => _ufle12jhs77_Prefab = null);
 	private DB_FishOcean() : base(MetaDefault) {}
 	private DB_FishOcean(BGId id) : base(MetaDefault, id) {}
 	private DB_FishOcean(BGMetaEntity meta) : base(meta) {}
@@ -333,9 +377,53 @@ public partial class DB_FishOcean : BGEntity
 	public static DB_FishOcean NewEntity() => (DB_FishOcean) MetaDefault.NewEntity();
 	public static DB_FishOcean NewEntity(BGId entityId) => (DB_FishOcean) MetaDefault.NewEntity(entityId);
 	public static DB_FishOcean NewEntity(Action<DB_FishOcean> callback) => (DB_FishOcean) MetaDefault.NewEntity(new BGMetaEntity.NewEntityContext(entity => callback((DB_FishOcean)entity)));
+	public static void InitializeCodeGenRuntime()
+	{
+		_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5640068678953238307UL,10303491490289556620UL), ReleaseCodeGenRuntime);
+		_ufle12jhs77_FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4869277298640378294UL, 12018445722170645927UL));
+		_ufle12jhs77_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(_metaDefault, new BGId(5203231371621610676UL, 1611488776779468702UL));
+		_ufle12jhs77_Hp = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5174232290305173436UL, 8781243275405380012UL));
+		_ufle12jhs77_AbilityToAct = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5649281079788065407UL, 11146473597595040660UL));
+		_ufle12jhs77_AbilityToAct_icon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(5490623126734554464UL, 1786460506161355675UL));
+		_ufle12jhs77_Skill_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4931582514236600376UL, 11487933112305656496UL));
+		_ufle12jhs77_Damage = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5021764334931791088UL, 9232856134938593937UL));
+		_ufle12jhs77_Heal = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5313162659324563983UL, 11283291948044818353UL));
+		_ufle12jhs77_Support = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4791112449711073990UL, 1522697784962837635UL));
+		_ufle12jhs77_Habitat = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4654565597486598867UL, 6804213883635270036UL));
+		_ufle12jhs77_Probability = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5542925424727744446UL, 1935838597131035327UL));
+		_ufle12jhs77_Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4795895922861455503UL, 9757022360212192412UL));
+		_ufle12jhs77_Fish_length = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(_metaDefault, new BGId(5740234681256206584UL, 13802125812242256523UL));
+		_ufle12jhs77_MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5410317259768974674UL, 6070994931239109292UL));
+		_ufle12jhs77_Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(_metaDefault, new BGId(5354675168134305164UL, 15169478222838396563UL));
+		_ufle12jhs77_IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(_metaDefault, new BGId(4776345315621728512UL, 7416418653739574153UL));
+		_ufle12jhs77_Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(_metaDefault, new BGId(5743780943701751951UL, 16826233822115326893UL));
+		_ufle12jhs77_Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4974573511864330598UL, 7118378120430754744UL));
+	}
+	public static void ReleaseCodeGenRuntime()
+	{
+		_metaDefault = null;
+		_ufle12jhs77_FishId = null;
+		_ufle12jhs77_name = null;
+		_ufle12jhs77_Hp = null;
+		_ufle12jhs77_AbilityToAct = null;
+		_ufle12jhs77_AbilityToAct_icon = null;
+		_ufle12jhs77_Skill_name = null;
+		_ufle12jhs77_Damage = null;
+		_ufle12jhs77_Heal = null;
+		_ufle12jhs77_Support = null;
+		_ufle12jhs77_Habitat = null;
+		_ufle12jhs77_Probability = null;
+		_ufle12jhs77_Description = null;
+		_ufle12jhs77_Fish_length = null;
+		_ufle12jhs77_MaxStackSize = null;
+		_ufle12jhs77_Weight = null;
+		_ufle12jhs77_IsPlayerCard = null;
+		_ufle12jhs77_Check = null;
+		_ufle12jhs77_Prefab = null;
+	}
 
 	[Preserve]
-	public class Factory : BGEntity.EntityFactory
+	public sealed class Factory : BGEntity.EntityFactory
 	{
 		public BGEntity NewEntity(BGMetaEntity meta) => new DB_FishOcean(meta);
 		public BGEntity NewEntity(BGMetaEntity meta, BGId id) => new DB_FishOcean(meta, id);
@@ -366,138 +454,138 @@ public partial class DB_FishOcean : BGEntity
 }
 
 [Preserve]
-public partial class DB_FishLake : BGEntity
+public sealed partial class DB_FishLake : BGEntity
 {
 	private static BansheeGz.BGDatabase.BGMetaRow _metaDefault;
-	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ?? (_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5560984306225763593UL,9892102557027751583UL), () => _metaDefault = null));
+	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ??= BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5560984306225763593UL,9892102557027751583UL), () => _metaDefault = null);
 	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
 	public static int CountEntities => MetaDefault.CountEntities;
-	public System.Int32 _FishId
+	public System.Int32 FishId
 	{
-		get => __FishId[Index];
-		set => __FishId.SetValue(this, value);
+		get => _FishId[Index];
+		set => _FishId.SetValue(this, value);
 	}
-	public System.String _name
+	public System.String name
 	{
-		get => __name[Index];
-		set => __name[Index] = value;
+		get => _name[Index];
+		set => _name[Index] = value;
 	}
-	public System.Int32 _Hp
+	public System.Int32 Hp
 	{
-		get => __Hp[Index];
-		set => __Hp.SetValue(this, value);
+		get => _Hp[Index];
+		set => _Hp.SetValue(this, value);
 	}
-	public System.Int32 _AbilityToAct
+	public System.Int32 AbilityToAct
 	{
-		get => __AbilityToAct[Index];
-		set => __AbilityToAct.SetValue(this, value);
+		get => _AbilityToAct[Index];
+		set => _AbilityToAct.SetValue(this, value);
 	}
-	public System.String _AbilityToAct_icon
+	public System.String AbilityToAct_icon
 	{
-		get => __AbilityToAct_icon[Index];
-		set => __AbilityToAct_icon[Index] = value;
+		get => _AbilityToAct_icon[Index];
+		set => _AbilityToAct_icon[Index] = value;
 	}
-	public System.String _Skill_name
+	public System.String Skill_name
 	{
-		get => __Skill_name[Index];
-		set => __Skill_name[Index] = value;
+		get => _Skill_name[Index];
+		set => _Skill_name[Index] = value;
 	}
-	public System.Int32 _Damage
+	public System.Int32 Damage
 	{
-		get => __Damage[Index];
-		set => __Damage.SetValue(this, value);
+		get => _Damage[Index];
+		set => _Damage.SetValue(this, value);
 	}
-	public System.Int32 _Heal
+	public System.Int32 Heal
 	{
-		get => __Heal[Index];
-		set => __Heal.SetValue(this, value);
+		get => _Heal[Index];
+		set => _Heal.SetValue(this, value);
 	}
-	public System.Int32 _Support
+	public System.Int32 Support
 	{
-		get => __Support[Index];
-		set => __Support.SetValue(this, value);
+		get => _Support[Index];
+		set => _Support.SetValue(this, value);
 	}
-	public System.String _Habitat
+	public System.String Habitat
 	{
-		get => __Habitat[Index];
-		set => __Habitat[Index] = value;
+		get => _Habitat[Index];
+		set => _Habitat[Index] = value;
 	}
-	public System.Int32 _Probability
+	public System.Int32 Probability
 	{
-		get => __Probability[Index];
-		set => __Probability.SetValue(this, value);
+		get => _Probability[Index];
+		set => _Probability.SetValue(this, value);
 	}
-	public System.String _Description
+	public System.String Description
 	{
-		get => __Description[Index];
-		set => __Description[Index] = value;
+		get => _Description[Index];
+		set => _Description[Index] = value;
 	}
-	public System.Single _Fish_length
+	public System.Single Fish_length
 	{
-		get => __Fish_length[Index];
-		set => __Fish_length.SetValue(this, value);
+		get => _Fish_length[Index];
+		set => _Fish_length.SetValue(this, value);
 	}
-	public System.Int32 _MaxStackSize
+	public System.Int32 MaxStackSize
 	{
-		get => __MaxStackSize[Index];
-		set => __MaxStackSize.SetValue(this, value);
+		get => _MaxStackSize[Index];
+		set => _MaxStackSize.SetValue(this, value);
 	}
-	public System.Single _Weight
+	public System.Single Weight
 	{
-		get => __Weight[Index];
-		set => __Weight.SetValue(this, value);
+		get => _Weight[Index];
+		set => _Weight.SetValue(this, value);
 	}
-	public System.Boolean _IsPlayerCard
+	public System.Boolean IsPlayerCard
 	{
-		get => __IsPlayerCard[Index];
-		set => __IsPlayerCard.SetValue(this, value);
+		get => _IsPlayerCard[Index];
+		set => _IsPlayerCard.SetValue(this, value);
 	}
-	public System.Boolean _Check
+	public System.Boolean Check
 	{
-		get => __Check[Index];
-		set => __Check.SetValue(this, value);
+		get => _Check[Index];
+		set => _Check.SetValue(this, value);
 	}
-	public System.String _Prefab
+	public System.String Prefab
 	{
-		get => __Prefab[Index];
-		set => __Prefab[Index] = value;
+		get => _Prefab[Index];
+		set => _Prefab[Index] = value;
 	}
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__FishId;
-	public static BansheeGz.BGDatabase.BGFieldInt __FishId => _ufle12jhs77__FishId ?? (_ufle12jhs77__FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5738085357535783960UL, 12879849390299136128UL), () => _ufle12jhs77__FishId = null));
-	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77__name;
-	public static BansheeGz.BGDatabase.BGFieldEntityName __name => _ufle12jhs77__name ?? (_ufle12jhs77__name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5045520561611985804UL, 12371104935179130035UL), () => _ufle12jhs77__name = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Hp;
-	public static BansheeGz.BGDatabase.BGFieldInt __Hp => _ufle12jhs77__Hp ?? (_ufle12jhs77__Hp = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5704705637946529922UL, 7991778845071206046UL), () => _ufle12jhs77__Hp = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__AbilityToAct;
-	public static BansheeGz.BGDatabase.BGFieldInt __AbilityToAct => _ufle12jhs77__AbilityToAct ?? (_ufle12jhs77__AbilityToAct = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5368075965366420038UL, 3628174215926008226UL), () => _ufle12jhs77__AbilityToAct = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__AbilityToAct_icon;
-	public static BansheeGz.BGDatabase.BGFieldString __AbilityToAct_icon => _ufle12jhs77__AbilityToAct_icon ?? (_ufle12jhs77__AbilityToAct_icon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5510431125834546457UL, 13703688639673701812UL), () => _ufle12jhs77__AbilityToAct_icon = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Skill_name;
-	public static BansheeGz.BGDatabase.BGFieldString __Skill_name => _ufle12jhs77__Skill_name ?? (_ufle12jhs77__Skill_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4687308779892288187UL, 11404193653849018288UL), () => _ufle12jhs77__Skill_name = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Damage;
-	public static BansheeGz.BGDatabase.BGFieldInt __Damage => _ufle12jhs77__Damage ?? (_ufle12jhs77__Damage = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5751248046732169612UL, 2868805763113974935UL), () => _ufle12jhs77__Damage = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Heal;
-	public static BansheeGz.BGDatabase.BGFieldInt __Heal => _ufle12jhs77__Heal ?? (_ufle12jhs77__Heal = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5454052037782380401UL, 14008414421192123017UL), () => _ufle12jhs77__Heal = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Support;
-	public static BansheeGz.BGDatabase.BGFieldInt __Support => _ufle12jhs77__Support ?? (_ufle12jhs77__Support = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4753544105094698958UL, 1311845227934253236UL), () => _ufle12jhs77__Support = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Habitat;
-	public static BansheeGz.BGDatabase.BGFieldString __Habitat => _ufle12jhs77__Habitat ?? (_ufle12jhs77__Habitat = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5202296115580117291UL, 1388211540386024089UL), () => _ufle12jhs77__Habitat = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__Probability;
-	public static BansheeGz.BGDatabase.BGFieldInt __Probability => _ufle12jhs77__Probability ?? (_ufle12jhs77__Probability = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5261378452605459351UL, 14491805233951288455UL), () => _ufle12jhs77__Probability = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Description;
-	public static BansheeGz.BGDatabase.BGFieldString __Description => _ufle12jhs77__Description ?? (_ufle12jhs77__Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4951050286627185142UL, 1447691313761944220UL), () => _ufle12jhs77__Description = null));
-	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Fish_length;
-	public static BansheeGz.BGDatabase.BGFieldFloat __Fish_length => _ufle12jhs77__Fish_length ?? (_ufle12jhs77__Fish_length = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5183735310652482815UL, 7439091674765211793UL), () => _ufle12jhs77__Fish_length = null));
-	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77__MaxStackSize;
-	public static BansheeGz.BGDatabase.BGFieldInt __MaxStackSize => _ufle12jhs77__MaxStackSize ?? (_ufle12jhs77__MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5211317728524813621UL, 2693696612521573005UL), () => _ufle12jhs77__MaxStackSize = null));
-	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77__Weight;
-	public static BansheeGz.BGDatabase.BGFieldFloat __Weight => _ufle12jhs77__Weight ?? (_ufle12jhs77__Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5024088679543999167UL, 11148223410802462848UL), () => _ufle12jhs77__Weight = null));
-	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__IsPlayerCard;
-	public static BansheeGz.BGDatabase.BGFieldBool __IsPlayerCard => _ufle12jhs77__IsPlayerCard ?? (_ufle12jhs77__IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4665905885988586443UL, 1653607090037436589UL), () => _ufle12jhs77__IsPlayerCard = null));
-	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77__Check;
-	public static BansheeGz.BGDatabase.BGFieldBool __Check => _ufle12jhs77__Check ?? (_ufle12jhs77__Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4704219168888085743UL, 17113334918544427432UL), () => _ufle12jhs77__Check = null));
-	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77__Prefab;
-	public static BansheeGz.BGDatabase.BGFieldString __Prefab => _ufle12jhs77__Prefab ?? (_ufle12jhs77__Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4664416041449059695UL, 13939171338268991669UL), () => _ufle12jhs77__Prefab = null));
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_FishId;
+	public static BansheeGz.BGDatabase.BGFieldInt _FishId => _ufle12jhs77_FishId ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5738085357535783960UL, 12879849390299136128UL), () => _ufle12jhs77_FishId = null);
+	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_name;
+	public static BansheeGz.BGDatabase.BGFieldEntityName _name => _ufle12jhs77_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5045520561611985804UL, 12371104935179130035UL), () => _ufle12jhs77_name = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Hp;
+	public static BansheeGz.BGDatabase.BGFieldInt _Hp => _ufle12jhs77_Hp ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5704705637946529922UL, 7991778845071206046UL), () => _ufle12jhs77_Hp = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_AbilityToAct;
+	public static BansheeGz.BGDatabase.BGFieldInt _AbilityToAct => _ufle12jhs77_AbilityToAct ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5368075965366420038UL, 3628174215926008226UL), () => _ufle12jhs77_AbilityToAct = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_AbilityToAct_icon;
+	public static BansheeGz.BGDatabase.BGFieldString _AbilityToAct_icon => _ufle12jhs77_AbilityToAct_icon ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5510431125834546457UL, 13703688639673701812UL), () => _ufle12jhs77_AbilityToAct_icon = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Skill_name;
+	public static BansheeGz.BGDatabase.BGFieldString _Skill_name => _ufle12jhs77_Skill_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4687308779892288187UL, 11404193653849018288UL), () => _ufle12jhs77_Skill_name = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Damage;
+	public static BansheeGz.BGDatabase.BGFieldInt _Damage => _ufle12jhs77_Damage ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5751248046732169612UL, 2868805763113974935UL), () => _ufle12jhs77_Damage = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Heal;
+	public static BansheeGz.BGDatabase.BGFieldInt _Heal => _ufle12jhs77_Heal ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5454052037782380401UL, 14008414421192123017UL), () => _ufle12jhs77_Heal = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Support;
+	public static BansheeGz.BGDatabase.BGFieldInt _Support => _ufle12jhs77_Support ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4753544105094698958UL, 1311845227934253236UL), () => _ufle12jhs77_Support = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Habitat;
+	public static BansheeGz.BGDatabase.BGFieldString _Habitat => _ufle12jhs77_Habitat ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5202296115580117291UL, 1388211540386024089UL), () => _ufle12jhs77_Habitat = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_Probability;
+	public static BansheeGz.BGDatabase.BGFieldInt _Probability => _ufle12jhs77_Probability ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5261378452605459351UL, 14491805233951288455UL), () => _ufle12jhs77_Probability = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Description;
+	public static BansheeGz.BGDatabase.BGFieldString _Description => _ufle12jhs77_Description ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4951050286627185142UL, 1447691313761944220UL), () => _ufle12jhs77_Description = null);
+	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_Fish_length;
+	public static BansheeGz.BGDatabase.BGFieldFloat _Fish_length => _ufle12jhs77_Fish_length ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5183735310652482815UL, 7439091674765211793UL), () => _ufle12jhs77_Fish_length = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_MaxStackSize;
+	public static BansheeGz.BGDatabase.BGFieldInt _MaxStackSize => _ufle12jhs77_MaxStackSize ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5211317728524813621UL, 2693696612521573005UL), () => _ufle12jhs77_MaxStackSize = null);
+	private static BansheeGz.BGDatabase.BGFieldFloat _ufle12jhs77_Weight;
+	public static BansheeGz.BGDatabase.BGFieldFloat _Weight => _ufle12jhs77_Weight ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(MetaDefault, new BGId(5024088679543999167UL, 11148223410802462848UL), () => _ufle12jhs77_Weight = null);
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77_IsPlayerCard;
+	public static BansheeGz.BGDatabase.BGFieldBool _IsPlayerCard => _ufle12jhs77_IsPlayerCard ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4665905885988586443UL, 1653607090037436589UL), () => _ufle12jhs77_IsPlayerCard = null);
+	private static BansheeGz.BGDatabase.BGFieldBool _ufle12jhs77_Check;
+	public static BansheeGz.BGDatabase.BGFieldBool _Check => _ufle12jhs77_Check ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(MetaDefault, new BGId(4704219168888085743UL, 17113334918544427432UL), () => _ufle12jhs77_Check = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_Prefab;
+	public static BansheeGz.BGDatabase.BGFieldString _Prefab => _ufle12jhs77_Prefab ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4664416041449059695UL, 13939171338268991669UL), () => _ufle12jhs77_Prefab = null);
 	private DB_FishLake() : base(MetaDefault) {}
 	private DB_FishLake(BGId id) : base(MetaDefault, id) {}
 	private DB_FishLake(BGMetaEntity meta) : base(meta) {}
@@ -511,9 +599,53 @@ public partial class DB_FishLake : BGEntity
 	public static DB_FishLake NewEntity() => (DB_FishLake) MetaDefault.NewEntity();
 	public static DB_FishLake NewEntity(BGId entityId) => (DB_FishLake) MetaDefault.NewEntity(entityId);
 	public static DB_FishLake NewEntity(Action<DB_FishLake> callback) => (DB_FishLake) MetaDefault.NewEntity(new BGMetaEntity.NewEntityContext(entity => callback((DB_FishLake)entity)));
+	public static void InitializeCodeGenRuntime()
+	{
+		_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5560984306225763593UL,9892102557027751583UL), ReleaseCodeGenRuntime);
+		_ufle12jhs77_FishId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5738085357535783960UL, 12879849390299136128UL));
+		_ufle12jhs77_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(_metaDefault, new BGId(5045520561611985804UL, 12371104935179130035UL));
+		_ufle12jhs77_Hp = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5704705637946529922UL, 7991778845071206046UL));
+		_ufle12jhs77_AbilityToAct = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5368075965366420038UL, 3628174215926008226UL));
+		_ufle12jhs77_AbilityToAct_icon = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(5510431125834546457UL, 13703688639673701812UL));
+		_ufle12jhs77_Skill_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4687308779892288187UL, 11404193653849018288UL));
+		_ufle12jhs77_Damage = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5751248046732169612UL, 2868805763113974935UL));
+		_ufle12jhs77_Heal = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5454052037782380401UL, 14008414421192123017UL));
+		_ufle12jhs77_Support = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4753544105094698958UL, 1311845227934253236UL));
+		_ufle12jhs77_Habitat = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(5202296115580117291UL, 1388211540386024089UL));
+		_ufle12jhs77_Probability = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5261378452605459351UL, 14491805233951288455UL));
+		_ufle12jhs77_Description = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4951050286627185142UL, 1447691313761944220UL));
+		_ufle12jhs77_Fish_length = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(_metaDefault, new BGId(5183735310652482815UL, 7439091674765211793UL));
+		_ufle12jhs77_MaxStackSize = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5211317728524813621UL, 2693696612521573005UL));
+		_ufle12jhs77_Weight = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldFloat>(_metaDefault, new BGId(5024088679543999167UL, 11148223410802462848UL));
+		_ufle12jhs77_IsPlayerCard = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(_metaDefault, new BGId(4665905885988586443UL, 1653607090037436589UL));
+		_ufle12jhs77_Check = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldBool>(_metaDefault, new BGId(4704219168888085743UL, 17113334918544427432UL));
+		_ufle12jhs77_Prefab = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4664416041449059695UL, 13939171338268991669UL));
+	}
+	public static void ReleaseCodeGenRuntime()
+	{
+		_metaDefault = null;
+		_ufle12jhs77_FishId = null;
+		_ufle12jhs77_name = null;
+		_ufle12jhs77_Hp = null;
+		_ufle12jhs77_AbilityToAct = null;
+		_ufle12jhs77_AbilityToAct_icon = null;
+		_ufle12jhs77_Skill_name = null;
+		_ufle12jhs77_Damage = null;
+		_ufle12jhs77_Heal = null;
+		_ufle12jhs77_Support = null;
+		_ufle12jhs77_Habitat = null;
+		_ufle12jhs77_Probability = null;
+		_ufle12jhs77_Description = null;
+		_ufle12jhs77_Fish_length = null;
+		_ufle12jhs77_MaxStackSize = null;
+		_ufle12jhs77_Weight = null;
+		_ufle12jhs77_IsPlayerCard = null;
+		_ufle12jhs77_Check = null;
+		_ufle12jhs77_Prefab = null;
+	}
 
 	[Preserve]
-	public class Factory : BGEntity.EntityFactory
+	public sealed class Factory : BGEntity.EntityFactory
 	{
 		public BGEntity NewEntity(BGMetaEntity meta) => new DB_FishLake(meta);
 		public BGEntity NewEntity(BGMetaEntity meta, BGId id) => new DB_FishLake(meta, id);
@@ -540,6 +672,218 @@ public partial class DB_FishLake : BGEntity
 		public const string IsPlayerCard = "IsPlayerCard";
 		public const string Check = "Check";
 		public const string Prefab = "Prefab";
+	}
+}
+
+[Preserve]
+public sealed partial class DB_GameDialog : BGEntity
+{
+	private static BansheeGz.BGDatabase.BGMetaRow _metaDefault;
+	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ??= BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5584336644477304854UL,17433534054083016846UL), () => _metaDefault = null);
+	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
+	public static int CountEntities => MetaDefault.CountEntities;
+	public System.Int32 DialogId
+	{
+		get => _DialogId[Index];
+		set => _DialogId.SetValue(this, value);
+	}
+	public System.String name
+	{
+		get => _name[Index];
+		set => _name[Index] = value;
+	}
+	public System.String text
+	{
+		get => _text[Index];
+		set => _text[Index] = value;
+	}
+	public System.Int32 nextId
+	{
+		get => _nextId[Index];
+		set => _nextId.SetValue(this, value);
+	}
+	public System.String portraitPath
+	{
+		get => _portraitPath[Index];
+		set => _portraitPath[Index] = value;
+	}
+	public List<DB_Choices> choices
+	{
+		get => BGCodeGenUtils.MultipleRelationGet<DB_Choices>(_choices, Index);
+		set => BGCodeGenUtils.MultipleRelationSet<DB_Choices>(_choices, Index, value);
+	}
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_DialogId;
+	public static BansheeGz.BGDatabase.BGFieldInt _DialogId => _ufle12jhs77_DialogId ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5027862820673451380UL, 3078999230340777089UL), () => _ufle12jhs77_DialogId = null);
+	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_name;
+	public static BansheeGz.BGDatabase.BGFieldEntityName _name => _ufle12jhs77_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(4992978860123395449UL, 10013648162712444847UL), () => _ufle12jhs77_name = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_text;
+	public static BansheeGz.BGDatabase.BGFieldString _text => _ufle12jhs77_text ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4696875784822327232UL, 8036504191935424388UL), () => _ufle12jhs77_text = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_nextId;
+	public static BansheeGz.BGDatabase.BGFieldInt _nextId => _ufle12jhs77_nextId ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5072672786422525844UL, 17266666896676044206UL), () => _ufle12jhs77_nextId = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_portraitPath;
+	public static BansheeGz.BGDatabase.BGFieldString _portraitPath => _ufle12jhs77_portraitPath ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(4646365072518137967UL, 9448667769619321731UL), () => _ufle12jhs77_portraitPath = null);
+	private static BansheeGz.BGDatabase.BGFieldRelationMultiple _ufle12jhs77_choices;
+	public static BansheeGz.BGDatabase.BGFieldRelationMultiple _choices => _ufle12jhs77_choices ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationMultiple>(MetaDefault, new BGId(4861534693419869178UL, 6093048913292466840UL), () => _ufle12jhs77_choices = null);
+	private DB_GameDialog() : base(MetaDefault) {}
+	private DB_GameDialog(BGId id) : base(MetaDefault, id) {}
+	private DB_GameDialog(BGMetaEntity meta) : base(meta) {}
+	private DB_GameDialog(BGMetaEntity meta, BGId id) : base(meta, id) {}
+	public static DB_GameDialog FindEntity(Predicate<DB_GameDialog> filter) => BGCodeGenUtils.FindEntity(MetaDefault, filter);
+	public static List<DB_GameDialog> FindEntities(Predicate<DB_GameDialog> filter, List<DB_GameDialog> result=null, Comparison<DB_GameDialog> sort=null) => BGCodeGenUtils.FindEntities(MetaDefault, filter, result, sort);
+	public static void ForEachEntity(Action<DB_GameDialog> action, Predicate<DB_GameDialog> filter=null, Comparison<DB_GameDialog> sort=null) => BGCodeGenUtils.ForEachEntity(MetaDefault, action, filter, sort);
+	public static DB_GameDialog GetEntity(BGId entityId) => (DB_GameDialog) MetaDefault.GetEntity(entityId);
+	public static DB_GameDialog GetEntity(int index) => (DB_GameDialog) MetaDefault[index];
+	public static DB_GameDialog GetEntity(string entityName) => (DB_GameDialog) MetaDefault.GetEntity(entityName);
+	public static DB_GameDialog NewEntity() => (DB_GameDialog) MetaDefault.NewEntity();
+	public static DB_GameDialog NewEntity(BGId entityId) => (DB_GameDialog) MetaDefault.NewEntity(entityId);
+	public static DB_GameDialog NewEntity(Action<DB_GameDialog> callback) => (DB_GameDialog) MetaDefault.NewEntity(new BGMetaEntity.NewEntityContext(entity => callback((DB_GameDialog)entity)));
+	public void choices_Add(DB_Choices related) => BGCodeGenUtils.MultipleRelationAdd(_choices, Index, related);
+	public void choices_Remove(DB_Choices related) => BGCodeGenUtils.MultipleRelationRemove(_choices, Index, related);
+	public List<DB_Choices> Fillchoices(List<DB_Choices> result) => BGCodeGenUtils.MultipleRelationGet<DB_Choices>(_choices, Index, result);
+	public static void InitializeCodeGenRuntime()
+	{
+		_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5584336644477304854UL,17433534054083016846UL), ReleaseCodeGenRuntime);
+		_ufle12jhs77_DialogId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5027862820673451380UL, 3078999230340777089UL));
+		_ufle12jhs77_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(_metaDefault, new BGId(4992978860123395449UL, 10013648162712444847UL));
+		_ufle12jhs77_text = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4696875784822327232UL, 8036504191935424388UL));
+		_ufle12jhs77_nextId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5072672786422525844UL, 17266666896676044206UL));
+		_ufle12jhs77_portraitPath = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(4646365072518137967UL, 9448667769619321731UL));
+		_ufle12jhs77_choices = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldRelationMultiple>(_metaDefault, new BGId(4861534693419869178UL, 6093048913292466840UL));
+	}
+	public static void ReleaseCodeGenRuntime()
+	{
+		_metaDefault = null;
+		_ufle12jhs77_DialogId = null;
+		_ufle12jhs77_name = null;
+		_ufle12jhs77_text = null;
+		_ufle12jhs77_nextId = null;
+		_ufle12jhs77_portraitPath = null;
+		_ufle12jhs77_choices = null;
+	}
+
+	[Preserve]
+	public sealed class Factory : BGEntity.EntityFactory
+	{
+		public BGEntity NewEntity(BGMetaEntity meta) => new DB_GameDialog(meta);
+		public BGEntity NewEntity(BGMetaEntity meta, BGId id) => new DB_GameDialog(meta, id);
+	}
+
+	public static class __Names
+	{
+		public const string Meta = "GameDialog";
+		public const string DialogId = "DialogId";
+		public const string name = "name";
+		public const string text = "text";
+		public const string nextId = "nextId";
+		public const string portraitPath = "portraitPath";
+		public const string choices = "choices";
+	}
+}
+
+[Preserve]
+public sealed partial class DB_Choices : BGEntity
+{
+	private static BansheeGz.BGDatabase.BGMetaRow _metaDefault;
+	public static BansheeGz.BGDatabase.BGMetaRow MetaDefault => _metaDefault ??= BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5417390207575500735UL,97964437334847379UL), () => _metaDefault = null);
+	public static BansheeGz.BGDatabase.BGRepoEvents Events => BGRepo.I.Events;
+	public static int CountEntities => MetaDefault.CountEntities;
+	public System.String name
+	{
+		get => _name[Index];
+		set => _name[Index] = value;
+	}
+	public System.Int32 ChoiceId
+	{
+		get => _ChoiceId[Index];
+		set => _ChoiceId.SetValue(this, value);
+	}
+	public System.String choiceText
+	{
+		get => _choiceText[Index];
+		set => _choiceText[Index] = value;
+	}
+	public System.Int32 choiceNextId
+	{
+		get => _choiceNextId[Index];
+		set => _choiceNextId.SetValue(this, value);
+	}
+	private static BansheeGz.BGDatabase.BGFieldEntityName _ufle12jhs77_name;
+	public static BansheeGz.BGDatabase.BGFieldEntityName _name => _ufle12jhs77_name ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(MetaDefault, new BGId(5547687542920768842UL, 315184727022763183UL), () => _ufle12jhs77_name = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_ChoiceId;
+	public static BansheeGz.BGDatabase.BGFieldInt _ChoiceId => _ufle12jhs77_ChoiceId ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(5308457029506116295UL, 2374685375725347484UL), () => _ufle12jhs77_ChoiceId = null);
+	private static BansheeGz.BGDatabase.BGFieldString _ufle12jhs77_choiceText;
+	public static BansheeGz.BGDatabase.BGFieldString _choiceText => _ufle12jhs77_choiceText ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(MetaDefault, new BGId(5386551107550435528UL, 860956536653701041UL), () => _ufle12jhs77_choiceText = null);
+	private static BansheeGz.BGDatabase.BGFieldInt _ufle12jhs77_choiceNextId;
+	public static BansheeGz.BGDatabase.BGFieldInt _choiceNextId => _ufle12jhs77_choiceNextId ??= BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(MetaDefault, new BGId(4764995010668862391UL, 5364007493517493931UL), () => _ufle12jhs77_choiceNextId = null);
+	public List<DB_GameDialog> RelatedGameDialogListUsingchoicesRelation => BGCodeGenUtils.GetRelatedInbound<DB_GameDialog>(DB_GameDialog._choices, Id);
+	private DB_Choices() : base(MetaDefault) {}
+	private DB_Choices(BGId id) : base(MetaDefault, id) {}
+	private DB_Choices(BGMetaEntity meta) : base(meta) {}
+	private DB_Choices(BGMetaEntity meta, BGId id) : base(meta, id) {}
+	public static DB_Choices FindEntity(Predicate<DB_Choices> filter) => BGCodeGenUtils.FindEntity(MetaDefault, filter);
+	public static List<DB_Choices> FindEntities(Predicate<DB_Choices> filter, List<DB_Choices> result=null, Comparison<DB_Choices> sort=null) => BGCodeGenUtils.FindEntities(MetaDefault, filter, result, sort);
+	public static void ForEachEntity(Action<DB_Choices> action, Predicate<DB_Choices> filter=null, Comparison<DB_Choices> sort=null) => BGCodeGenUtils.ForEachEntity(MetaDefault, action, filter, sort);
+	public static DB_Choices GetEntity(BGId entityId) => (DB_Choices) MetaDefault.GetEntity(entityId);
+	public static DB_Choices GetEntity(int index) => (DB_Choices) MetaDefault[index];
+	public static DB_Choices GetEntity(string entityName) => (DB_Choices) MetaDefault.GetEntity(entityName);
+	public static DB_Choices NewEntity() => (DB_Choices) MetaDefault.NewEntity();
+	public static DB_Choices NewEntity(BGId entityId) => (DB_Choices) MetaDefault.NewEntity(entityId);
+	public static DB_Choices NewEntity(Action<DB_Choices> callback) => (DB_Choices) MetaDefault.NewEntity(new BGMetaEntity.NewEntityContext(entity => callback((DB_Choices)entity)));
+	public List<DB_GameDialog> FillRelatedGameDialogListUsingchoicesRelation(List<DB_GameDialog> result) => BGCodeGenUtils.GetRelatedInbound<DB_GameDialog>(DB_GameDialog._choices, Id, result);
+	public static void InitializeCodeGenRuntime()
+	{
+		_metaDefault = BGCodeGenUtils.GetMeta<BansheeGz.BGDatabase.BGMetaRow>(new BGId(5417390207575500735UL,97964437334847379UL), ReleaseCodeGenRuntime);
+		_ufle12jhs77_name = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldEntityName>(_metaDefault, new BGId(5547687542920768842UL, 315184727022763183UL));
+		_ufle12jhs77_ChoiceId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(5308457029506116295UL, 2374685375725347484UL));
+		_ufle12jhs77_choiceText = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldString>(_metaDefault, new BGId(5386551107550435528UL, 860956536653701041UL));
+		_ufle12jhs77_choiceNextId = BGCodeGenUtils.GetField<BansheeGz.BGDatabase.BGFieldInt>(_metaDefault, new BGId(4764995010668862391UL, 5364007493517493931UL));
+	}
+	public static void ReleaseCodeGenRuntime()
+	{
+		_metaDefault = null;
+		_ufle12jhs77_name = null;
+		_ufle12jhs77_ChoiceId = null;
+		_ufle12jhs77_choiceText = null;
+		_ufle12jhs77_choiceNextId = null;
+	}
+
+	[Preserve]
+	public sealed class Factory : BGEntity.EntityFactory
+	{
+		public BGEntity NewEntity(BGMetaEntity meta) => new DB_Choices(meta);
+		public BGEntity NewEntity(BGMetaEntity meta, BGId id) => new DB_Choices(meta, id);
+	}
+
+	public static class __Names
+	{
+		public const string Meta = "Choices";
+		public const string name = "name";
+		public const string ChoiceId = "ChoiceId";
+		public const string choiceText = "choiceText";
+		public const string choiceNextId = "choiceNextId";
+	}
+}
+
+[Preserve]
+public static class BGCodeGenRuntimeInitializer
+{
+	[Preserve]
+	public static void InitializeCodeGenRuntime()
+	{
+		DB_FishRiver.InitializeCodeGenRuntime();
+		DB_FishOcean.InitializeCodeGenRuntime();
+		DB_FishLake.InitializeCodeGenRuntime();
+		DB_GameDialog.InitializeCodeGenRuntime();
+		DB_Choices.InitializeCodeGenRuntime();
+	}
+	[Preserve]
+	public static void ReleaseCodeGenRuntime()
+	{
+		DB_FishRiver.ReleaseCodeGenRuntime();
+		DB_FishOcean.ReleaseCodeGenRuntime();
+		DB_FishLake.ReleaseCodeGenRuntime();
+		DB_GameDialog.ReleaseCodeGenRuntime();
+		DB_Choices.ReleaseCodeGenRuntime();
 	}
 }
 #pragma warning restore 414

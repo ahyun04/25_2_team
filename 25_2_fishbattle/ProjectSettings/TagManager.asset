@@ -9,6 +9,7 @@ TagManager:
   - PlayerCard
   - EnemyCard
   - EnhancementPanel
+  - Npc
   layers:
   - Default
   - TransparentFX

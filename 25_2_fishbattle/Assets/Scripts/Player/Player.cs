@@ -1,8 +1,10 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(SphereCollider))]
 public class Player : MonoBehaviour
 {
     #region 레퍼런스
@@ -16,6 +18,19 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rb;
     private Vector3 _moveInput;
+
+    [Header("상호작용 & 카메라")]
+    public CinemachineVirtualCamera mainCam;
+    public CinemachineVirtualCamera dialogueCam;
+    public CinemachineTargetGroup dialogueTargetGroup;
+    public int activePriority = 11;
+    public int inactivePriority = 9;
+    public float dialogueRotationSpeed = 5.0f;
+
+    private Coroutine _lookAtCoroutine;             // 바라보기 코루틴을 저장할 변수
+    private NPC_AI_Controller _nearbyNPC;           // 상호작용 가능한 범위 내의 NPC
+    private NPC_AI_Controller _activeDialogueNPC;   // 현재 대화 중인 NPC
+    private bool _isInDialogue = false;
 
     [System.Serializable]
     public class PlayerEvents 
@@ -37,7 +52,16 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         if (_rb == null) 
-            Debug.LogError("Player에 Rigidbody 컴포넌트가 없습니다!");
+            Debug.LogError("Player에 Rigidbody 컴포넌트가 없습니다");
+
+        SphereCollider trigger = GetComponent<SphereCollider>();
+        if (trigger != null)
+            trigger.isTrigger = true;
+        else
+            Debug.LogError("Player에 SphereCollider가 없습니다");
+
+        if (mainCam != null) mainCam.Priority = activePriority - 1;
+        if (dialogueCam != null) dialogueCam.Priority = inactivePriority;
     }
 
     #endregion
@@ -45,11 +69,34 @@ public class Player : MonoBehaviour
     #region 업데이트
     private void Update()
     {
+        // 현재 대화 중일 때
+        if (_isInDialogue)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && _activeDialogueNPC != null)
+            {
+                ToggleDialogue(_activeDialogueNPC);
+            }
+            return;
+        }
+
+        // 대화 중이 아닐 때
+        if (_nearbyNPC != null && Input.GetKeyDown(KeyCode.Space))
+        {
+            ToggleDialogue(_nearbyNPC);
+            return;
+        }
+
         HandleInputAndAnimation();
     }
 
     private void FixedUpdate()
     {
+        if (_isInDialogue)
+        {
+            _rb.velocity = Vector3.zero;
+            return;
+        }
+
         HandleMovement();
     }
 
@@ -125,6 +172,122 @@ public class Player : MonoBehaviour
         _animator.SetBool("Walk", false);
         /*_buketAnimator.SetBool("Walk", false);
         _fishStickAnimator.SetBool("Walk", false);*/
+    }
+
+    #endregion
+
+    #region 상호작용 (Trigger)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_isInDialogue) return;
+
+        if (other.TryGetComponent<NPC_AI_Controller>(out NPC_AI_Controller npc))
+        {
+            _nearbyNPC = npc;
+            Debug.Log($"상호작용 가능: {npc.name}");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<NPC_AI_Controller>(out NPC_AI_Controller npc))
+        {
+            if (_nearbyNPC == npc)
+            {
+                _nearbyNPC = null;
+                Debug.Log($"상호작용 범위 이탈: {npc.name}");
+            }
+        }
+    }
+
+    #endregion
+
+    #region 대화 제어
+    private void ToggleDialogue(NPC_AI_Controller npc)
+    {
+        _isInDialogue = !_isInDialogue;
+
+        if (_isInDialogue)
+        {
+            Debug.Log("대화 모드 시작");
+
+            _activeDialogueNPC = npc;
+            StopMoving();
+
+            StartDialogueLook(_activeDialogueNPC.transform);
+
+            _activeDialogueNPC.PauseMovement();
+            _activeDialogueNPC.StartDialogueLook(this.transform);
+
+            if (dialogueTargetGroup != null)
+            {
+                dialogueTargetGroup.m_Targets[1].target = npc.transform;
+            }
+            else
+            {
+                Debug.LogWarning("Dialogue Target Group이 Player 스크립트에 연결되지 않았습니다!");
+            }
+
+            if (dialogueCam != null) dialogueCam.Priority = activePriority;
+        }
+        else
+        {
+            Debug.Log("대화 모드 종료");
+
+            if (_activeDialogueNPC == null) return;
+
+            EndDialogueLook();
+
+            _activeDialogueNPC.EndDialogueLook();
+            _activeDialogueNPC.ResumeMovement();
+
+            if (dialogueCam != null) dialogueCam.Priority = inactivePriority;
+
+            _activeDialogueNPC = null;
+        }
+    }
+
+    #endregion
+
+    #region 대화 바라보기
+    public void StartDialogueLook(Transform target)
+    {
+        if (_lookAtCoroutine != null)
+        {
+            StopCoroutine(_lookAtCoroutine);
+        }
+
+        _lookAtCoroutine = StartCoroutine(LookAtTargetRoutine(target));
+    }
+
+    public void EndDialogueLook()
+    {
+        if (_lookAtCoroutine != null)
+        {
+            StopCoroutine(_lookAtCoroutine);
+            _lookAtCoroutine = null;
+        }
+    }
+
+    private IEnumerator LookAtTargetRoutine(Transform target)
+    {
+        while (true)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            direction.y = 0;
+
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    dialogueRotationSpeed * Time.deltaTime
+                );
+            }
+
+            yield return null;
+        }
     }
 
     #endregion

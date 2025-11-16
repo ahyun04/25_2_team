@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61418920e5a0594418be84175293724d, type: 3}
+  m_Name: 12_Npc2
+  m_EditorClassIdentifier: 
+  DialogId: 12
+  name: Npc2
+  text: "\uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8
+    3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8
+    3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8
+    3"
+  choices:
+  - {fileID: 11400000, guid: a95bcd4276a256549ab7ecf29ef6b331, type: 2}
+  - {fileID: 11400000, guid: 89b1a1e9caf665c498ba5e75ff0ddd6a, type: 2}
+  _portraitPath: {fileID: 0}

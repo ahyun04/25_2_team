@@ -10,12 +10,14 @@ public class NPC_AI_Controller : MonoBehaviour
     [Header("레퍼런스")]
     private NPCBaseState _currentState;
     public NavMeshAgent Agent { get; private set; }
+    private Coroutine _lookAtCoroutine; // 바라보기 코루틴을 저장할 변수
+
+    public bool IsPausedByDialogue { get; private set; } = false;
 
     [Header("설정")]
-    [Tooltip("NPC가 배회할 중심 지점입니다. (보통 자기 자신)")]
     public Transform centerPoint;
-    [Tooltip("중심 지점에서 얼마나 멀리까지 배회할지 반경입니다.")]
     public float wanderRadius = 10f;
+    public float rotationSpeed = 5.0f; // 부드러운 회전을 위한 속도
 
     #endregion
 
@@ -41,6 +43,73 @@ public class NPC_AI_Controller : MonoBehaviour
         Debug.Log($"<color=white>NPC AI 상태 전환: {_currentState.GetType().Name}</color>");
 
         StartCoroutine(_currentState.ExecuteState(this));
+    }
+
+    #endregion
+
+    #region 상호작용 메서드
+    public void PauseMovement()
+    {
+        IsPausedByDialogue = true;
+        if (Agent != null && Agent.isOnNavMesh)
+        {
+            Agent.isStopped = true;
+            Debug.Log("<color=yellow>NPC 이동 일시정지.</color>");
+        }
+    }
+
+    public void ResumeMovement()
+    {
+        IsPausedByDialogue = false;
+        if (Agent != null && Agent.isOnNavMesh)
+        {
+            Agent.isStopped = false;
+            Debug.Log("<color=green>NPC 이동 재개.</color>");
+        }
+    }
+
+    #endregion
+
+    #region 대화 상호작용
+    public void StartDialogueLook(Transform target)
+    {
+        if (_lookAtCoroutine != null)
+        {
+            StopCoroutine(_lookAtCoroutine);
+        }
+
+        _lookAtCoroutine = StartCoroutine(LookAtTargetRoutine(target));
+    }
+
+    public void EndDialogueLook()
+    {
+        if (_lookAtCoroutine != null)
+        {
+            StopCoroutine(_lookAtCoroutine);
+            _lookAtCoroutine = null;
+        }
+    }
+
+    private IEnumerator LookAtTargetRoutine(Transform target)
+    {
+        while (true)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            direction.y = 0;
+
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    rotationSpeed * Time.deltaTime
+                );
+            }
+
+            yield return null;
+        }
     }
 
     #endregion

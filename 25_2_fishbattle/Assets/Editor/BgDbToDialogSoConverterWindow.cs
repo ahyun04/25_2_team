@@ -203,6 +203,7 @@ public class BgDbToDialogSoConverterWindow : EditorWindow
         so.DialogId = dialogEntity.DialogId;
         so.name = dialogEntity.name;
         so.text = dialogEntity.text;
+        so.nextId = dialogEntity.nextId;
 
         string prefabPath = dialogEntity.portraitPath;
         if (!string.IsNullOrEmpty(prefabPath))

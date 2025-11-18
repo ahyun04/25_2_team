@@ -18,6 +18,7 @@ MonoBehaviour:
     3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8
     3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8 3 \uD14C\uC2A4\uD2B8
     3"
+  nextId: -1
   choices:
   - {fileID: 11400000, guid: 3fb802411369822459c5d26d8b54027c, type: 2}
   - {fileID: 11400000, guid: 8c770bfa7e78a67439984a82a999a0a6, type: 2}

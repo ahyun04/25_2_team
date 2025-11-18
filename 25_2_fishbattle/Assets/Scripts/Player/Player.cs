@@ -70,14 +70,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         // 현재 대화 중일 때
-        if (_isInDialogue)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && _activeDialogueNPC != null)
-            {
-                ToggleDialogue(_activeDialogueNPC);
-            }
-            return;
-        }
+        if (_isInDialogue) return;
 
         // 대화 중이 아닐 때
         if (_nearbyNPC != null && Input.GetKeyDown(KeyCode.Space))
@@ -229,10 +222,21 @@ public class Player : MonoBehaviour
             }
 
             if (dialogueCam != null) dialogueCam.Priority = activePriority;
+
+            DialogManager.Instance.StartDialog(npc.startDialogId);
+
+            // 대화가 끝났을 때 실행할 콜백 등록 (필요하다면)
+            DialogManager.Instance.OnDialogEnded = () =>
+            {
+                // DialogManager가 대화를 끝내면 Player도 대화 모드 해제
+                ToggleDialogue(_activeDialogueNPC); // 다시 호출하여 종료 로직 실행
+            };
         }
         else
         {
             Debug.Log("대화 모드 종료");
+
+            DialogManager.Instance.OnDialogEnded = null;
 
             if (_activeDialogueNPC == null) return;
 

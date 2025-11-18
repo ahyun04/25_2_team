@@ -8,6 +8,7 @@ public class DialogSO : ScriptableObject
     public int DialogId;
     public string name;
     public string text;
+    public int nextId;
     public List<DialogChoiceSO> choices =new List<DialogChoiceSO>();
     [Header("Npc ÇÁ¸®ÆÕ")]
     [SerializeField] private GameObject _portraitPath;

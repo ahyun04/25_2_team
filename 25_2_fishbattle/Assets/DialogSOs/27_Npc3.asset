@@ -15,5 +15,6 @@ MonoBehaviour:
   DialogId: 27
   name: Npc3
   text: "\uB300\uD654 \uB05D\uB0A8"
+  nextId: -1
   choices: []
   _portraitPath: {fileID: 0}

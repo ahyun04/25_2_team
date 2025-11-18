@@ -19,6 +19,9 @@ public class NPC_AI_Controller : MonoBehaviour
     public float wanderRadius = 10f;
     public float rotationSpeed = 5.0f; // 부드러운 회전을 위한 속도
 
+    [Tooltip("이 NPC와 상호작용할 때 시작할 대화 ID")]
+    public int startDialogId = 1;
+
     #endregion
 
     #region 초기화

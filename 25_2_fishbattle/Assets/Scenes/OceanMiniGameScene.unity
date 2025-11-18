@@ -2380,7 +2380,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ae9be3b7c69616c4091fb7784897aea0,
+      objectReference: {fileID: 21300000, guid: c6630b14df2d1784ab3397bfb93054c4,
         type: 3}
     - target: {fileID: 7761168053840562184, guid: c64edf0910b5f50419c4b869cad39832,
         type: 3}
@@ -3476,7 +3476,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 66ff95c53855f0a40a24a23ca30bdc41, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4bda6316421aaf94ea8f1907756925dc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3563,7 +3563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774 \uBB3C\uACE0\uAE30\uAE30 \uB97C(\uC744) \uBC29\uC0DD\uD560\uAE4C\uC694?"
+  m_text: "\uC774 \uBB3C\uACE0\uAE30\uAE30 \uB97C(\uC744)\n\uBC29\uC0DD\uD560\uAE4C\uC694?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5da8de4eb394c4c489c5e3cc7d647d75, type: 2}
   m_sharedMaterial: {fileID: 8432350809928289718, guid: 5da8de4eb394c4c489c5e3cc7d647d75,
@@ -3591,8 +3591,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 233.61
-  m_fontSizeBase: 233.61
+  m_fontSize: 178
+  m_fontSizeBase: 178
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4464,7 +4464,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4777ad971c011b84c8723fcd05d3d804, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 99ed2e272be4b8849b0f2e706f08bbed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4875,7 +4875,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c8af83e72c305b247ac907f8c1fdb47d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d4bd0eda5c807a046b785ac691838b68, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4984,7 +4984,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c8af83e72c305b247ac907f8c1fdb47d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d4bd0eda5c807a046b785ac691838b68, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

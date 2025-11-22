@@ -23,11 +23,11 @@ public class InventoryUIController : MonoBehaviour
             }
         }
 
-        // 2. 이벤트 구독 전에 혹시 모를 이전 구독을 제거하고 새로 구독합니다. (더 안전함)
+        // 이벤트 구독 전에 혹시 모를 이전 구독을 제거하고 새로 구독합니다. (더 안전함)
         _inventoryHolder.InventorySystem.OnInventorySlotChanged -= UpdateSlotUI;
         _inventoryHolder.InventorySystem.OnInventorySlotChanged += UpdateSlotUI;
 
-        // 3. 활성화되는 즉시 UI를 한번 새로고침합니다.
+        // 활성화되는 즉시 UI를 한번 새로고침합니다.
         UpdateAllSlots();
     }
 

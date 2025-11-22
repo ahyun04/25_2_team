@@ -81,6 +81,13 @@ public class InventorySlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExi
         {
             ReleaseManager.Instance.OpenReleaseConfirm(this); // 현재 슬롯 정보 전달
         }
+        else if (eventData.button == PointerEventData.InputButton.Left && AssignedItem != null)
+        {
+            if (TradeManager.Instance != null)
+            {
+                TradeManager.Instance.OnPlayerItemSelected(this);
+            }
+        }
     }
 
     #endregion

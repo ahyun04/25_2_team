@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1046de6b9dc8dd14a85dca79213c4053, type: 3}
   m_Name: Choice_3_1
   m_EditorClassIdentifier: 
-  choiceText: "\uB124"
-  choiceNextId: 4
+  choiceText: "\uAD50\uD658\uD558\uAE30"
+  choiceNextId: -999

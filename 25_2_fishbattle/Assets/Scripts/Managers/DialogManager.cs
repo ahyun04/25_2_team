@@ -341,6 +341,15 @@ public class DialogManager : SingletonMono<DialogManager>
     private void OnChoiceSelected(int nextId)
     {
         _isChoiceActive = false;
+        
+        // 예시로 -999 한것
+        if (nextId == -999)
+        {
+            dialogPanel.SetActive(false);
+            TradeManager.Instance.StartTrade();
+            return;
+        }
+
         ShowDialog(nextId);
     }
 

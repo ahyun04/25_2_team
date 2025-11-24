@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FishBody_Default_Red
+  m_Name: FishBody_Default_Gray
   m_Shader: {fileID: -6465566751694194690, guid: 62b14620de9dfa04f85d0ec891d4ff02,
     type: 3}
   m_Parent: {fileID: 0}
@@ -133,10 +133,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.8396226, g: 0.18614274, b: 0.18614274, a: 1}
+    - _BaseColor: {r: 0.30342537, g: 0.3019793, b: 0.3132075, a: 1}
     - _Color: {r: 0.8396226, g: 0.18614271, b: 0.18614271, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _EndColor: {r: 0.8490566, g: 0.08810955, b: 0.409764, a: 0}
-    - _PatternColor: {r: 0.93207544, g: 0.84941965, b: 0.8649049, a: 0}
+    - _EndColor: {r: 0.27058825, g: 0.06666667, b: 0.38039216, a: 0}
+    - _PatternColor: {r: 0.4201819, g: 0.07221783, b: 0.6075471, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

@@ -8863,7 +8863,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 40
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -8889,8 +8889,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19321074, y: -0.12434999, z: 0.02469417, w: 0.97293216}
-  m_LocalPosition: {x: -15.969999, y: 7.8310003, z: -59.469997}
+  m_LocalRotation: {x: 0.33969072, y: 0, z: 0, w: 0.9405373}
+  m_LocalPosition: {x: -17.88, y: 8.024901, z: -56.73532}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23462,8 +23462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c48a6fa321d96439637124540111f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 237411914}
-  inventoryPanel: {fileID: 237411913}
+  inventoryPanel: {fileID: 237411914}
   fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}
 --- !u!4 &951107791 stripped
 Transform:

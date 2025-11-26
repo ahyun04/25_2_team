@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class TradeManager : SingletonMono<TradeManager>
 {
     #region 레퍼런스
-    protected override bool DontDestroy => true;
+    protected override bool DontDestroy => false;
 
     [Header("레퍼런스")]
     public InventoryUIController inventoryPanel;

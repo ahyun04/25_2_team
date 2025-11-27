@@ -55,6 +55,8 @@ public class FishingMiniGame : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _hookAFishNameText;
     [SerializeField] private Button _putInBoxButton;
     [SerializeField] private Transform _fishDisplayPoint;
+    [SerializeField] private Button _registerCollectionButton;
+    [SerializeField] private TextMeshProUGUI _collectionNoticeText;
 
     public bool IsResultPanelActive => _hookAFishPanel.gameObject.activeInHierarchy;
     private GameObject _fishPrefab;
@@ -271,10 +273,12 @@ public class FishingMiniGame : MonoBehaviour
     #endregion
 
     #region 결과 처리 & 인벤토리
-
     private void ShowFishResult()
     {
         _hookAFishPanel.gameObject.SetActive(true);
+
+        if (_collectionNoticeText != null)
+            _collectionNoticeText.gameObject.SetActive(false);
 
         if (_fishPrefab != null) Destroy(_fishPrefab);
 
@@ -298,6 +302,8 @@ public class FishingMiniGame : MonoBehaviour
 
         _putInBoxButton.onClick.RemoveAllListeners();
         _putInBoxButton.onClick.AddListener(() => PutFishInInventory());
+
+        UpdateCollectionButtonState();
     }
 
     private void PutFishInInventory()
@@ -338,6 +344,62 @@ public class FishingMiniGame : MonoBehaviour
 
         _hookAFishPanel.gameObject.SetActive(false);
         EndMiniGame();
+    }
+
+    private void UpdateCollectionButtonState()
+    {
+        if (CollectionManager.Instance == null)
+        {
+            if (_registerCollectionButton != null) _registerCollectionButton.gameObject.SetActive(false);
+            return;
+        }
+
+        bool isCollected = CollectionManager.Instance.IsFishCollected(_caughtFishSO);
+
+        if (isCollected)
+        {
+            if (_registerCollectionButton != null)
+                _registerCollectionButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (_registerCollectionButton != null)
+            {
+                _registerCollectionButton.gameObject.SetActive(true);
+                _registerCollectionButton.onClick.RemoveAllListeners();
+                _registerCollectionButton.onClick.AddListener(() => RegisterFishCurrent());
+            }
+        }
+    }
+
+    private void RegisterFishCurrent()
+    {
+        if (_caughtFishSO == null) return;
+
+        // 도감에 등록 요청
+        CollectionManager.Instance.RegisterFishToCollection(_caughtFishSO);
+
+        // 등록 후 버튼을 즉시 숨깁니다.
+        if (_registerCollectionButton != null)
+            _registerCollectionButton.gameObject.SetActive(false);
+
+        if (_collectionNoticeText != null)
+        {
+            _collectionNoticeText.gameObject.SetActive(true);
+            _collectionNoticeText.text = "도감에 등록 됐습니다!";
+
+            StartCoroutine(HideNoticeRoutine());
+        }
+    }
+
+    private IEnumerator HideNoticeRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+
+        if (_collectionNoticeText != null)
+        {
+            _collectionNoticeText.gameObject.SetActive(false);
+        }
     }
 
     private void EndMiniGame()

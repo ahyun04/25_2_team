@@ -303,6 +303,16 @@ public class FishingMiniGame : MonoBehaviour
         _putInBoxButton.onClick.RemoveAllListeners();
         _putInBoxButton.onClick.AddListener(() => PutFishInInventory());
 
+        if (CollectionManager.Instance != null)
+        {
+            bool isAlreadyCollected = CollectionManager.Instance.IsFishCollected(_caughtFishSO);
+
+            if (isAlreadyCollected)
+            {
+                CollectionManager.Instance.RegisterFishToCollection(_caughtFishSO);
+            }
+        }
+
         UpdateCollectionButtonState();
     }
 

@@ -28,11 +28,11 @@ public class CollectionSlot_UI : MonoBehaviour, IPointerClickHandler
 
             if (isCollected)
             {
-                _fishIconImage.color = Color.white; // 원본 색
+                _fishIconImage.color = Color.white;
             }
             else
             {
-                _fishIconImage.color = Color.black; // 실루엣 처리 (또는 투명하게 하려면 a값 조절)
+                _fishIconImage.color = Color.black;
             }
         }
     }

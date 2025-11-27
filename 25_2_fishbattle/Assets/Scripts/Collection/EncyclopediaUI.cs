@@ -12,7 +12,7 @@ public class EncyclopediaUI : MonoBehaviour
 
     [Header("UI Groups")]
     [SerializeField] private GameObject _encyclopediaGroup; // 전체 UI (O키로 토글)
-    [SerializeField] private Transform _contentTransform;   // 슬롯이 생성될 부모 (Grid Layout)
+    [SerializeField] private Transform _contentTransform;
 
     [Header("Detail Panel (Learn More)")]
     [SerializeField] private GameObject _learnMoreGroup;    // Learn more Image 그룹
@@ -22,7 +22,7 @@ public class EncyclopediaUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameText;     // Name
     [SerializeField] private TextMeshProUGUI _countText;    // Count (??마리 잡음)
     [SerializeField] private TextMeshProUGUI _hpText;       // HP (체력 : ??)
-    [SerializeField] private TextMeshProUGUI _descText;     // Description
+    [SerializeField] private TextMeshProUGUI _costText;     // 코스트
     [SerializeField] private TextMeshProUGUI _skillNameText;// Skill Name
 
     [Header("Tab Buttons")]
@@ -37,7 +37,10 @@ public class EncyclopediaUI : MonoBehaviour
     #endregion
 
     private List<FishSO> _allFishes = new List<FishSO>();
+    private List<FishSO> _collectedOnlyList = new List<FishSO>();   
+    private List<FishSO> CurrentList => _isViewAllMode ? _allFishes : _collectedOnlyList;
     private int _currentIndex = 0;
+    private bool _isViewAllMode = false;
 
     private void Start()
     {
@@ -125,35 +128,30 @@ public class EncyclopediaUI : MonoBehaviour
     #endregion
 
     #region 탭 버튼 기능 (Tab Logic)
-
-    // Collection 버튼 눌렀을 때
     private void OnCollectionTabClicked()
     {
-        // 1. 그리드 새로고침 및 표시
         RefreshGrid();
 
-        // 2. 패널 상태 설정 (목록 켜기, 상세 끄기)
-        // _encyclopediaGroup은 이미 켜져있다고 가정하지만 안전하게 한 번 더 켭니다.
         _encyclopediaGroup.SetActive(true);
         _learnMoreGroup.SetActive(false);
 
-        // 3. 버튼 자식 이미지(하이라이트) 상태 변경
         SetButtonChildActive(_collectionTabButton, true);
         SetButtonChildActive(_learnMoreTabButton, false);
     }
 
-    // Learn More Fish 버튼 눌렀을 때
     private void OnLearnMoreTabClicked()
     {
-        // 1. 상세 정보 표시
-        ShowDetailPanel(_allFishes[_currentIndex]);
+        _isViewAllMode = true;
 
-        // 2. 버튼 자식 이미지 상태 변경
+        _currentIndex = 0;
+
+        _learnMoreGroup.SetActive(true);
         SetButtonChildActive(_collectionTabButton, false);
         SetButtonChildActive(_learnMoreTabButton, true);
+
+        UpdateDetailUI();
     }
 
-    // 버튼의 첫 번째 자식(Image)을 켜고 끄는 헬퍼 함수
     private void SetButtonChildActive(Button btn, bool isActive)
     {
         if (btn != null && btn.transform.childCount > 0)
@@ -165,52 +163,71 @@ public class EncyclopediaUI : MonoBehaviour
     #endregion
 
     #region 상세 정보 패널 (Detail View)
-
-    // 슬롯을 클릭했을 때 호출됨
     public void ShowDetailPanel(FishSO fish)
     {
-        // 해당 물고기의 인덱스 찾기
-        _currentIndex = _allFishes.IndexOf(fish);
+        _isViewAllMode = false;
 
-        // 상세 패널 및 관련 오브젝트 켜기
+        UpdateCollectedList();
+
+        if (_collectedOnlyList.Contains(fish))
+        {
+            _currentIndex = _collectedOnlyList.IndexOf(fish);
+        }
+        else
+        {
+            _currentIndex = 0;
+        }
+
         _learnMoreGroup.SetActive(true);
-
         SetButtonChildActive(_collectionTabButton, false);
         SetButtonChildActive(_learnMoreTabButton, true);
 
         UpdateDetailUI();
     }
 
+    private void UpdateCollectedList()
+    {
+        _collectedOnlyList.Clear();
+        foreach (var fish in _allFishes)
+        {
+            if (CollectionManager.Instance.IsFishCollected(fish))
+            {
+                _collectedOnlyList.Add(fish);
+            }
+        }
+    }
+
     private void UpdateDetailUI()
     {
-        // 인덱스 안전 장치
-        if (_currentIndex < 0 || _currentIndex >= _allFishes.Count) return;
+        List<FishSO> targetList = CurrentList;
 
-        FishSO fish = _allFishes[_currentIndex];
+        if (targetList.Count == 0 || _currentIndex < 0 || _currentIndex >= targetList.Count) return;
 
-        // 수집 여부 데이터 가져오기
+        FishSO fish = targetList[_currentIndex];
+
         bool isCollected = CollectionManager.Instance.IsFishCollected(fish);
-        int count = CollectionManager.Instance.IsFishCollected(fish)
-                    ? CollectionHolder.Instance.CollectionSystem.GetFishCount(fish)
-                    : 0;
+        int fishCount = 0;
+        if (isCollected && CollectionHolder.Instance != null)
+            fishCount = CollectionHolder.Instance.CollectionSystem.GetFishCount(fish);
 
-        // UI 텍스트 갱신
-        // 수집하지 못한 물고기로 네비게이션 해왔을 경우 정보 숨김 (선택사항)
         if (!isCollected)
         {
+            _detailFishImage.color = Color.black;
+            _detailFishImage.sprite = fish.Icon;
             _nameText.text = "???";
-            _hpText.text = "체력 : ???";
-            _countText.text = "0마리 잡음";
-            _descText.text = "아직 발견하지 못한 물고기입니다.";
-            _skillNameText.text = "스킬 : ???";
+            _hpText.text = "???";
+            _countText.text = "???";
+            _costText.text = "???";
+            _skillNameText.text = "???";
         }
         else
         {
             _detailFishImage.sprite = fish.Icon;
+            _detailFishImage.color = Color.white;
             _nameText.text = fish.Name;
             _hpText.text = $"체력 : {fish.Hp}";
-            _countText.text = $"{count}마리 잡음";
-            _descText.text = fish.Description;
+            _countText.text = $"{fishCount}마리 잡음";
+            _costText.text = $"행동력 : {fish.AbilityToAct}";
             _skillNameText.text = string.IsNullOrEmpty(fish.Skill_name) ? "스킬 없음" : fish.Skill_name;
         }
 
@@ -219,29 +236,20 @@ public class EncyclopediaUI : MonoBehaviour
 
     private void UpdateNavigationButtons()
     {
-        int collectedCount = CollectionManager.Instance.GetCollectedCount();
-        int totalDatabaseCount = _allFishes.Count;
+        int totalCount = CurrentList.Count;
 
-        if (collectedCount <= 1)
+        if (totalCount <= 1)
         {
             _leftButton.gameObject.SetActive(false);
             _rightButton.gameObject.SetActive(false);
-
             if (_moreFishText != null) _moreFishText.gameObject.SetActive(true);
-
             return;
         }
 
-        if (_currentIndex <= 0)
-        {
-            _leftButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            _leftButton.gameObject.SetActive(true);
-        }
+        if (_currentIndex <= 0) _leftButton.gameObject.SetActive(false);
+        else _leftButton.gameObject.SetActive(true);
 
-        if (_currentIndex >= totalDatabaseCount - 1)
+        if (_currentIndex >= totalCount - 1)
         {
             _rightButton.gameObject.SetActive(false);
             if (_moreFishText != null) _moreFishText.gameObject.SetActive(true);
@@ -264,7 +272,7 @@ public class EncyclopediaUI : MonoBehaviour
 
     private void OnRightButtonClicked()
     {
-        if (_currentIndex < _allFishes.Count - 1)
+        if (_currentIndex < CurrentList.Count - 1)
         {
             _currentIndex++;
             UpdateDetailUI();

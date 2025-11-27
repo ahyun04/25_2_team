@@ -44,6 +44,7 @@ public class FishingMiniGame : MonoBehaviour
     [SerializeField] private Transform _grabPoint;              
     [SerializeField] private GameObject _virtualHandImage;
 
+    private float _rotationOffset = 0f;
     [SerializeField] private int _targetRotations = 10;         // 목표 회전 수 (10바퀴)
     private float _currentRotationSum = 0f;                     // 현재 누적 회전각
     private float _requiredRotationSum;                         // 목표 누적 회전각 (10 * 360)
@@ -158,6 +159,7 @@ public class FishingMiniGame : MonoBehaviour
         _bobberHitText.gameObject.SetActive(false);
 
         _isReeling = true;
+        _isDragging = false;
         _currentRotationSum = 0f;
 
         if (_miniGameGroup != null) _miniGameGroup.SetActive(true);
@@ -199,7 +201,10 @@ public class FishingMiniGame : MonoBehaviour
                 if (_virtualHandImage != null) _virtualHandImage.SetActive(true);
 
                 Vector2 dir = Input.mousePosition - _handleRect.position;
-                _prevAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                float startMouseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                _rotationOffset = _handleRect.eulerAngles.z - startMouseAngle;
+                _prevAngle = startMouseAngle;
             }
         }
 
@@ -216,19 +221,18 @@ public class FishingMiniGame : MonoBehaviour
         {
             Vector3 mousePos = Input.mousePosition;
             Vector3 handlePos = _handleRect.position;
-
             Vector2 direction = mousePos - handlePos;
-            float currentAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            _handleRect.rotation = Quaternion.Euler(0, 0, currentAngle - 90);
+            float currentMouseAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            float angleStep = Mathf.DeltaAngle(_prevAngle, currentAngle);
+            _handleRect.rotation = Quaternion.Euler(0, 0, currentMouseAngle + _rotationOffset);
+
+            float angleStep = Mathf.DeltaAngle(_prevAngle, currentMouseAngle);
 
             if (angleStep > 0) _currentRotationSum += angleStep;
-
             if (_progressBar != null) _progressBar.value = _currentRotationSum / _requiredRotationSum;
 
-            _prevAngle = currentAngle;
+            _prevAngle = currentMouseAngle;
 
             if (_currentRotationSum >= _requiredRotationSum) SuccessFishing();
         }
@@ -241,6 +245,7 @@ public class FishingMiniGame : MonoBehaviour
         if (_virtualHandImage != null) _virtualHandImage.SetActive(false);
 
         _isReeling = false;
+        _isDragging = false;
         _isFishing = false;
         Debug.Log("낚시 성공!");
 
@@ -343,6 +348,7 @@ public class FishingMiniGame : MonoBehaviour
         _fishingCoroutine = null;
         _isFishing = false;
         _isReeling = false;
+        _isDragging = false;
         if (_miniGameGroup != null) _miniGameGroup.SetActive(false);
 
         MiniGameManager.EndMiniGame();

@@ -31,6 +31,8 @@ public class TurnManager : SingletonMono<TurnManager>
     private EnemyAI_Controller _enemyAIController;
     private UIManager _uiManager;
 
+    private Coroutine _autoEndTurnCoroutine;
+
     #endregion
 
     #region 초기화
@@ -137,6 +139,14 @@ public class TurnManager : SingletonMono<TurnManager>
             if (PlayerAP >= cost)
             {
                 PlayerAP -= cost;
+
+                if (PlayerAP <= 0 && !_isSwitchingTurns)
+                {
+                    Debug.Log("AP 모두 소진! 잠시 후 턴을 종료합니다.");
+                    if (_autoEndTurnCoroutine != null) StopCoroutine(_autoEndTurnCoroutine);
+                    _autoEndTurnCoroutine = StartCoroutine(AutoEndTurnRoutine());
+                }
+
                 return true;
             }
             return false;
@@ -152,11 +162,31 @@ public class TurnManager : SingletonMono<TurnManager>
         }
     }
 
-    /// <summary> 해당 팀의 AP를 추가합니다. </summary>
+    private IEnumerator AutoEndTurnRoutine()
+    {
+        // 마지막 행동(카드 놓기/공격)의 여운을 위해 1초 대기
+        yield return new WaitForSeconds(1.0f);
+
+        // 대기하는 동안 게임이 끝나거나 턴이 강제로 넘어갔는지 체크
+        if (CurrentTurn == TeamTurn.Player && !_isSwitchingTurns)
+        {
+            EndTurn();
+        }
+    }
+
+    // 해당 팀의 AP를 추가합니다
     public void AddAP(bool isPlayer, int amount)
     {
-        if (isPlayer)
+        if(isPlayer)
+        {
             PlayerAP = Mathf.Min(PlayerAP + amount, maxAP);
+
+            if (PlayerAP > 0 && _autoEndTurnCoroutine != null)
+            {
+                StopCoroutine(_autoEndTurnCoroutine);
+                _autoEndTurnCoroutine = null;
+            }
+        }
         else
             EnemyAP = Mathf.Min(EnemyAP + amount, maxAP);
 
@@ -268,6 +298,9 @@ public class TurnManager : SingletonMono<TurnManager>
 
     public void EndTurn()
     {
+        // 코루틴 정리
+        if (_autoEndTurnCoroutine != null) StopCoroutine(_autoEndTurnCoroutine);
+
         if (CurrentTurn == TeamTurn.Player)
         {
             if (_isSwitchingTurns) return;

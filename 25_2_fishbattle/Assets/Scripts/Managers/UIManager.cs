@@ -8,13 +8,22 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     #region 레퍼런스
+    [SerializeField] private Canvas _mainCanvas;
+    [Header("카메라 설정")]
+    [SerializeField] private Camera _mainCamera;    
+    [SerializeField] private Camera _overlayCamera; 
+
     [Header("인벤토리 패널")]
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private Button _closePanelButton;
     [SerializeField] private Button _enhancementCloseButton;
 
-    [Header("엔드 게임 텍스트")]
-    public TextMeshProUGUI endGameText;
+    [Header("게임 오버 UI")]
+    [SerializeField] private GameObject _gameOverPanel;      // 게임 오버 전체 패널 (배경 포함)
+    [SerializeField] private TextMeshProUGUI _endGameText;   // 승리/패배 텍스트
+    [SerializeField] private Button _retryButton;            // 재도전 버튼 (패배 시 활성)
+    [SerializeField] private Button _toMapButton;            // 맵으로 돌아가기 버튼 (패배/승리 시 활성)
+    [SerializeField] private Button _winReturnButton;        // 승리 시 뜨는 버튼   
 
     [Header("게임 정보 텍스트")]
     [SerializeField] private TextMeshProUGUI _playerAPText;
@@ -35,14 +44,20 @@ public class UIManager : MonoBehaviour
     #region 초기화
     void Start()
     {
-        if (_closePanelButton != null)
-            _closePanelButton.onClick.AddListener(ClosePanle);
+        if (_mainCamera == null) _mainCamera = Camera.main;
 
-        if (_endTurnButton != null) 
-            _endTurnButton.onClick.AddListener(OnEndTurnButtonClicked);
+        if (_mainCanvas != null && _mainCamera != null)
+        {
+            _mainCanvas.worldCamera = _mainCamera;
+        }
 
-        if (_attackButton != null)
-            _attackButton.onClick.AddListener(OnAttackButtonClicked);
+        if (_closePanelButton != null) _closePanelButton.onClick.AddListener(ClosePanle);
+        if (_endTurnButton != null) _endTurnButton.onClick.AddListener(OnEndTurnButtonClicked);
+        if (_attackButton != null) _attackButton.onClick.AddListener(OnAttackButtonClicked);
+        if (_retryButton != null) _retryButton.onClick.AddListener(OnRetryClicked);
+        if (_toMapButton != null) _toMapButton.onClick.AddListener(OnToMapClicked);
+        if (_winReturnButton != null) _winReturnButton.onClick.AddListener(OnToMapClicked);
+        if (_gameOverPanel != null) _gameOverPanel.SetActive(false);
 
         SetButtonUIsForPlayerTurn(true);
     }
@@ -59,15 +74,8 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region UI 업데이트 메서드
-    private void OnEndTurnButtonClicked()
-    {
-        TurnManager.Instance.EndTurn();
-    }
-
-    private void OnAttackButtonClicked()
-    {
-        TurnManager.Instance.OnAttackButtonClicked();
-    }
+    private void OnEndTurnButtonClicked() => TurnManager.Instance.EndTurn();
+    private void OnAttackButtonClicked() => TurnManager.Instance.OnAttackButtonClicked();
 
     public void SetButtonUIsForPlayerTurn(bool isPlayerTurn)
     {
@@ -122,8 +130,69 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GameOver();
         Time.timeScale = 0f;
 
-        endGameText.gameObject.SetActive(true);
-        endGameText.text = isPlayerWin ? "승리!" : "패배";
+        if (_mainCanvas != null && _overlayCamera != null)
+        {
+            _mainCanvas.worldCamera = _overlayCamera;
+        }
+
+        if (_gameOverPanel != null)
+        {
+            _gameOverPanel.SetActive(true);
+
+            if (isPlayerWin)
+            {
+                // [승리 시]
+                _endGameText.text = "<color=yellow>VICTORY!</color>";
+                Debug.Log("<color=yellow>[보상] 승리! 보상이 지급됩니다.</color>");
+
+                // 1. 패배용 버튼 2개 끄기
+                if (_retryButton != null) _retryButton.gameObject.SetActive(false);
+                if (_toMapButton != null) _toMapButton.gameObject.SetActive(false);
+
+                // 2. 승리용 버튼 1개 켜기
+                if (_winReturnButton != null) _winReturnButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                // [패배 시]
+                _endGameText.text = "<color=red>DEFEAT...</color>";
+
+                // 1. 패배용 버튼 2개 켜기
+                if (_retryButton != null) _retryButton.gameObject.SetActive(true);
+                if (_toMapButton != null) _toMapButton.gameObject.SetActive(true);
+
+                // 2. 승리용 버튼 1개 끄기
+                if (_winReturnButton != null) _winReturnButton.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void OnRetryClicked()
+    {
+        Time.timeScale = 1f;
+
+        if (SceneManager.Instance != null)
+        {
+            SceneManager.Instance.ReloadCurrentScene();
+        }
+        else
+        {
+            Debug.LogError("SceneManager 인스턴스를 찾을 수 없습니다!");
+        }
+    }
+
+    private void OnToMapClicked()
+    {
+        Time.timeScale = 1f;
+
+        if (SceneManager.Instance != null)
+        {
+            SceneManager.Instance.LoadMapSelectionSceneName();
+        }
+        else
+        {
+            Debug.LogError("SceneManager 인스턴스를 찾을 수 없습니다!");
+        }
     }
 
     public void SetTooltipForCard(GameObject cardObject, bool isActive, bool isFocus)

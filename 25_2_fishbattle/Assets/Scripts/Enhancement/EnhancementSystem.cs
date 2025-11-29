@@ -1,91 +1,69 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.Events;
+using UnityEngine;
 
-[System.Serializable]
 public class EnhancementSystem
 {
-    public int FishClockHp { get; private set; }
-    private readonly List<InventorySlot> _materialSlots;
-    public IReadOnlyList<InventorySlot> MaterialSlots => _materialSlots;
+    public class EnhancementSlotData
+    {
+        public FishSO ItemData;
+        public bool IsEmpty => ItemData == null;
+    }
 
-    public UnityAction OnEnhancementStateChanged;
+    public List<EnhancementSlotData> MaterialSlots { get; private set; }
+    public event Action OnEnhancementStateChanged;
 
     public EnhancementSystem()
     {
-        FishClockHp = 1; // 초기 HP 설정
-        _materialSlots = new List<InventorySlot>(3);
-        for (int i = 0; i < 3; i++)
-        {
-            _materialSlots.Add(new InventorySlot());
-        }
+        MaterialSlots = new List<EnhancementSlotData>();
+        for (int i = 0; i < 3; i++) MaterialSlots.Add(new EnhancementSlotData());
     }
 
-    // 특정 인덱스의 재료 슬롯에 아이템을 놓습니다.
-    public void PlaceMaterial(int slotIndex, FishSO materialItem)
+    // 슬롯에 아이템 데이터 등록
+    public void PlaceMaterial(int slotIndex, FishSO item)
     {
-        if (slotIndex < 0 || slotIndex >= _materialSlots.Count) return;
-
-        // 이미 아이템이 있다면 먼저 인벤토리로 되돌림 (안전장치)
-        if (!_materialSlots[slotIndex].IsEmpty)
-        {
-            InventoryHolder.Instance.InventorySystem.AddToInventory(_materialSlots[slotIndex].ItemData, 1);
-        }
-
-        _materialSlots[slotIndex].UpdateInventorySlot(materialItem, 1);
-        InventoryHolder.Instance.InventorySystem.RemoveItem(materialItem, 1);
-
+        MaterialSlots[slotIndex].ItemData = item;
         OnEnhancementStateChanged?.Invoke();
     }
 
-    // 특정 슬롯의 재료 하나를 인벤토리로 되돌립니다.
-    public void ReturnMaterialFromSlot(int slotIndex)
+    // 슬롯 비우기
+    public void ClearSlot(int slotIndex)
     {
-        // 인덱스 범위 확인
-        if (slotIndex < 0 || slotIndex >= _materialSlots.Count) return;
-
-        var slot = _materialSlots[slotIndex];
-        if (!slot.IsEmpty)
-        {
-            // 1. 인벤토리에 아이템을 다시 추가
-            InventoryHolder.Instance.InventorySystem.AddToInventory(slot.ItemData, 1);
-            // 2. 이 데이터 슬롯을 비움
-            slot.ClearSlot();
-            // 3. UI를 업데이트하라고 신호를 보냄
-            OnEnhancementStateChanged?.Invoke();
-        }
-    }
-
-    // 모든 재료를 인벤토리로 되돌립니다.
-    public void ReturnAllMaterialsToInventory()
-    {
-        foreach (var slot in _materialSlots)
-        {
-            if (!slot.IsEmpty)
-            {
-                InventoryHolder.Instance.InventorySystem.AddToInventory(slot.ItemData, 1);
-            }
-        }
-        ClearAllMaterials();
-    }
-
-    // 강화를 시도합니다.
-    public bool AttemptEnhancement()
-    {
-        if (_materialSlots.Count(slot => !slot.IsEmpty) < 3) return false;
-
-        // 일단 1씩 늘어나게
-        FishClockHp += 1;
-        ClearAllMaterials();
-        return true;
-    }
-
-    private void ClearAllMaterials()
-    {
-        foreach (var slot in _materialSlots)
-        {
-            slot.ClearSlot();
-        }
+        MaterialSlots[slotIndex].ItemData = null;
         OnEnhancementStateChanged?.Invoke();
+    }
+
+    // 유효성 검사
+    public string ValidateEnhancement()
+    {
+        foreach (var slot in MaterialSlots)
+        {
+            if (slot.IsEmpty) return "재료가 부족합니다.";
+        }
+
+        int firstId = MaterialSlots[0].ItemData.FishId;
+        if (MaterialSlots[1].ItemData.FishId != firstId ||
+            MaterialSlots[2].ItemData.FishId != firstId)
+        {
+            return "재료가 모두 같아야 합니다.";
+        }
+
+        return string.Empty;
+    }
+
+    // 강화 시도
+    public FishSO AttemptEnhancement()
+    {
+        if (ValidateEnhancement() != string.Empty) return null;
+
+        FishSO enhancedFish = MaterialSlots[0].ItemData.CreateEnhancedInstance();
+
+        foreach (var slot in MaterialSlots)
+        {
+            slot.ItemData = null;
+        }
+
+        OnEnhancementStateChanged?.Invoke();
+        return enhancedFish;
     }
 }

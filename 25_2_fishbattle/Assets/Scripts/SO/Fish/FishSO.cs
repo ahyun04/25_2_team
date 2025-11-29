@@ -28,4 +28,26 @@ public class FishSO : ScriptableObject
         get => _prefab;
         set => _prefab = value;
     }
+
+    public FishSO CreateEnhancedInstance()
+    {
+        // 1. 현재 SO를 복제 (Instantiate)
+        FishSO newFish = Instantiate(this);
+
+        // 2. 이름 변경 (선택 사항)
+        newFish.Name = $"[강화된] {this.Name}";
+        newFish.name = newFish.Name; // 내부 에셋 이름 변경
+
+        // 3. 능력치 강화 로직 적용
+        // 체력 1.5배 (int 캐스팅으로 소수점 버림)
+        newFish.Hp = (int)(this.Hp * 1.5f);
+
+        // 공격력 2배
+        newFish.Damage = this.Damage * 2;
+
+        // 행동력 소모 1 추가
+        newFish.AbilityToAct += 1;
+
+        return newFish;
+    }
 }

@@ -14,6 +14,7 @@ public class NPCIdleState : NPCBaseState
         if (context.Agent.isOnNavMesh)
         {
             context.Agent.isStopped = true;
+            context.anim.SetBool("Walk", false);
         }
 
         // 랜덤 시간 동안 대기

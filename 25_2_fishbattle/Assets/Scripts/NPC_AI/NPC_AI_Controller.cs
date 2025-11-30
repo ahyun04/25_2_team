@@ -9,6 +9,7 @@ public class NPC_AI_Controller : MonoBehaviour
     #region 레퍼런스
     [Header("레퍼런스")]
     private NPCBaseState _currentState;
+    public Animator anim;
     public NavMeshAgent Agent { get; private set; }
     private Coroutine _lookAtCoroutine; // 바라보기 코루틴을 저장할 변수
 
@@ -35,6 +36,7 @@ public class NPC_AI_Controller : MonoBehaviour
     private void Start()
     {
         ChangeState(new NPCIdleState());
+        anim = GetComponent<Animator>();    
     }
 
     #endregion

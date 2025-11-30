@@ -12,6 +12,7 @@ public class NPCMoveState : NPCBaseState
         {
             // NavMeshAgent에게 목적지 설정 및 이동 시작
             context.Agent.isStopped = false;
+            context.anim.SetBool("Walk", true);
             context.Agent.SetDestination(destination);
 
             // 목적지에 도착할 때까지 대기 (pathPending: 경로 계산 중), (remainingDistance: 남은 거리 > stoppingDistance: 멈추는 거리)

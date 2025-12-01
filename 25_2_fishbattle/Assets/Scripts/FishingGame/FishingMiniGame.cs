@@ -8,6 +8,9 @@ using TMPro;
 public class FishingMiniGame : MonoBehaviour
 {
     #region 레퍼런스
+    [Header("애니메이션")]
+    [SerializeField] private List<Animator> _animators;
+
     [Header("코루틴")]
     private Coroutine _fishingCoroutine;
 
@@ -113,6 +116,9 @@ public class FishingMiniGame : MonoBehaviour
     {
         if (!MiniGameManager.TryStartMiniGame()) return;
 
+        ResetAllAnimations();
+        SetAnimBool("isCast", true);
+
         if (_fishingCoroutine == null)
         {
             _fishingCoroutine = StartCoroutine(FishingRoutine());
@@ -122,6 +128,8 @@ public class FishingMiniGame : MonoBehaviour
     // 찌가 물고기를 기다리는 시간
     private IEnumerator FishingRoutine()
     {
+        SetAnimBool("isCast", false);
+
         _isFishing = true;
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");
 
@@ -159,6 +167,9 @@ public class FishingMiniGame : MonoBehaviour
     {
         _isBobberHit = false;
         _bobberHitText.gameObject.SetActive(false);
+
+        SetAnimBool("isCast", false);
+        SetAnimBool("isHook", true);
 
         _isReeling = true;
         _isDragging = false;
@@ -250,6 +261,9 @@ public class FishingMiniGame : MonoBehaviour
         _isDragging = false;
         _isFishing = false;
         Debug.Log("낚시 성공!");
+
+        SetAnimBool("isHook", false);
+        SetAnimBool("isHooked", true);
 
         if (_miniGameGroup != null) _miniGameGroup.SetActive(false);
 
@@ -423,6 +437,8 @@ public class FishingMiniGame : MonoBehaviour
         _isDragging = false;
         if (_miniGameGroup != null) _miniGameGroup.SetActive(false);
 
+        ResetAllAnimations();
+
         MiniGameManager.EndMiniGame();
     }
 
@@ -444,11 +460,36 @@ public class FishingMiniGame : MonoBehaviour
                 _fishingCoroutine = null;
             }
 
+            ResetAllAnimations();
+
             if (MiniGameManager.IsMiniGameRunning)
             {
                 MiniGameManager.EndMiniGame();
             }
         }
+    }
+
+    #endregion
+
+    #region 애니메이션 헬퍼 함수
+
+    // 모든 애니메이터의 Bool 값을 일괄 설정하는 함수
+    private void SetAnimBool(string paramName, bool value)
+    {
+        if (_animators == null) return;
+
+        foreach (var anim in _animators)
+        {
+            if (anim != null) anim.SetBool(paramName, value);
+        }
+    }
+
+    // 모든 애니메이션 상태를 초기화(False)하는 함수
+    private void ResetAllAnimations()
+    {
+        SetAnimBool("isCast", false);
+        SetAnimBool("isHook", false);
+        SetAnimBool("isHooked", false);
     }
 
     #endregion

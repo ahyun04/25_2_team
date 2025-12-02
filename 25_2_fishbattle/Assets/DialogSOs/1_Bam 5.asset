@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61418920e5a0594418be84175293724d, type: 3}
+  m_Name: 1_Bam 5
+  m_EditorClassIdentifier: 
+  DialogId: 22
+  name: "\uBC40\uC11C\uB77C\uC6B4\uB4DC"
+  text: "\uB108\uB294 \uBE68\uAC04\uC0C9\uC744 \uC8FC\uBA74 \uB3FC..."
+  nextId: -1
+  choices:
+  - {fileID: 11400000, guid: 6295c5428131a5f4eada3305ba336ab6, type: 2}
+  - {fileID: 11400000, guid: 2591b6fbf824f214cba13a73e202b999, type: 2}
+  _portraitPath: {fileID: 0}

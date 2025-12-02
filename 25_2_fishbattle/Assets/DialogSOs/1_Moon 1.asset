@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61418920e5a0594418be84175293724d, type: 3}
+  m_Name: 1_Moon 1
+  m_EditorClassIdentifier: 
+  DialogId: 33
+  name: "\uBB38\uC5B4"
+  text: "\uC548\uB155?"
+  nextId: -1
+  choices:
+  - {fileID: 11400000, guid: 60bb092c1a049c84eafb328cf927e672, type: 2}
+  - {fileID: 11400000, guid: 4fd78c00755f0c544951ba4a5d86f85f, type: 2}
+  _portraitPath: {fileID: 0}

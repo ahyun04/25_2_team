@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61418920e5a0594418be84175293724d, type: 3}
+  m_Name: 1_Jjojjo 8
+  m_EditorClassIdentifier: 
+  DialogId: 8
+  name: "\uCABC\uCABC"
+  text: "\uB098\uB294 \uCD08\uB85D\uC0C9 \uBB3C\uACE0\uAE30\uB9CC \uAC00\uC9C0\uACE0
+    \uC788\uACE0@\uD30C\uB780\uC0C9 \uBB3C\uACE0\uAE30\uB9CC \uBC1B\uC544!"
+  nextId: -1
+  choices:
+  - {fileID: 11400000, guid: 8c4d6dfdba3a59f47a492059e8013799, type: 2}
+  - {fileID: 11400000, guid: c71d7350fde590a42a45aee7abc2c422, type: 2}
+  _portraitPath: {fileID: 0}

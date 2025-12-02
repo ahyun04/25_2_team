@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61418920e5a0594418be84175293724d, type: 3}
+  m_Name: 1_Chiz 6
+  m_EditorClassIdentifier: 
+  DialogId: 56
+  name: "\uCE58\uC988\uD584"
+  text: "\uB108\uB294 \uCD08\uB85D\uC0C9 \uBB3C\uACE0\uAE30 \uAC00\uC9C0\uACE0 \uC788\uC5B4?"
+  nextId: -1
+  choices:
+  - {fileID: 11400000, guid: 347f0faf02f16f34fbfffd406584900f, type: 2}
+  - {fileID: 11400000, guid: 2e3b43ae5ad96d344a706f568aa6125e, type: 2}
+  _portraitPath: {fileID: 0}

@@ -45,35 +45,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8f689573d1f0f4998b9e698340cf1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startFishingButton: {fileID: 0}
+  _animators:
+  - {fileID: 0}
+  - {fileID: 0}
+  _splashPoint: {fileID: 0}
+  _castEffectDelay: 1
+  _canvasCam: {fileID: 0}
   _bobberHitText: {fileID: 0}
-  _minWaitTime: 5
-  _maxWaitTime: 15
-  _barObj: {fileID: 0}
-  _targetPositions:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _targetBoxPrefab: {fileID: 6656574297739845654, guid: 0a54a0d802967ef4d9c9d535716f97d6,
-    type: 3}
-  _redBoxPrefab: {fileID: 2425853186932807808, guid: 84f7e38589953434a8b458a13e550f11,
-    type: 3}
-  _height: 100
-  _moveSpeed: 500
+  _minWaitTime: 1
+  _maxWaitTime: 2
+  chance: 1
+  _miniGameGroup: {fileID: 0}
+  _progressBar: {fileID: 0}
+  _handleRect: {fileID: 0}
+  _grabPoint: {fileID: 0}
+  _virtualHandImage: {fileID: 0}
+  _targetRotations: 10
   _hookAFishPanel: {fileID: 0}
   _hookAFishNameText: {fileID: 0}
   _putInBoxButton: {fileID: 0}
   _fishDisplayPoint: {fileID: 0}
-  _drawGizmoLine: 1
-  _gizmoLineLength: 120
+  _registerCollectionButton: {fileID: 0}
+  _collectionNoticeText: {fileID: 0}
   _fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}
   _playerInventory: {fileID: 0}
 --- !u!114 &693053117143058540

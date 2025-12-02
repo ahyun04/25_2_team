@@ -43,6 +43,7 @@ public class EffectManager : SingletonMono<EffectManager>
     protected override void Awake()
     {
         base.Awake();
+        InitializeEffectPools();
     }
 
     #endregion

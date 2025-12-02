@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4019275616514622850}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,4 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2829c103ba42890468adf8357fa4c452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effects: []
+  effects:
+  - _name: Splash_Water
+    _effectPrefab: {fileID: 9046273584295015227, guid: 4c740023756127f48bb17777c16188ca,
+      type: 3}
+    _initialPoolSize: 1

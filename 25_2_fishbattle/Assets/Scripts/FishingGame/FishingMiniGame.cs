@@ -11,6 +11,10 @@ public class FishingMiniGame : MonoBehaviour
     [Header("애니메이션")]
     [SerializeField] private List<Animator> _animators;
 
+    [Header("이펙트 설정 (추가됨)")]
+    [SerializeField] private GameObject  _splashPoint;       // 찌가 물에 닿는 위치 (Empty Object 등)
+    [SerializeField] private float _castEffectDelay = 1.0f; // 던지기 시작 후 찌가 물에 닿기까지 걸리는 시간
+
     [Header("코루틴")]
     private Coroutine _fishingCoroutine;
 
@@ -128,7 +132,11 @@ public class FishingMiniGame : MonoBehaviour
     // 찌가 물고기를 기다리는 시간
     private IEnumerator FishingRoutine()
     {
+        yield return null;
         SetAnimBool("isCast", false);
+
+        yield return new WaitForSeconds(_castEffectDelay);
+        EffectManager.Instance.PlayEffect("Splash_Water", _splashPoint.transform.position, Quaternion.identity);
 
         _isFishing = true;
         Debug.Log("낚시 시작... 물고기를 기다리는 중...");

@@ -130,27 +130,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 847503889802606307, guid: 6ab1c6e190d0fff4abe1b37cb604c11a,
-        type: 3}
-      propertyPath: effects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 847503889802606307, guid: 6ab1c6e190d0fff4abe1b37cb604c11a,
-        type: 3}
-      propertyPath: effects.Array.data[0]._name
-      value: SplashWater
-      objectReference: {fileID: 0}
-    - target: {fileID: 847503889802606307, guid: 6ab1c6e190d0fff4abe1b37cb604c11a,
-        type: 3}
-      propertyPath: effects.Array.data[0]._effectPrefab
-      value: 
-      objectReference: {fileID: 9046273584295015227, guid: 4c740023756127f48bb17777c16188ca,
-        type: 3}
-    - target: {fileID: 847503889802606307, guid: 6ab1c6e190d0fff4abe1b37cb604c11a,
-        type: 3}
-      propertyPath: effects.Array.data[0]._initialPoolSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1059916373769575741, guid: 6ab1c6e190d0fff4abe1b37cb604c11a,
         type: 3}
       propertyPath: m_LocalPosition.x

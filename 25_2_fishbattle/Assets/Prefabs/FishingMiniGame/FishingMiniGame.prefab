@@ -52,8 +52,8 @@ MonoBehaviour:
   _castEffectDelay: 1
   _canvasCam: {fileID: 0}
   _bobberHitText: {fileID: 0}
-  _minWaitTime: 1
-  _maxWaitTime: 2
+  _minWaitTime: 5
+  _maxWaitTime: 15
   chance: 1
   _miniGameGroup: {fileID: 0}
   _progressBar: {fileID: 0}

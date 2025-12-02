@@ -3149,7 +3149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeLimitInSeconds: 20
   _timerText: {fileID: 1859653243}
-  rainPos: {fileID: 0}
 --- !u!1001 &1215627356
 PrefabInstance:
   m_ObjectHideFlags: 0

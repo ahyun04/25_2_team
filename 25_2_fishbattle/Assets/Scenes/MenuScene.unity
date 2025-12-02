@@ -534,6 +534,32 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3235870352399280693, guid: c48a3401dc13d7245b379f30f5c85c3f,
+        type: 3}
+      propertyPath: _slideDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3235870352399280693, guid: c48a3401dc13d7245b379f30f5c85c3f,
+        type: 3}
+      propertyPath: _transitionSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b3f09f8982a3e0e4c813233fafdad83b,
+        type: 3}
+    - target: {fileID: 3235870352399280693, guid: c48a3401dc13d7245b379f30f5c85c3f,
+        type: 3}
+      propertyPath: _transitionColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3235870352399280693, guid: c48a3401dc13d7245b379f30f5c85c3f,
+        type: 3}
+      propertyPath: _transitionColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3235870352399280693, guid: c48a3401dc13d7245b379f30f5c85c3f,
+        type: 3}
+      propertyPath: _transitionColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6328294870536827578, guid: c48a3401dc13d7245b379f30f5c85c3f,
         type: 3}
       propertyPath: m_Name

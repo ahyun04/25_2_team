@@ -9,14 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuScene.unity
     guid: ae16c1893f8355343bcedbe2b9efdc08
   - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: 0ff6411fe884e604f9824d9d4023413c
+  - enabled: 1
     path: Assets/Scenes/MapSelectionScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/LakeMiniGameScene.unity
     guid: 1939622ca93a9c143a8964139968e9a7
-  - enabled: 1
-    path: Assets/Scenes/LoadingScene.unity
-    guid: 0ff6411fe884e604f9824d9d4023413c
   - enabled: 1
     path: Assets/Scenes/RiverMiniGameScene.unity
     guid: 804eb00a03a77754ca75b2ed699b574c

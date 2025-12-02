@@ -48,10 +48,17 @@ MonoBehaviour:
   _lakeGameSceneName: LakeMiniGameScene
   _riverGameSceneName: RiverMiniGameScene
   _oceanGameSceneName: OceanMiniGameScene
+  _deepOceanGameSceneName: DeepOceanMiniGameScene
   _fishCardGameSceneName: FishCardGameScene
-  _loadingSceneName: Loading
+  _mapSelectionSceneName: MapSelectionScene
+  _enhancementSceneName: EnhancementScene
+  _loadingSceneName: LoadingScene
   _minimumLoadingTime: 2
   useLoadingScreen: 1
   useFadeEffect: 1
+  loadingScreen: {fileID: 1659264265619080384, guid: 2eb5b0c5c06bf4d46becffe10462ed04,
+    type: 3}
+  progressBar: {fileID: 3836269394174409470, guid: 59d9e50ed75f0dd49af8600b8f7c2417,
+    type: 3}
   _fadeSpeed: 1
   _fadeColor: {r: 0, g: 0, b: 0, a: 1}

@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SceneManager : SingletonMono<SceneManager>
 {
     #region 레퍼런스
     protected override bool DontDestroy => true;
+    //public static SceneManager Instance;
+
 
     [Header("Scene Settings")]
     [SerializeField] private string _mainMenuSceneName = "MainMenu";
@@ -17,7 +20,7 @@ public class SceneManager : SingletonMono<SceneManager>
     [SerializeField] private string _fishCardGameSceneName = "FishCardGaemScene";
     [SerializeField] private string _mapSelectionSceneName = "MapSelectionScene";
     [SerializeField] private string _enhancementSceneName = "EnhancementScene";
-    [SerializeField] private string _loadingSceneName = "Loading";
+    [SerializeField] private string _loadingSceneName = "LoadingScene";
 
     public string OceanGameSceneName => _oceanGameSceneName;
     public string DeepOceanGameSceneName => _deepOceanGameSceneName;
@@ -26,6 +29,9 @@ public class SceneManager : SingletonMono<SceneManager>
     [SerializeField] private float _minimumLoadingTime = 2f;
     [SerializeField] private bool useLoadingScreen = true;
     [SerializeField] private bool useFadeEffect = true;
+    [Header("Loading UI")]
+    public GameObject loadingScreen;
+    public Slider progressBar;
 
     [Header("Fade Settings")]
     [SerializeField] private float _fadeSpeed = 1f;
@@ -47,6 +53,15 @@ public class SceneManager : SingletonMono<SceneManager>
     #region 초기화
     protected override void Awake()
     {
+        if (Instance == null)
+        {
+            //Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         base.Awake();
 
         // 현재 씬 이름 저장
@@ -149,7 +164,7 @@ public class SceneManager : SingletonMono<SceneManager>
         TrySavePlayerPosition();
 
         targetSceneName = sceneName;
-        StartCoroutine(LoadSceneWithLoading(sceneName));
+        StartCoroutine(LoadAsync(sceneName));
     }
 
     // 페이드 효과와 함께 씬 로딩
@@ -159,13 +174,17 @@ public class SceneManager : SingletonMono<SceneManager>
         GameManager.Instance?.ChangeGameState(GameState.Loading);
 
         // 페이드 인
-        yield return StartCoroutine(FadeIn());
+        //yield return StartCoroutine(FadeIn());
+
+        yield return UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("LoadingScene");
 
         // 씬 로딩
         yield return StartCoroutine(LoadSceneAsync(sceneName));
 
+
+
         // 페이드 아웃
-        yield return StartCoroutine(FadeOut());
+        //yield return StartCoroutine(FadeOut());
 
         isLoading = false;
     }
@@ -219,6 +238,7 @@ public class SceneManager : SingletonMono<SceneManager>
     // 비동기 씬 로딩
     private IEnumerator LoadSceneAsync(string sceneName)
     {
+        //StartCoroutine(LoadAsync(sceneName));
         AsyncOperation asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
 
         while (!asyncLoad.isDone)
@@ -230,11 +250,32 @@ public class SceneManager : SingletonMono<SceneManager>
         LoadingProgress = 1f;
     }
 
+    IEnumerator LoadAsync(string sceneName)
+    {
+        loadingScreen.SetActive(true);
+        progressBar.value = 0f;
+
+        AsyncOperation op = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
+        op.allowSceneActivation = false;
+
+        while (op.progress < 0.9f)
+        {
+            progressBar.value = Mathf.Clamp01(op.progress / 0.9f);
+            yield return null;
+        }
+
+        progressBar.value = 1f;
+        yield return new WaitForSeconds(0.2f);
+
+        op.allowSceneActivation = true;
+        loadingScreen.SetActive(false);
+    }
+
     #endregion
 
     #region 페이드 이펙트
 
-    private IEnumerator FadeIn()
+    /*private IEnumerator FadeIn()
     {
         if (fadeCanvasGroup == null) yield break;
 
@@ -261,7 +302,7 @@ public class SceneManager : SingletonMono<SceneManager>
 
         fadeCanvasGroup.alpha = 0f;
         fadeCanvasGroup.blocksRaycasts = false;
-    }
+    }*/
 
     #endregion
 

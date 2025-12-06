@@ -30,6 +30,8 @@ public class PlayerHandController : MonoBehaviour
     #region 초기화, 업데이트
     private void Start()
     {
+        this.gameObject.transform.localScale = _originalPlayerCardScale;
+
         _UIManager = FindObjectOfType<UIManager>();
         _cardActionHandler = GetComponent<CardActionHandler>();
     }

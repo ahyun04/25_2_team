@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1026_PinkCake_None_Fish
+  m_EditorClassIdentifier: 
+  FishId: 1026
+  Name: PinkCake_None_Fish
+  Description: "\uBD84\uD64D\uC0C9 \uCF00\uC774\uD06C \uC7A5\uC2DD\uC744 \uD55C \uBBFC\uBB34\uB2AC
+    \uBB3C\uACE0\uAE30"
+  Position: 0
+  Skill_name: "\uD551\uD06C\uD551\uD06C\uBE54"
+  Damage: 11
+  Heal: 0
+  Hp: 40
+  AbilityToAct: 2
+  HabitatType: 0
+  Probability: 0
+  MaxStackSize: 99
+  IsPlayerCard: 1
+  Icon: {fileID: 0}
+  _prefab: {fileID: 7595068783593937008, guid: c07dbe8ae4adae64381b33bb6a3b194e, type: 3}

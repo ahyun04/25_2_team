@@ -6,7 +6,8 @@ using UnityEngine;
 using BansheeGz.BGDatabase;
 
 /// <summary>
-/// BG Database의 Fish 엔티티들을 FishSO로 변환하는 커스텀 에디터 윈도우
+/// BG Database의 DB_Fish 엔티티들을 FishSO로 변환하는 커스텀 에디터 윈도우
+/// (통합된 테이블 대응 버전)
 /// </summary>
 public class BgDbToSoConverterWindow : EditorWindow
 {
@@ -32,7 +33,7 @@ public class BgDbToSoConverterWindow : EditorWindow
 
     private void OnGUI()
     {
-        EditorGUILayout.LabelField("BG Database → FishSO 변환기", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("BG Database → FishSO 변환기 (통합본)", EditorStyles.boldLabel);
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("출력 폴더 (Assets/에서 시작)", EditorStyles.label);
@@ -130,10 +131,9 @@ public class BgDbToSoConverterWindow : EditorWindow
                 EditorUtility.DisplayProgressBar("BG DB → FishSO 변환중...", $"처리중: {i + 1}/{total}", (float)(i) / total);
                 var e = entities[i];
 
-                // PopulateFishSOFromEntity는 이전에 호출된 곳에서 분리
-                // 먼저 FishSO를 생성하고, 필드를 채운 다음, IsPlayerCard 값을 기반으로 경로를 결정
+                // 임시 SO 생성 후 데이터 채우기 (경로 결정을 위해)
                 FishSO tempSo = ScriptableObject.CreateInstance<FishSO>();
-                PopulateFishSOFromEntity(tempSo, e, GetHabitatFromEntity(e), GetEntityId(e));
+                PopulateFishSOFromEntity(tempSo, e);
 
                 // isPlayerCard 값을 기준으로 저장 경로 결정
                 string targetFolder = tempSo.IsPlayerCard ? playerOutputFolder : enemyOutputFolder;
@@ -148,7 +148,7 @@ public class BgDbToSoConverterWindow : EditorWindow
                 {
                     so = existing;
                     // 기존 SO에 데이터 덮어쓰기
-                    PopulateFishSOFromEntity(so, e, GetHabitatFromEntity(e), GetEntityId(e));
+                    PopulateFishSOFromEntity(so, e);
                 }
                 else if (existing != null && !m_overwriteExisting)
                 {
@@ -190,45 +190,26 @@ public class BgDbToSoConverterWindow : EditorWindow
     }
 
     /// <summary>
-    /// BG DB의 Fish 엔티티들을 모두 수집합니다.
-    /// DB 엔티티 타입에 맞게 여기에 추가/수정하세요.
+    /// BG DB의 DB_Fish 엔티티들을 모두 수집합니다.
+    /// 통합된 DB_Fish 테이블만 조회합니다.
     /// </summary>
-    private List<BGEntity> GatherAllFishEntities()
+    private List<DB_Fish> GatherAllFishEntities()
     {
-        var result = new List<BGEntity>();
+        var result = new List<DB_Fish>();
 
-        // FishLake
         try
         {
-            int countLake = DB_FishLake.CountEntities;
-            for (int i = 0; i < countLake; i++)
+            // DB_Fish 테이블 조회
+            int count = DB_Fish.CountEntities;
+            for (int i = 0; i < count; i++)
             {
-                result.Add(DB_FishLake.GetEntity(i));
+                result.Add(DB_Fish.GetEntity(i));
             }
         }
-        catch (Exception) { /* 무시: 테이블 없을 수 있음 */ }
-
-        // FishRiver
-        try
+        catch (Exception ex)
         {
-            int countRiver = DB_FishRiver.CountEntities;
-            for (int i = 0; i < countRiver; i++)
-            {
-                result.Add(DB_FishRiver.GetEntity(i));
-            }
+            Debug.LogWarning($"DB_Fish 테이블 조회 실패 (테이블이 없거나 비어있을 수 있음): {ex.Message}");
         }
-        catch (Exception) { }
-
-        // FishOcean
-        try
-        {
-            int countOcean = DB_FishOcean.CountEntities;
-            for (int i = 0; i < countOcean; i++)
-            {
-                result.Add(DB_FishOcean.GetEntity(i));
-            }
-        }
-        catch (Exception) { }
 
         return result;
     }
@@ -236,80 +217,6 @@ public class BgDbToSoConverterWindow : EditorWindow
     #endregion
 
     #region 헬퍼 메서드
-    // 엔티티에서 이름 추출. meta에 따라 캐스트해서 _name 필드 사용
-    private string GetEntityName(BGEntity entity)
-    {
-        if (entity == null) return null;
-        if (entity is DB_FishLake lake) return lake.name;
-        if (entity is DB_FishRiver river) return river.name;
-        if (entity is DB_FishOcean ocean) return ocean.name;
-        return null;
-    }
-
-    /// <summary>
-    /// 엔티티에서 가능한 한 실제 FishId를 추출합니다.
-    /// 알려진 타입을 우선으로 시도하고, 없으면 리플렉션으로 후보 필드/프로퍼티를 검색합니다.
-    /// 그래도 못찾으면 기존의 GetHashCode()를 최후 fallback으로 사용합니다.
-    /// </summary>
-    private int GetEntityId(BGEntity entity)
-    {
-        if (entity == null) return 0;
-
-        // 알려진 BG 엔티티 타입에서 직접 읽기
-        if (entity is DB_FishLake lake) return Mathf.Abs(lake.FishId);
-        if (entity is DB_FishRiver river) return Mathf.Abs(river.FishId);
-        if (entity is DB_FishOcean ocean) return Mathf.Abs(ocean.FishId);
-
-        // 리플렉션 후보 검색
-        try
-        {
-            var type = entity.GetType();
-            var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
-            string[] candidateNames = new[] { "_FishId", "FishId", "Id", "_id" };
-
-            foreach (var name in candidateNames)
-            {
-                var field = type.GetField(name, flags);
-                if (field != null)
-                {
-                    var val = field.GetValue(entity);
-                    if (val is int vi) return Math.Abs(vi);
-                    if (val is long vl) return (int)Math.Abs(vl);
-                }
-
-                var prop = type.GetProperty(name, flags);
-                if (prop != null)
-                {
-                    var val = prop.GetValue(entity, null);
-                    if (val is int pi) return Math.Abs(pi);
-                    if (val is long pl) return (int)Math.Abs(pl);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            if (m_verboseLog) Debug.LogWarning($"GetEntityId 리플렉션 실패: {ex.Message}");
-        }
-
-        // 최종 fallback: 해시값 (이전 동작 유지)
-        try
-        {
-            return Math.Abs(entity.GetHashCode());
-        }
-        catch
-        {
-            return 0;
-        }
-    }
-
-    // 엔티티의 소속 수역 타입 결정
-    private FishHabitatType GetHabitatFromEntity(BGEntity entity)
-    {
-        if (entity is DB_FishLake) return FishHabitatType.Lake;
-        if (entity is DB_FishRiver) return FishHabitatType.River;
-        if (entity is DB_FishOcean) return FishHabitatType.Ocean;
-        return FishHabitatType.Lake;
-    }
 
     // 파일명 안전하게
     private string SanitizeFileName(string name)
@@ -322,115 +229,74 @@ public class BgDbToSoConverterWindow : EditorWindow
     }
 
     // BG 엔티티 -> FishSO 필드 매핑
-    private void PopulateFishSOFromEntity(FishSO so, BGEntity entity, FishHabitatType habitat, int idFallback)
+    private void PopulateFishSOFromEntity(FishSO so, DB_Fish entity)
     {
         if (so == null || entity == null) return;
 
-        // 기본 공통 필드
-        int fishId = 0;
-        string name = GetEntityName(entity) ?? $"Fish_{idFallback}";
-        int hp = 0;
-        int abilityToAct = 0;
-        string abilityIconPath = null;
-        string skillName = null;
-        int damage = 0;
-        int heal = 0;
-        int support = 0;
-        int probability = 0;
-        string description = null;
-        int maxStack = 1;
-        float weight = 1f;
-        bool isPlayerCard = false;
-        bool isCheck = false;
-        string prefabPath = null;
+        // 1. 기본 필드 매핑
+        so.FishId = entity.FishId;
+        so.Name = string.IsNullOrEmpty(entity.name) ? $"Fish_{entity.FishId}" : entity.name;
+        so.Description = entity.Description;
+        so.Skill_name = entity.Skill_name;
+        so.Damage = entity.Damage;
+        so.Heal = entity.Heal;
+        so.Hp = entity.Hp;
+        so.AbilityToAct = entity.AbilityToAct;
+        so.Probability = entity.Probability;
+        so.MaxStackSize = Mathf.Max(1, entity.MaxStackSize);
+        so.IsPlayerCard = entity.IsPlayerCard;
 
-        // 각 엔티티 타입별로 캐스팅하여 필드 읽기
-        if (entity is DB_FishLake lake)
+        // 2. Habitat (String -> Enum 파싱)
+        if (!string.IsNullOrEmpty(entity.Habitat))
         {
-            fishId = lake.FishId;
-            hp = lake.Hp;
-            abilityToAct = lake.AbilityToAct;
-            abilityIconPath = lake.AbilityToAct_icon;
-            skillName = lake.Skill_name;
-            damage = lake.Damage;
-            heal = lake.Heal;
-            support = lake.Support;
-            probability = lake.Probability;
-            description = lake.Description;
-            maxStack = lake.MaxStackSize;
-            weight = lake.Weight;
-            isPlayerCard = lake.IsPlayerCard;
-            isCheck = lake.Check;
-            prefabPath = lake.Prefab;
+            if (Enum.TryParse(entity.Habitat, true, out FishHabitatType habitatEnum))
+            {
+                so.HabitatType = habitatEnum;
+            }
+            else
+            {
+                if (m_verboseLog) Debug.LogWarning($"Habitat 파싱 실패 ({entity.Habitat}). 기본값(Lake)으로 설정합니다. - 엔티티: {entity.name}");
+                so.HabitatType = FishHabitatType.Lake; // 기본값
+            }
         }
-        else if (entity is DB_FishRiver river)
+        else
         {
-            fishId = river.FishId;
-            hp = river.Hp;
-            abilityToAct = river.AbilityToAct;
-            abilityIconPath = river.AbilityToAct_icon;
-            skillName = river.Skill_name;
-            damage = river.Damage;
-            heal = river.Heal;
-            support = river.Support;
-            probability = river.Probability;
-            description = river.Description;
-            maxStack = river.MaxStackSize;
-            weight = river.Weight;
-            isPlayerCard = river.IsPlayerCard;
-            isCheck = river.Check;
-            prefabPath = river.Prefab;
-        }
-        else if (entity is DB_FishOcean ocean)
-        {
-            fishId = ocean.FishId;
-            hp = ocean.Hp;
-            abilityToAct = ocean.AbilityToAct;
-            abilityIconPath = ocean.AbilityToAct_icon;
-            skillName = ocean.Skill_name;
-            damage = ocean.Damage;
-            heal = ocean.Heal;
-            support = ocean.Support;
-            probability = ocean.Probability;
-            description = ocean.Description;
-            maxStack = ocean.MaxStackSize;
-            weight = ocean.Weight;
-            isPlayerCard = ocean.IsPlayerCard;
-            isCheck = ocean.Check;
-            prefabPath = ocean.Prefab;
+            so.HabitatType = FishHabitatType.Lake;
         }
 
-        // SO에 할당
-        so.FishId = fishId;
-        so.Name = name;
-        so.Hp = hp;
-        so.AbilityToAct = abilityToAct;
-        so.Skill_name = skillName;
-        so.Damage = damage;
-        so.Heal = heal;
-        so.Support = support;
-        so.Probability = probability;
-        so.Description = description;
-        so.MaxStackSize = Mathf.Max(1, maxStack);
-        so.Weight = Mathf.Max(0.0001f, weight);
-        so.IsPlayerCard = isPlayerCard;
-        so.IsCheck = isCheck;
-        so.HabitatType = habitat;
-
-        // 아이콘 로드 시도: 엔티티에 저장된 문자열 경로를 사용하여 Resources.Load<Sprite> 호출
-        if (!string.IsNullOrEmpty(abilityIconPath))
+        if (!string.IsNullOrEmpty(entity.Position))
         {
-            var sprite = LoadIcon(abilityIconPath);
+            if (Enum.TryParse(entity.Position, true, out Position positionEnum))
+            {
+                so.Position = positionEnum;
+            }
+            else
+            {
+                if (m_verboseLog) Debug.LogWarning($"Position 파싱 실패 ({entity.Position}). 기본값(Attack)으로 설정합니다. - 엔티티: {entity.name}");
+                so.Position = Position.Attack; // 기본값
+            }
+        }
+        else
+        {
+            so.Position = Position.Attack;
+        }
+
+        // 3. 아이콘 로드 (Resources)
+        // entity.AbilityToAct_icon 경로 사용
+        if (!string.IsNullOrEmpty(entity.AbilityToAct_icon))
+        {
+            var sprite = LoadIcon(entity.AbilityToAct_icon);
             if (sprite != null)
                 so.Icon = sprite;
             else if (m_verboseLog)
-                Debug.LogWarning($"아이콘 로드 실패: {abilityIconPath} (엔티티: {name})");
+                Debug.LogWarning($"아이콘 로드 실패: {entity.AbilityToAct_icon} (엔티티: {entity.name})");
         }
 
-        // 프리팹 로드 시도: Assets/ 경로를 사용하여 AssetDatabase.LoadAssetAtPath 호출
+        // 4. 프리팹 로드 (Assets)
+        // entity.Prefab 경로 사용
+        string prefabPath = entity.Prefab;
         if (!string.IsNullOrEmpty(prefabPath))
         {
-            // AssetDatabase.LoadAssetAtPath는 Resources.Load와 달리 Assets/ 경로 그대로 사용
             GameObject prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefabAsset != null)
             {
@@ -440,12 +306,12 @@ public class BgDbToSoConverterWindow : EditorWindow
             else
             {
                 so.Prefab = null;
-                if (m_verboseLog) Debug.LogWarning($"프리팹 로드 실패: {prefabPath} (엔티티: {name})");
+                if (m_verboseLog) Debug.LogWarning($"프리팹 로드 실패: {prefabPath} (엔티티: {entity.name})");
             }
         }
         else
         {
-            so.Prefab = null; // 경로가 비어있다면 null 할당
+            so.Prefab = null;
         }
 
         EditorUtility.SetDirty(so);
@@ -480,7 +346,7 @@ public class BgDbToSoConverterWindow : EditorWindow
         // Undo/Dirty 처리
         Undo.RecordObject(m_targetDatabaseSo, "Add FishSOs to Database");
 
-        // 최초 초기화 루틴 호출 (private 변수 채우기 위해)
+        // 최초 초기화 루틴 호출
         m_targetDatabaseSo.Initialize();
 
         foreach (var so in createdList)
@@ -495,8 +361,7 @@ public class BgDbToSoConverterWindow : EditorWindow
             {
                 if (m_overwriteExisting)
                 {
-                    // 기존 항목이 있으면 교체 (이 경우 리스트 내 교체 또는 참조 갱신 필요)
-                    // 여기서는 fishItems 리스트에서 기존을 찾아 해당 index에 새로 할당
+                    // 기존 항목이 있으면 교체
                     ReplaceExistingInDatabase(m_targetDatabaseSo, existingById ?? existingByName, so);
                 }
                 else
@@ -529,7 +394,6 @@ public class BgDbToSoConverterWindow : EditorWindow
         }
         else
         {
-            // 혹은 이름/Id 매칭 실패 시 그냥 추가
             db.fishItems.Add(@new);
         }
     }

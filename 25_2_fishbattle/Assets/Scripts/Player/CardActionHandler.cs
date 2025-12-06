@@ -88,10 +88,25 @@ public class CardActionHandler : MonoBehaviour
             return false;
         }
 
-        Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
+        Quaternion rotation;
+        Quaternion battleRotation = isPlayer ? Quaternion.Euler(-90, 0, 90) : Quaternion.Euler(90, 0, 90);
+        Quaternion benchRotation = isPlayer ? Quaternion.Euler(-90, 0, 90) : Quaternion.Euler(90, 0, 90);
+
+        if (chosenArea is BattlePos)
+        {
+            rotation = battleRotation;
+        }
+        else // BenchPos에 배치되는 경우
+        {
+            rotation = benchRotation;
+        }
 
         GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
         newFishObject.transform.SetParent(chosenArea.transform);
+        newFishObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+        if (newFishObject.TryGetComponent<Animator>(out var anim)) 
+            anim.enabled = false;
 
         if (newFishObject.TryGetComponent<CardDisplay>(out var disp))
             disp.SetupCard(card);
@@ -111,7 +126,7 @@ public class CardActionHandler : MonoBehaviour
         _uiManager.UpdateAPText();
 
         return true;
-    }
+}
 
     // 손패를 재정렬하고 인덱스를 업데이트
     public void RearrangeHand(bool isPlayer)
@@ -147,6 +162,8 @@ public class CardActionHandler : MonoBehaviour
 
         float totalWidth = (cardObjects.Count - 1) * _cardManager.cardSpacing;
         Vector3 startPos = handPos.position - new Vector3(totalWidth / 2f, 0, 0);
+
+        Quaternion targetRotation = isPlayer ? Quaternion.Euler(-90, -90, 0) : Quaternion.Euler(90, 90, -180);
 
         for (int i = 0; i < cardObjects.Count; i++)
         {

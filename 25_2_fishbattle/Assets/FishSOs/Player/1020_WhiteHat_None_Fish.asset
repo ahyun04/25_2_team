@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1020_WhiteHat_None_Fish
+  m_EditorClassIdentifier: 
+  FishId: 1020
+  Name: WhiteHat_None_Fish
+  Description: "\uD770\uC0C9 \uBAA8\uC790\uB97C \uC4F4 \uBBFC\uBB34\uB2AC \uBB3C\uACE0\uAE30"
+  Position: 0
+  Skill_name: "\uD654\uC774\uD2B8\uBCF4\uB4DC"
+  Damage: 20
+  Heal: 0
+  Hp: 60
+  AbilityToAct: 3
+  HabitatType: 2
+  Probability: 0
+  MaxStackSize: 99
+  IsPlayerCard: 1
+  Icon: {fileID: 0}
+  _prefab: {fileID: 8970649266295924711, guid: e59f14c30dcd1b04891b83c2cf1accab, type: 3}

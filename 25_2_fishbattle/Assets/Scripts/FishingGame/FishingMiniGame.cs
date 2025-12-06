@@ -311,13 +311,8 @@ public class FishingMiniGame : MonoBehaviour
         {
             _fishPrefab = Instantiate(_caughtFishSO.Prefab, _fishDisplayPoint);
             _fishPrefab.transform.localPosition = Vector3.zero;
-
-            if (_caughtFishSO.Prefab.name == "Fish_Flatfish")
-                _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -180f, 180f);
-            else
-                _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 180f);
-
-            _fishPrefab.transform.localScale = new Vector3(50f, 50f, 50f);
+            _fishPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 90f);
+            _fishPrefab.transform.localScale = new Vector3(5f, 5f, 5f);
         }
 
         _hookAFishNameText.text = $"{_caughtFishSO.Name} 를(을) 잡았다!";

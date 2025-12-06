@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1065_Purple_None_Fish
+  m_EditorClassIdentifier: 
+  FishId: 1065
+  Name: Purple_None_Fish
+  Description: "\uBCF4\uB77C\uC0C9 \uC7A5\uC2DD\uC774 \uC5C6\uB294 \uBBFC\uBB34\uB2AC
+    \uBB3C\uACE0\uAE30"
+  Position: 5
+  Skill_name: "\uBCF4\uB77C\uB6B1\uB561\uC774"
+  Damage: 0
+  Heal: 0
+  Hp: 40
+  AbilityToAct: 1
+  HabitatType: 1
+  Probability: 0
+  MaxStackSize: 99
+  IsPlayerCard: 0
+  Icon: {fileID: 0}
+  _prefab: {fileID: 8570995029978853364, guid: 8cd74db9065d7af4592fef0f493f92eb, type: 3}

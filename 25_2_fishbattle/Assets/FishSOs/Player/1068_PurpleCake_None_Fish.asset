@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1068_PurpleCake_None_Fish
+  m_EditorClassIdentifier: 
+  FishId: 1068
+  Name: PurpleCake_None_Fish
+  Description: "\uBCF4\uB77C\uC0C9 \uCF00\uC774\uD06C \uC7A5\uC2DD\uC744 \uD55C \uBBFC\uBB34\uB2AC
+    \uBB3C\uACE0\uAE30"
+  Position: 5
+  Skill_name: "\uBE14\uB8E8\uBCA0\uB9AC\uCF00\uC774\uD06C"
+  Damage: 0
+  Heal: 0
+  Hp: 40
+  AbilityToAct: 1
+  HabitatType: 0
+  Probability: 0
+  MaxStackSize: 99
+  IsPlayerCard: 1
+  Icon: {fileID: 0}
+  _prefab: {fileID: 4466743042788568999, guid: 9f5ab4fdda1225a418a2001a45272497, type: 3}

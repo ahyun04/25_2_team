@@ -43,16 +43,16 @@ public class CardDisplay : MonoBehaviour
             // 플레이어/적 카드에 따라 툴팁 설정
             if (fishData.IsPlayerCard)
             {
-                tooltipInstance.transform.localPosition = new Vector3(0, -0.1f, 0);
-                tooltipInstance.transform.localRotation = Quaternion.Euler(0, 90, 180);
+                tooltipInstance.transform.localPosition = new Vector3(0, -0.37f, 3.04f);
+                tooltipInstance.transform.localRotation = Quaternion.Euler(180, 90, 90);
             }
             else // 적 카드
             {
-                tooltipInstance.transform.localPosition = new Vector3(0, 0.2f, -1.3f);
-                tooltipInstance.transform.localRotation = Quaternion.Euler(0, -90, 0);
+                tooltipInstance.transform.localPosition = new Vector3(0, -0.06f, -2.55f);
+                tooltipInstance.transform.localRotation = Quaternion.Euler(0, 90, -90);
             }
 
-            tooltipInstance.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            tooltipInstance.transform.localScale = new Vector3(2.2f, 2.2f, 2.2f);
 
             // 생성된 툴팁을 비활성화
             tooltipInstance.SetActive(false);
@@ -283,14 +283,14 @@ public class CardDisplay : MonoBehaviour
     {
         if (transform.childCount > 0)
         {
-            GameObject tooltipObject = transform.GetChild(0).gameObject;
+            GameObject tooltipObject = transform.GetChild(2).gameObject;
             if (tooltipObject != null)
             {
                 tooltipObject.SetActive(isActive);
 
                 if (isActive && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
                 {
-                    tooltip.SetupTooltip(fishData.Name, fishData.Hp, fishData.Skill_name, fishData.AbilityToAct);
+                    tooltip.SetupTooltip(fishData.Skill_name, fishData.Hp, fishData.Description, fishData.AbilityToAct);
 
                     if (tooltip._nameText != null)
                     {
@@ -306,7 +306,7 @@ public class CardDisplay : MonoBehaviour
         // 툴팁 자식 오브젝트를 찾습니다.
         if (transform.childCount > 0)
         {
-            GameObject tooltipObject = transform.GetChild(0).gameObject;
+            GameObject tooltipObject = transform.GetChild(2).gameObject;
 
             // 툴팁 컴포넌트를 찾아 HP를 업데이트합니다.
             if (tooltipObject != null && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))

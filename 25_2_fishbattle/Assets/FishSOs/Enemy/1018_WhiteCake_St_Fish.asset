@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1018_WhiteCake_St_Fish
+  m_EditorClassIdentifier: 
+  FishId: 1018
+  Name: WhiteCake_St_Fish
+  Description: "\uD770\uC0C9 \uCF00\uC774\uD06C \uC7A5\uC2DD\uC744 \uD55C \uC904\uBB34\uB2AC
+    \uBB3C\uACE0\uAE30"
+  Position: 0
+  Skill_name: "\uC544\uC774\uC2A4\uD3FC"
+  Damage: 15
+  Heal: 0
+  Hp: 50
+  AbilityToAct: 2
+  HabitatType: 0
+  Probability: 0
+  MaxStackSize: 99
+  IsPlayerCard: 0
+  Icon: {fileID: 0}
+  _prefab: {fileID: 1760386114802014115, guid: 89417fe38af74e340958c0685b2f76a2, type: 3}

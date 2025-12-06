@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1011_Gold_Fish_2
+  m_EditorClassIdentifier: 
+  FishId: 1011
+  Name: Gold_Fish_2
+  Description: "\uD669\uAE08\uC0C9 \uC7A5\uC2DD\uC774 \uC5C6\uB294 \uC789\uC5B4\uBE75
+    \uBAA8\uC591 \uBB3C\uACE0\uAE30"
+  Position: 1
+  Skill_name: "\uC789\uC5B4\uBE75"
+  Damage: 0
+  Heal: 0
+  Hp: 0
+  AbilityToAct: 0
+  HabitatType: 3
+  Probability: 1
+  MaxStackSize: 99
+  IsPlayerCard: 1
+  Icon: {fileID: 0}
+  _prefab: {fileID: 9130440153245035980, guid: 6bfd6da6a2b087541879131837cb5f37, type: 3}

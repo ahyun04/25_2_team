@@ -5,20 +5,18 @@ public class FishSO : ScriptableObject
 {
     public int FishId;
     public string Name;
-    public int Hp;
-    public int AbilityToAct;
-    public Sprite Icon;
+    public string Description;
+    public Position Position;
     public string Skill_name;
     public int Damage;
     public int Heal;
-    public int Support;
+    public int Hp;
+    public int AbilityToAct;
     public FishHabitatType HabitatType;
     public int Probability;
-    public string Description;
     public int MaxStackSize;
-    public float Weight = 1f;
     public bool IsPlayerCard = false;
-    public bool IsCheck = false;
+    public Sprite Icon;
 
     [Header("물고기 프리팹")]
     [SerializeField] private GameObject _prefab;

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1053_Green_Dot_Fish
+  m_EditorClassIdentifier: 
+  FishId: 1053
+  Name: Green_Dot_Fish
+  Description: "\uCD08\uB85D\uC0C9 \uC7A5\uC2DD\uC774 \uC5C6\uB294 \uC810\uBC15\uC774
+    \uBB3C\uACE0\uAE30"
+  Position: 3
+  Skill_name: "\uBBF8\uC5ED \uBB3C\uACE0\uAE30"
+  Damage: 0
+  Heal: 5
+  Hp: 40
+  AbilityToAct: 1
+  HabitatType: 1
+  Probability: 0
+  MaxStackSize: 99
+  IsPlayerCard: 0
+  Icon: {fileID: 0}
+  _prefab: {fileID: 1480981323258954353, guid: 320348130bfc9d4499daa2f77f9e8d6c, type: 3}

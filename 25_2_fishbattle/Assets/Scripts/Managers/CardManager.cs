@@ -192,10 +192,16 @@ public class CardManager : SingletonMono<CardManager>
         }
 
         // 물고기 생성될때 플레이어/적 rotation값 지정
-        Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
+        Quaternion rotation = isPlayer ? Quaternion.Euler(-90, 0, 90) : Quaternion.Euler(90, 0, 90);
 
         GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
         newFishObject.transform.SetParent(chosenArea.transform);
+        newFishObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+        if (newFishObject.TryGetComponent<Animator>(out var anim))
+        {
+            anim.enabled = false;
+        }
 
         if (newFishObject.TryGetComponent<CardDisplay>(out var disp))
         {
@@ -264,7 +270,7 @@ public class CardManager : SingletonMono<CardManager>
         }
 
         // 물고기 프리팹을 Instantiate
-        Quaternion rotation = isPlayer ? Quaternion.Euler(0, 90, 180) : Quaternion.Euler(0, 90, 0);
+        Quaternion rotation = isPlayer ? Quaternion.Euler(-90, -90, 0) : Quaternion.Euler(90, 90, -180);
 
         GameObject fishObject = Instantiate(cd.Prefab, deckPos.position, rotation);
         fishObject.tag = isPlayer ? "PlayerCard" : "EnemyCard";
@@ -272,11 +278,16 @@ public class CardManager : SingletonMono<CardManager>
         if (isPlayer)
         {
             _PlayerHandController.SetOriginalCardScale(fishObject.transform.localScale);
-            //_originalPlayerCardScale = fishObject.transform.localScale;
             fishObject.layer = 9;
         }
 
         fishObject.transform.SetParent(handPos, true);
+        fishObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+        if (fishObject.TryGetComponent<Animator>(out var anim))
+        {
+            anim.enabled = false;
+        }
 
         // 생성된 물고기 오브젝트에 있는 CardDisplay 컴포넌트에 데이터 전달
         if (fishObject.TryGetComponent<CardDisplay>(out var disp))

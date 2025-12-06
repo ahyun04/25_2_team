@@ -7,35 +7,38 @@ public class FishSpawner : MonoBehaviour
 {
     #region 레퍼런스
     [SerializeField] private FishDatabaseSO _fishDatabase;
-
     #endregion
 
     #region 물고기 스폰 관련
     public FishSO GetRandomFishByScene()
     {
-        FishHabitatType habitat = GetHabitatFromScene();
-        List<FishSO> fishListByHabitat = _fishDatabase.GetItemByType(habitat);
-        List<FishSO> availableFish = fishListByHabitat.Where(fish => fish.IsPlayerCard).ToList();
+        FishHabitatType currentHabitat = GetHabitatFromScene();
+        List<FishSO> candidateFishList = new List<FishSO>();
+
+        List<FishSO> habitatFish = _fishDatabase.GetItemByType(currentHabitat);
+        if (habitatFish != null)
+            candidateFishList.AddRange(habitatFish);
+
+        if (IsBasicHabitat(currentHabitat))
+        {
+            List<FishSO> allAreaFish = _fishDatabase.GetItemByType(FishHabitatType.AllArea);
+            if (allAreaFish != null)
+                candidateFishList.AddRange(allAreaFish);
+        }
+
+        List<FishSO> availableFish = candidateFishList
+            .Where(fish => fish != null && fish.IsPlayerCard)
+            .ToList();
 
         if (availableFish == null || availableFish.Count == 0)
         {
-            Debug.LogWarning($"[FishSpawner] {habitat} 타입의 잡을 수 있는 플레이어 카드 물고기가 없습니다.");
+            Debug.LogWarning($"[FishSpawner] {currentHabitat} (혹은 AllArea) 타입의 잡을 수 있는 플레이어 카드 물고기가 없습니다.");
             return null;
         }
 
-        // 3. 필터링된 리스트를 기반으로 가중치 랜덤 로직을 실행합니다.
-        float totalWeight = availableFish.Sum(fish => fish.Weight);
-        float roll = Random.Range(0f, totalWeight);
-        float accumulator = 0f;
-
-        foreach (var fish in availableFish)
-        {
-            accumulator += fish.Weight;
-            if (roll <= accumulator)
-                return fish;
-        }
-
-        return availableFish.FirstOrDefault(); // fallback
+        // 랜덤 선택 (확률(Probability) 가중치를 적용하려면 별도 로직 필요, 여기선 단순 랜덤)
+        int randomIndex = Random.Range(0, availableFish.Count);
+        return availableFish[randomIndex];
     }
 
     private FishHabitatType GetHabitatFromScene()
@@ -47,9 +50,17 @@ public class FishSpawner : MonoBehaviour
             "LakeMiniGameScene" => FishHabitatType.Lake,
             "RiverMiniGameScene" => FishHabitatType.River,
             "OceanMiniGameScene" => FishHabitatType.Ocean,
+            "DeepOceanMiniGameScene" => FishHabitatType.Abyss,
             _ => FishHabitatType.Lake
         };
     }
 
+    // Lake, River, Ocean인 경우에만 AllArea 물고기를 포함시키기 위한 헬퍼
+    private bool IsBasicHabitat(FishHabitatType type)
+    {
+        return type == FishHabitatType.Lake ||
+               type == FishHabitatType.River ||
+               type == FishHabitatType.Ocean;
+    }
     #endregion
 }

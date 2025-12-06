@@ -465,7 +465,7 @@ Transform:
   m_GameObject: {fileID: 174566206}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.176, y: 0, z: -0.001}
+  m_LocalPosition: {x: 4.11, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -749,7 +749,7 @@ Transform:
   m_GameObject: {fileID: 310227517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.176, y: 0, z: -0.001}
+  m_LocalPosition: {x: 4.13, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -780,7 +780,7 @@ Transform:
   m_GameObject: {fileID: 411927613}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.008, y: 0, z: -0.001}
+  m_LocalPosition: {x: 0.16, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -811,7 +811,7 @@ Transform:
   m_GameObject: {fileID: 431302423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.34100002, y: 0, z: -0.001}
+  m_LocalPosition: {x: 8.23, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1405,26 +1405,79 @@ MonoBehaviour:
   _playerDeckCards: []
   _playerHandCards: []
   _enemyDeckCards:
-  - {fileID: 11400000, guid: e084e18fe41bf1d479d4f0c7717dae1d, type: 2}
-  - {fileID: 11400000, guid: ccd0692779e5f1a4cbf452bac8971cd6, type: 2}
-  - {fileID: 11400000, guid: e8b512b1307f83b448fa89601e408b71, type: 2}
-  - {fileID: 11400000, guid: fa3ba89b5d697604b9f8748155dc1664, type: 2}
-  - {fileID: 11400000, guid: 8731ce02e80ec95479091ab79e2354fc, type: 2}
-  - {fileID: 11400000, guid: 1ceafc2f09a40234483e335ba415e824, type: 2}
-  - {fileID: 11400000, guid: cd9e707542a5c2944876b4a4d18d7551, type: 2}
-  - {fileID: 11400000, guid: 0feba336ed5a5bc4a8e7751aba25fe7f, type: 2}
-  - {fileID: 11400000, guid: a5553cdb46839d14088d949feca64754, type: 2}
-  - {fileID: 11400000, guid: e71f4ecd9f56efc419577c045486e97d, type: 2}
-  - {fileID: 11400000, guid: e084e18fe41bf1d479d4f0c7717dae1d, type: 2}
-  - {fileID: 11400000, guid: ccd0692779e5f1a4cbf452bac8971cd6, type: 2}
-  - {fileID: 11400000, guid: e8b512b1307f83b448fa89601e408b71, type: 2}
-  - {fileID: 11400000, guid: fa3ba89b5d697604b9f8748155dc1664, type: 2}
-  - {fileID: 11400000, guid: 8731ce02e80ec95479091ab79e2354fc, type: 2}
-  - {fileID: 11400000, guid: 1ceafc2f09a40234483e335ba415e824, type: 2}
-  - {fileID: 11400000, guid: cd9e707542a5c2944876b4a4d18d7551, type: 2}
-  - {fileID: 11400000, guid: 0feba336ed5a5bc4a8e7751aba25fe7f, type: 2}
-  - {fileID: 11400000, guid: a5553cdb46839d14088d949feca64754, type: 2}
-  - {fileID: 11400000, guid: e71f4ecd9f56efc419577c045486e97d, type: 2}
+  - {fileID: 11400000, guid: 4414d6813746a2b4eaf54e17e3c2048c, type: 2}
+  - {fileID: 11400000, guid: 3365eb433251e5c4a8ccb3702200ed9c, type: 2}
+  - {fileID: 11400000, guid: 2ced5f55655f0be46afc751d5a80f346, type: 2}
+  - {fileID: 11400000, guid: b63a8b73368bc6f4c85036c310053686, type: 2}
+  - {fileID: 11400000, guid: 44e43af7305df1045856190268a7e73b, type: 2}
+  - {fileID: 11400000, guid: e205337e080b201438c6e1830142d1ac, type: 2}
+  - {fileID: 11400000, guid: ec43bb94818b2e74081706d99fed1060, type: 2}
+  - {fileID: 11400000, guid: 64ffd7db0c0eeb142a85a7cfa8e3447d, type: 2}
+  - {fileID: 11400000, guid: abd05d27bf210194a802ab9a8ee57c0d, type: 2}
+  - {fileID: 11400000, guid: e7d069655525b574fb5495b609a272aa, type: 2}
+  - {fileID: 11400000, guid: 148675e8251ae014d8d519fea10986e4, type: 2}
+  - {fileID: 11400000, guid: 719cfb73ea6675949bf5569c20dbceee, type: 2}
+  - {fileID: 11400000, guid: 9f9173b2c4f4ec1488440dc7c68c3acb, type: 2}
+  - {fileID: 11400000, guid: 6c91b26d7c815354b82ce69607d661e7, type: 2}
+  - {fileID: 11400000, guid: 8263f234837553642bf6d26d770567fd, type: 2}
+  - {fileID: 11400000, guid: a0c89a1fd729b1b489fbb623f7a7c3b2, type: 2}
+  - {fileID: 11400000, guid: a28666f3e05830c45b018ec72f5b23fe, type: 2}
+  - {fileID: 11400000, guid: 187d234dfa870de40baaf10f6596fe8a, type: 2}
+  - {fileID: 11400000, guid: 4c381e0f65c27bb49881b1592a018406, type: 2}
+  - {fileID: 11400000, guid: 1554a0b40e80d8944a53ad5695261264, type: 2}
+  - {fileID: 11400000, guid: a7ea3cca83c56d8448c71be5e5578cb4, type: 2}
+  - {fileID: 11400000, guid: 8bbba1ea9ee100840bb56338bacf32b3, type: 2}
+  - {fileID: 11400000, guid: d894c33f698db8848b3007aea538e3fd, type: 2}
+  - {fileID: 11400000, guid: 06b402907737af74abe5717406c64f89, type: 2}
+  - {fileID: 11400000, guid: 78d87f9c83213ce499e827457626064e, type: 2}
+  - {fileID: 11400000, guid: 7b6544de62d14224fa3d4988be66ab63, type: 2}
+  - {fileID: 11400000, guid: 8ed64cfbb9748a443b4bba73cac6be57, type: 2}
+  - {fileID: 11400000, guid: 23bcd3be1bd17534c8f674ed208a2516, type: 2}
+  - {fileID: 11400000, guid: e148b68a59e244b46b0efc57a00d3610, type: 2}
+  - {fileID: 11400000, guid: b0b490612ede3d64fbb9d6c8dbd97bda, type: 2}
+  - {fileID: 11400000, guid: aaf14deecbb8c5e48ae03b8099f02a41, type: 2}
+  - {fileID: 11400000, guid: 02a5daf6c0bd5684bb1cb079d9395b65, type: 2}
+  - {fileID: 11400000, guid: 2f0e319248bdbd64e89cf98c5c1f6e61, type: 2}
+  - {fileID: 11400000, guid: 4ca13dde542258b4ca0df14fdcfe0c41, type: 2}
+  - {fileID: 11400000, guid: 81003bac2957e2a4babf654572333b36, type: 2}
+  - {fileID: 11400000, guid: d7990f6cdf81031429ef4326676fccdb, type: 2}
+  - {fileID: 11400000, guid: d5d1cf4e13c99cc47acdb117cbcdb862, type: 2}
+  - {fileID: 11400000, guid: e68347eaaad66ec459ff063d9c40c1d0, type: 2}
+  - {fileID: 11400000, guid: 229ab3158efc97f4fb2497a1d051e27c, type: 2}
+  - {fileID: 11400000, guid: 0fbd1c580c3f3ee419fc14f8ab186f3c, type: 2}
+  - {fileID: 11400000, guid: b10a5e9860df965498cbc932a51402d0, type: 2}
+  - {fileID: 11400000, guid: 6e63878e834979647bf5ea8fef1401e7, type: 2}
+  - {fileID: 11400000, guid: 19810bca05bd815439970394edeceb3c, type: 2}
+  - {fileID: 11400000, guid: 18393ab5e3dcfcd4b8fb25dff085128e, type: 2}
+  - {fileID: 11400000, guid: 15c49183bcd3fe549bb0f0d15b19301d, type: 2}
+  - {fileID: 11400000, guid: fc2844b310ecc2a4faadba837283210a, type: 2}
+  - {fileID: 11400000, guid: 072511b62afd38a43bf02943b59aec25, type: 2}
+  - {fileID: 11400000, guid: 2ef24c1ef89b7e143a3b612dbdcfb325, type: 2}
+  - {fileID: 11400000, guid: 6a974d8213f6cc04ca8bd6d05fcc47d9, type: 2}
+  - {fileID: 11400000, guid: d21e96af34b47a843a22f85a10974d88, type: 2}
+  - {fileID: 11400000, guid: 35aa6e898427b44469795de6ac4113e0, type: 2}
+  - {fileID: 11400000, guid: 7e3a09b5eb3b9ff49b7bd669a1205a63, type: 2}
+  - {fileID: 11400000, guid: 369629a46ce2b17418802e37455b31db, type: 2}
+  - {fileID: 11400000, guid: 0d99ddf8c4a33a24d8b1b873231af8d6, type: 2}
+  - {fileID: 11400000, guid: b7a2b830837202c4ba642f3ca6b4db82, type: 2}
+  - {fileID: 11400000, guid: 6c91e907aad0f154eae44a10eb42bb65, type: 2}
+  - {fileID: 11400000, guid: 45ec7b00b07988a4983bf0407184fc71, type: 2}
+  - {fileID: 11400000, guid: 1db35628ac200a14da9e693f545b453f, type: 2}
+  - {fileID: 11400000, guid: b339ced32ff102e45bff35484b6c590d, type: 2}
+  - {fileID: 11400000, guid: 9c2bb894a315a2c498c6b6148d5b251f, type: 2}
+  - {fileID: 11400000, guid: 590c3537b60762a429c9d3d5dcb977e5, type: 2}
+  - {fileID: 11400000, guid: 04cd1fe6a4c294b4f95bb5f3e1b1a3a3, type: 2}
+  - {fileID: 11400000, guid: 4f312a08f6443e440be0036d1d30a7a3, type: 2}
+  - {fileID: 11400000, guid: 6a95c495724adf649aac8a8461d2945e, type: 2}
+  - {fileID: 11400000, guid: 7947ab2f5692c8c4aa30278160577705, type: 2}
+  - {fileID: 11400000, guid: 0da4d526380ff404881ecfa85705bc23, type: 2}
+  - {fileID: 11400000, guid: 577c9c0c645510c40a4040ded11d8991, type: 2}
+  - {fileID: 11400000, guid: a9166632324b5dc4db40b2a4967e5397, type: 2}
+  - {fileID: 11400000, guid: 592df93820cbbf54dafacf1efb10fff4, type: 2}
+  - {fileID: 11400000, guid: 2c294524e65f0d94ca2e9bccbb5db5a0, type: 2}
+  - {fileID: 11400000, guid: f734eb86b683ed9468554a0f80970276, type: 2}
+  - {fileID: 11400000, guid: 9200f733e6c15474e877f3285fa930b1, type: 2}
+  - {fileID: 11400000, guid: 08598b7ab3e28a241ac2211358585ec2, type: 2}
   _enemyHandCards: []
   _playerDeckPosition: {fileID: 1909393564}
   playerHandPosition: {fileID: 2138524771}
@@ -1617,7 +1670,7 @@ Transform:
   m_GameObject: {fileID: 805157324}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.34599996, y: 0, z: -0.001}
+  m_LocalPosition: {x: -7.9, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2640,7 +2693,7 @@ Transform:
   m_GameObject: {fileID: 1385981172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.346, y: 0, z: -0.001}
+  m_LocalPosition: {x: -8, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3016,7 +3069,7 @@ Transform:
   m_GameObject: {fileID: 1685750106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.164, y: 0, z: -0.001}
+  m_LocalPosition: {x: -3.9, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3047,7 +3100,7 @@ Transform:
   m_GameObject: {fileID: 1700888621}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.164, y: 0, z: -0.001}
+  m_LocalPosition: {x: -3.89, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3136,7 +3189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 10.9, y: -30.558}
+  m_AnchoredPosition: {x: 10.900002, y: -30.558}
   m_SizeDelta: {x: 159.588, y: 59.97}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1736147017
@@ -3696,8 +3749,8 @@ GameObject:
   - component: {fileID: 1929420142}
   - component: {fileID: 1929420141}
   - component: {fileID: 1929420140}
-  - component: {fileID: 1929420139}
   - component: {fileID: 1929420144}
+  - component: {fileID: 1929420145}
   m_Layer: 10
   m_Name: PlayerBenchPos
   m_TagString: PlayerCard
@@ -3705,28 +3758,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &1929420139
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1929420137}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1929420140
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3786,8 +3817,8 @@ Transform:
   m_GameObject: {fileID: 1929420137}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.45, y: -3, z: 0.002}
-  m_LocalScale: {x: 23.022144, y: 0.7, z: 3.3468533}
+  m_LocalPosition: {x: -2.45, y: -2.38, z: 0.002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 411927614}
@@ -3816,33 +3847,13 @@ MonoBehaviour:
   - {fileID: 1385981173}
   - {fileID: 2018399890}
   allowedTag: PlayerCard
---- !u!1 &1971803819
-GameObject:
+--- !u!65 &1929420145
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1971803823}
-  - component: {fileID: 1971803822}
-  - component: {fileID: 1971803821}
-  - component: {fileID: 1971803820}
-  - component: {fileID: 1971803825}
-  m_Layer: 10
-  m_Name: EnemyBenchPos
-  m_TagString: EnemyCard
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!64 &1971803820
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971803819}
+  m_GameObject: {fileID: 1929420137}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -3854,10 +3865,29 @@ MeshCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 17.237957, y: 1, z: 6.1232336e-17}
+  m_Center: {x: 0.04066229, y: 0, z: 0}
+--- !u!1 &1971803819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1971803823}
+  - component: {fileID: 1971803822}
+  - component: {fileID: 1971803821}
+  - component: {fileID: 1971803825}
+  - component: {fileID: 1971803826}
+  m_Layer: 10
+  m_Name: EnemyBenchPos
+  m_TagString: EnemyCard
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!23 &1971803821
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3917,8 +3947,8 @@ Transform:
   m_GameObject: {fileID: 1971803819}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.45, y: 9.2, z: 0.002}
-  m_LocalScale: {x: 23.022144, y: 0.7, z: 3.3468533}
+  m_LocalPosition: {x: -2.45, y: 8.38, z: 0.002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1541415220}
@@ -3947,6 +3977,27 @@ MonoBehaviour:
   - {fileID: 805157325}
   - {fileID: 431302424}
   allowedTag: EnemyCard
+--- !u!65 &1971803826
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971803819}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 17.383251, y: 1, z: 6.123233e-17}
+  m_Center: {x: 0.22545671, y: -0.0000009536743, z: 0}
 --- !u!1 &2001899500
 GameObject:
   m_ObjectHideFlags: 0
@@ -4003,7 +4054,7 @@ Transform:
   m_GameObject: {fileID: 2018399889}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.341, y: 0, z: -0.001}
+  m_LocalPosition: {x: 8.17, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

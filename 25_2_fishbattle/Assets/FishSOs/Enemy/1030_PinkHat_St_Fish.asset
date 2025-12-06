@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d998499d0a21c428a990058376a196, type: 3}
+  m_Name: 1030_PinkHat_St_Fish
+  m_EditorClassIdentifier: 
+  FishId: 1030
+  Name: PinkHat_St_Fish
+  Description: "\uBD84\uD64D\uC0C9 \uBAA8\uC790\uB97C \uC4F4 \uC904\uBB34\uB2AC \uBB3C\uACE0\uAE30"
+  Position: 0
+  Skill_name: "\uC2A4\uD338\uBA54\uC77C"
+  Damage: 11
+  Heal: 0
+  Hp: 40
+  AbilityToAct: 3
+  HabitatType: 2
+  Probability: 0
+  MaxStackSize: 99
+  IsPlayerCard: 0
+  Icon: {fileID: 0}
+  _prefab: {fileID: 4934688569948637970, guid: f265c10164285f84ab42c3a8026c2473, type: 3}

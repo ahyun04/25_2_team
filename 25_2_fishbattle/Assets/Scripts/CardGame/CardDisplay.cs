@@ -281,20 +281,25 @@ public class CardDisplay : MonoBehaviour
     #region 툴팁
     public void SetTooltipActive(bool isActive, bool isFocus)
     {
-        if (transform.childCount > 0)
+        if (transform.childCount > 2) // 인덱스 2번(3번째 자식) 확인
         {
             GameObject tooltipObject = transform.GetChild(2).gameObject;
             if (tooltipObject != null)
             {
                 tooltipObject.SetActive(isActive);
 
-                if (isActive && tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
+                if (isActive)
                 {
-                    tooltip.SetupTooltip(fishData.Skill_name, fishData.Hp, fishData.Description, fishData.AbilityToAct);
+                    tooltipObject.transform.localRotation = Quaternion.Euler(180, -90, -90);
 
-                    if (tooltip._nameText != null)
+                    if (tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
                     {
-                        tooltip._nameText.gameObject.SetActive(isFocus);
+                        tooltip.SetupTooltip(fishData.Skill_name, fishData.Hp, fishData.Description, fishData.AbilityToAct);
+
+                        if (tooltip._nameText != null)
+                        {
+                            tooltip._nameText.gameObject.SetActive(isFocus);
+                        }
                     }
                 }
             }

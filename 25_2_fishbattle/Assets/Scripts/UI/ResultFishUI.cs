@@ -12,6 +12,6 @@ public class ResultFishUI : MonoBehaviour
     {
         if (fishData == null) return;
         _fishImage.sprite = fishData.Icon;
-        _fishNameText.text = fishData.Name;
+        _fishNameText.text = fishData.Skill_name;
     }
 }

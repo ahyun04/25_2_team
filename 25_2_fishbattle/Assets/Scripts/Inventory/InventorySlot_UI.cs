@@ -47,7 +47,7 @@ public class InventorySlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExi
             _itemImage.enabled = true;
             _itemImage.raycastTarget = true; // 드래그를 위해 Raycast Target을 켜야 합니다.
             _itemCountText.text = _stackSize > 1 ? _stackSize.ToString() : "";
-            _itemNameText.text = item.Name;
+            _itemNameText.text = item.Skill_name;
         }
         else
         {

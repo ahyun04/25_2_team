@@ -1,35 +1,43 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHandController : MonoBehaviour
 {
-    #region ·¹ÆÛ·±½º
+    #region ë ˆí¼ëŸ°ìŠ¤
     private UIManager _UIManager;
     private CardActionHandler _cardActionHandler;
 
-    [Header("ºí·¯")]
+    [Header("ë¸”ëŸ¬")]
     public GameObject _blurBackGround;
     public bool isBluring = false;
 
-    [Header("¸¶¿ì½º Å¬¸¯ È¿°ú")]
-    private Vector3 _originalPlayerCardScale;
+    [Header("ë§ˆìš°ìŠ¤ í´ë¦­ íš¨ê³¼")]
+    // [ìˆ˜ì •ë¨] ê¸°ë³¸ ìŠ¤ì¼€ì¼ 0.3ìœ¼ë¡œ ì„¤ì •
+    private Vector3 _originalPlayerCardScale = new Vector3(0.3f, 0.3f, 0.3f);
     public Vector3 OriginalPlayerCardScale => _originalPlayerCardScale;
 
-    [SerializeField] private float _clickedScaleMultiplier = 1.5f;
-    [SerializeField] private float _cardFocusScaleMultiplier = 1.2f;
+    [SerializeField] private float _clickedScaleMultiplier = 3.3f;
+
+    // ì¹´ë“œ í¬ì»¤ìŠ¤ ì‹œ: 1.0 * 1.6 = 1.6 (í™”ë©´ì— ê½‰ ì°¨ê²Œ í™•ëŒ€)
+    [SerializeField] private float _cardFocusScaleMultiplier = 1.6f;
+
     [SerializeField] private float _scaleAnimDuration = 0.2f;
     private GameObject _currentFocusedCard = null;
-    private Vector3 _focusOffset = new Vector3(0, 6f, -2f);
+
+    // [ìˆ˜ì •ë¨] í¬ì»¤ìŠ¤ ìœ„ì¹˜ (Yì¶• ì ë‹¹íˆ, Zì¶•ìœ¼ë¡œ ì¹´ë©”ë¼ì— ê°€ê¹ê²Œ ë‹¹ê¹€)
+    private Vector3 _focusOffset = new Vector3(0, 2.5f, -4.0f);
+
     private Vector3 _lastFocusedCardOriginalPos;
     private bool _isHandExpanded = false;
 
     #endregion
 
-    #region ÃÊ±âÈ­, ¾÷µ¥ÀÌÆ®
+    #region ì´ˆê¸°í™”, ì—…ë°ì´íŠ¸
     private void Start()
     {
+        // CardManager ì„¤ì • ì „ì´ë¼ë„ ê¸°ë³¸ê°’ 0.3 ì ìš©
         this.gameObject.transform.localScale = _originalPlayerCardScale;
 
         _UIManager = FindObjectOfType<UIManager>();
@@ -46,7 +54,7 @@ public class PlayerHandController : MonoBehaviour
 
     #endregion
 
-    #region ÇÚµå Æ®¸®°Å
+    #region í•¸ë“œ íŠ¸ë¦¬ê±°
     public void HandleMouseClick()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -54,7 +62,7 @@ public class PlayerHandController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            // Case 1: ¼ÕÆĞ ¿µ¿ª(playerHandPosition)À» Å¬¸¯ÇßÀ» ¶§
+            // Case 1: ì†íŒ¨ ì˜ì—­(playerHandPosition)ì„ í´ë¦­í–ˆì„ ë•Œ
             if (hit.transform == CardManager.Instance.playerHandPosition)
             {
                 SetPlayerHandScale(_clickedScaleMultiplier);
@@ -64,7 +72,7 @@ public class PlayerHandController : MonoBehaviour
                 _isHandExpanded = true;
                 UnfocusCard();
             }
-            // Case 2: ¼ÕÆĞ¿¡ ÀÖ´Â °³º° Ä«µå(PlayerCard)¸¦ Å¬¸¯ÇßÀ» ¶§
+            // ì†íŒ¨ì— ìˆëŠ” ê°œë³„ ì¹´ë“œ(PlayerCard)ë¥¼ í´ë¦­í–ˆì„ ë•Œ
             else if (hit.transform.CompareTag("PlayerCard"))
             {
                 if (!_blurBackGround.activeSelf) return;
@@ -80,10 +88,10 @@ public class PlayerHandController : MonoBehaviour
                     FocusCard(hit.transform.gameObject);
                 }
             }
-            // Case 3: ¼ÕÆĞ ¿µ¿ª ¿ÜÀÇ ´Ù¸¥ °÷À» Å¬¸¯Çß°í, "¼ÕÆĞ°¡ È®ÀåµÈ »óÅÂÀÏ ¶§¸¸"
+            // Case 3: ì†íŒ¨ ì˜ì—­ ì™¸ì˜ ë‹¤ë¥¸ ê³³ì„ í´ë¦­í–ˆê³ , "ì†íŒ¨ê°€ í™•ì¥ëœ ìƒíƒœì¼ ë•Œë§Œ"
             else if (_isHandExpanded)
             {
-                // ¼ÕÆĞ ÀüÃ¼¿Í ¹è°æÀ» ¿ø·¡´ë·Î µÇµ¹¸³´Ï´Ù.
+                // ì†íŒ¨ ì „ì²´ì™€ ë°°ê²½ì„ ì›ë˜ëŒ€ë¡œ ë˜ëŒë¦½ë‹ˆë‹¤.
                 SetPlayerHandScaleToOriginal();
                 isBluring = false;
                 _blurBackGround.SetActive(false);
@@ -93,10 +101,10 @@ public class PlayerHandController : MonoBehaviour
                 _cardActionHandler.RearrangeHand(true);
             }
         }
-        // ¾Æ¹«°Íµµ Å¬¸¯ÇÏÁö ¾Ê¾ÒÀ» ¶§µµ, "¼ÕÆĞ°¡ È®ÀåµÈ »óÅÂÀÏ ¶§¸¸"
+        // ì•„ë¬´ê²ƒë„ í´ë¦­í•˜ì§€ ì•Šì•˜ì„ ë•Œë„, "ì†íŒ¨ê°€ í™•ì¥ëœ ìƒíƒœì¼ ë•Œë§Œ"
         else if (_isHandExpanded)
         {
-            // ¾Æ¹«°Íµµ Å¬¸¯ÇÏÁö ¾Ê¾ÒÀ» ¶§
+            // ì•„ë¬´ê²ƒë„ í´ë¦­í•˜ì§€ ì•Šì•˜ì„ ë•Œ
             SetPlayerHandScaleToOriginal();
             isBluring = false;
             _blurBackGround.SetActive(false);
@@ -112,7 +120,7 @@ public class PlayerHandController : MonoBehaviour
         return _isHandExpanded;
     }
 
-    // ¿ÜºÎ¿¡¼­ Æ¯Á¤ Ä«µå°¡ Æ÷Ä¿½ºµÈ »óÅÂ¸¦ È®ÀÎÇÒ ¼ö ÀÖ´Â public ¸Ş¼­µå
+    // ì™¸ë¶€ì—ì„œ íŠ¹ì • ì¹´ë“œê°€ í¬ì»¤ìŠ¤ëœ ìƒíƒœë¥¼ í™•ì¸í•  ìˆ˜ ìˆëŠ” public ë©”ì„œë“œ
     public bool IsCardFocused(GameObject card)
     {
         return _currentFocusedCard == card;
@@ -147,7 +155,7 @@ public class PlayerHandController : MonoBehaviour
 
     private void FocusCard(GameObject cardToFocus)
     {
-        // ±âÁ¸¿¡ Æ÷Ä¿½ºµÈ Ä«µå°¡ ÀÖ´Ù¸é ¿ø·¡ Å©±â·Î µÇµ¹¸³´Ï´Ù.
+        // ê¸°ì¡´ì— í¬ì»¤ìŠ¤ëœ ì¹´ë“œê°€ ìˆë‹¤ë©´ ì›ë˜ í¬ê¸°ë¡œ ë˜ëŒë¦½ë‹ˆë‹¤.
         if (_currentFocusedCard != null)
         {
             _currentFocusedCard.transform.DOScale(_originalPlayerCardScale * _clickedScaleMultiplier, _scaleAnimDuration);
@@ -156,28 +164,28 @@ public class PlayerHandController : MonoBehaviour
             _currentFocusedCard.transform.DOMove(_lastFocusedCardOriginalPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
         }
 
-        // Æ÷Ä¿½ºµÈ Ä«µå¸¦ Á¦¿ÜÇÏ°í ³ª¸ÓÁö ¼ÕÆĞ Ä«µåÀÇ ·¹ÀÌ¾î¸¦ Default(0)·Î º¯°æ
+        // í¬ì»¤ìŠ¤ëœ ì¹´ë“œë¥¼ ì œì™¸í•˜ê³  ë‚˜ë¨¸ì§€ ì†íŒ¨ ì¹´ë“œì˜ ë ˆì´ì–´ë¥¼ Default(0)ë¡œ ë³€ê²½
         foreach (var cardObj in CardManager.Instance.playerCardObjects)
         {
             if (cardObj != cardToFocus)
             {
-                cardObj.layer = 0; // Default ·¹ÀÌ¾î
+                cardObj.layer = 0; // Default ë ˆì´ì–´
             }
         }
 
-        // ¼ÕÆĞ ¿Ü Ä«µå¸é ¹«½Ã
+        // ì†íŒ¨ ì™¸ ì¹´ë“œë©´ ë¬´ì‹œ
         if (!CardManager.Instance.playerCardObjects.Contains(cardToFocus)) return;
 
         _currentFocusedCard = cardToFocus;
 
-        // ÇöÀç À§Ä¡ ÀúÀå
+        // í˜„ì¬ ìœ„ì¹˜ ì €ì¥
         _lastFocusedCardOriginalPos = cardToFocus.transform.position;
 
-        // Æ÷Ä¿½º Å©±â
+        // í¬ì»¤ìŠ¤ í¬ê¸° (0.3 * 3.3 * 1.6 = ì•½ 1.6 Size)
         Vector3 targetScale = _originalPlayerCardScale * _clickedScaleMultiplier * _cardFocusScaleMultiplier;
         _currentFocusedCard.transform.DOScale(targetScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
 
-        // Æ÷Ä¿½º À§Ä¡ ÀÌµ¿
+        // í¬ì»¤ìŠ¤ ìœ„ì¹˜ ì´ë™
         Vector3 targetPos = _lastFocusedCardOriginalPos + _focusOffset;
         _currentFocusedCard.transform.DOMove(targetPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
 
@@ -188,23 +196,23 @@ public class PlayerHandController : MonoBehaviour
     {
         if (_currentFocusedCard != null)
         {
-            // Å©±â º¹±¸
+            // í¬ê¸° ë³µêµ¬
             Vector3 originalHandScale = _originalPlayerCardScale * _clickedScaleMultiplier;
             _currentFocusedCard.transform.DOScale(originalHandScale, _scaleAnimDuration).SetEase(Ease.OutCubic);
 
-            // À§Ä¡ º¹±¸
+            // ìœ„ì¹˜ ë³µêµ¬
             _currentFocusedCard.transform.DOMove(_lastFocusedCardOriginalPos, _scaleAnimDuration).SetEase(Ease.OutCubic);
 
             _UIManager.SetTooltipForCard(_currentFocusedCard, false, false);
             _currentFocusedCard = null;
         }
 
-        // ¸ğµç ¼ÕÆĞ Ä«µåÀÇ ·¹ÀÌ¾î¸¦ ´Ù½Ã Render(9)·Î º¹±¸
+        // ëª¨ë“  ì†íŒ¨ ì¹´ë“œì˜ ë ˆì´ì–´ë¥¼ ë‹¤ì‹œ Render(9)ë¡œ ë³µêµ¬
         foreach (var cardObj in CardManager.Instance.playerCardObjects)
         {
             if (cardObj != null)
             {
-                cardObj.layer = 9; // Render ·¹ÀÌ¾î
+                cardObj.layer = 9; // Render ë ˆì´ì–´
             }
         }
     }
@@ -213,25 +221,25 @@ public class PlayerHandController : MonoBehaviour
     {
         if (_currentFocusedCard != null)
         {
-            // ÅøÆÁ ²ô±â
+            // íˆ´íŒ ë„ê¸°
             _UIManager.SetTooltipForCard(_currentFocusedCard, false, false);
-            // ÂüÁ¶ ÇØÁ¦
+            // ì°¸ì¡° í•´ì œ
             _currentFocusedCard = null;
         }
 
-        // ¸ğµç ¼ÕÆĞ Ä«µåÀÇ ·¹ÀÌ¾î¸¦ ´Ù½Ã Render(9)·Î º¹±¸
+        // ëª¨ë“  ì†íŒ¨ ì¹´ë“œì˜ ë ˆì´ì–´ë¥¼ ë‹¤ì‹œ Render(9)ë¡œ ë³µêµ¬
         foreach (var cardObj in CardManager.Instance.playerCardObjects)
         {
             if (cardObj != null)
             {
-                cardObj.layer = 9; // Render ·¹ÀÌ¾î
+                cardObj.layer = 9; // Render ë ˆì´ì–´
             }
         }
     }
 
     public void SetOriginalCardScale(Vector3 scale)
     {
-        // ¾ÆÁ÷ ½ºÄÉÀÏÀÌ ¼³Á¤µÇÁö ¾Ê¾ÒÀ» ¶§(°ªÀÌ 0,0,0ÀÏ ¶§) µü ÇÑ ¹ø¸¸ °ªÀ» ÀúÀåÇÕ´Ï´Ù.
+        // 0.3ìœ¼ë¡œ ê°•ì œ ì„¤ì •ëœ ê²½ìš° ì´ˆê¸°ê°’ 0ì´ë©´ ë®ì–´ì”Œì›€
         if (_originalPlayerCardScale == Vector3.zero)
         {
             _originalPlayerCardScale = scale;

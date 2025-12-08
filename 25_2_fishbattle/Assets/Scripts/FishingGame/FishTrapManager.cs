@@ -123,8 +123,16 @@ public class FishTrapManager : MonoBehaviour
         foreach (FishSO fish in _lastCaughtTrapFish)
         {
             inventorySystem.AddToInventory(fish, 1);
+
+            if (CollectionManager.Instance != null)
+            {
+                CollectionManager.Instance.RegisterFishToCollection(fish);
+            }
         }
-        Debug.Log("통발로 잡은 물고기를 인벤토리에 넣었습니다.");
+        if (CollectionManager.Instance != null)
+        {
+            Debug.Log($"통발로 잡은 {_lastCaughtTrapFish.Count}마리의 물고기가 인벤토리와 도감에 처리되었습니다.");
+        }
 
         _resultPanel.SetActive(false);
         _resultText.text = "";

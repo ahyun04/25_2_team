@@ -13,6 +13,7 @@ public class FishSpawner : MonoBehaviour
     public FishSO GetRandomFishByScene()
     {
         FishHabitatType currentHabitat = GetHabitatFromScene();
+
         List<FishSO> candidateFishList = new List<FishSO>();
 
         List<FishSO> habitatFish = _fishDatabase.GetItemByType(currentHabitat);
@@ -32,13 +33,36 @@ public class FishSpawner : MonoBehaviour
 
         if (availableFish == null || availableFish.Count == 0)
         {
-            Debug.LogWarning($"[FishSpawner] {currentHabitat} (혹은 AllArea) 타입의 잡을 수 있는 플레이어 카드 물고기가 없습니다.");
+            Debug.LogWarning($"[FishSpawner] {currentHabitat} 타입의 잡을 수 있는 플레이어 카드 물고기가 없습니다.");
             return null;
         }
 
-        // 랜덤 선택 (확률(Probability) 가중치를 적용하려면 별도 로직 필요, 여기선 단순 랜덤)
-        int randomIndex = Random.Range(0, availableFish.Count);
-        return availableFish[randomIndex];
+        float totalWeight = 0f;
+        foreach (var fish in availableFish)
+        {
+            totalWeight += Mathf.Max(0, fish.Probability);
+        }
+
+        if (totalWeight <= 0f)
+        {
+            return availableFish[Random.Range(0, availableFish.Count)];
+        }
+
+        float randomValue = Random.Range(0f, totalWeight);
+
+        foreach (var fish in availableFish)
+        {
+            float weight = Mathf.Max(0, fish.Probability);
+
+            if (randomValue <= weight)
+            {
+                return fish;
+            }
+
+            randomValue -= weight;
+        }
+
+        return availableFish[availableFish.Count - 1];
     }
 
     private FishHabitatType GetHabitatFromScene()
@@ -55,7 +79,6 @@ public class FishSpawner : MonoBehaviour
         };
     }
 
-    // Lake, River, Ocean인 경우에만 AllArea 물고기를 포함시키기 위한 헬퍼
     private bool IsBasicHabitat(FishHabitatType type)
     {
         return type == FishHabitatType.Lake ||

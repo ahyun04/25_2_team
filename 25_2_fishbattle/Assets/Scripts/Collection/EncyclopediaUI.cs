@@ -224,11 +224,11 @@ public class EncyclopediaUI : MonoBehaviour
         {
             _detailFishImage.sprite = fish.Icon;
             _detailFishImage.color = Color.white;
-            _nameText.text = fish.Name;
+            _nameText.text = fish.Skill_name;
             _hpText.text = $"체력 : {fish.Hp}";
             _countText.text = $"{fishCount}마리 잡음";
             _costText.text = $"행동력 : {fish.AbilityToAct}";
-            _skillNameText.text = string.IsNullOrEmpty(fish.Skill_name) ? "스킬 없음" : fish.Skill_name;
+            _skillNameText.text = string.IsNullOrEmpty(fish.Description) ? "스킬 없음" : fish.Description;
         }
 
         UpdateNavigationButtons();

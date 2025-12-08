@@ -211,8 +211,12 @@ public class NetFishing : MonoBehaviour
         foreach (FishSO fish in _lastCaughtNetFish)
         {
             _playerInventory.InventorySystem.AddToInventory(fish, 1);
+
+            if (CollectionManager.Instance != null)
+            {
+                CollectionManager.Instance.RegisterFishToCollection(fish);
+            }
         }
-        Debug.Log("그물로 잡은 물고기를 인벤토리에 넣었습니다.");
 
         _resultPanel.SetActive(false); // 결과 창 닫기
         _resultText.text = "";

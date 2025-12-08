@@ -98,7 +98,7 @@ public class EnhancementManager : MonoBehaviour
 
         if (isSuccess)
         {
-            string earnedItemName = _pendingResultItem.Name;
+            string earnedItemName = _pendingResultItem.Skill_name;
             ClearResultSlot();
             ShowWarning($"{earnedItemName}¿ª(∏¶) »πµÊ«ﬂΩ¿¥œ¥Ÿ!");
         }

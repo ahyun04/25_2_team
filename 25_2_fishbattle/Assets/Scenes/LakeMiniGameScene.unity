@@ -26350,6 +26350,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hook_A_Fish_Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 5139806235936537797, guid: be9f93921f2fc934381b013f9c339a00,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7393834752122677532, guid: be9f93921f2fc934381b013f9c339a00,
         type: 3}
       propertyPath: m_Pivot.x

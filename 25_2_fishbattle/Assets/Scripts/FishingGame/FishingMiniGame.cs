@@ -315,7 +315,7 @@ public class FishingMiniGame : MonoBehaviour
             _fishPrefab.transform.localScale = new Vector3(5f, 5f, 5f);
         }
 
-        _hookAFishNameText.text = $"{_caughtFishSO.Name} 를(을) 잡았다!";
+        _hookAFishNameText.text = $"{_caughtFishSO.Skill_name} 를(을) 잡았다!";
 
         _putInBoxButton.onClick.RemoveAllListeners();
         _putInBoxButton.onClick.AddListener(() => PutFishInInventory());

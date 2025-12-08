@@ -23,7 +23,7 @@ MonoBehaviour:
   Hp: 60
   AbilityToAct: 1
   HabitatType: 1
-  Probability: 0
+  Probability: 5
   MaxStackSize: 99
   IsPlayerCard: 1
   Icon: {fileID: 0}

@@ -13,7 +13,7 @@ public class FishSO : ScriptableObject
     public int Hp;
     public int AbilityToAct;
     public FishHabitatType HabitatType;
-    public int Probability;
+    public float Probability;
     public int MaxStackSize;
     public bool IsPlayerCard = false;
     public Sprite Icon;

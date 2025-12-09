@@ -2392,7 +2392,31 @@ MonoBehaviour:
     mixerGroup: {fileID: -3100359754738148694, guid: 3b81c9bdd7f7df84b8a015f132bd120e,
       type: 2}
     source: {fileID: 0}
-  sfxSounds: []
+  sfxSounds:
+  - name: Footstep
+    clip: {fileID: 8300000, guid: 3cf4c540daf0f974abb6c9b9598f0bc2, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    mixerGroup: {fileID: 6901553201719126753, guid: 3b81c9bdd7f7df84b8a015f132bd120e,
+      type: 2}
+    source: {fileID: 0}
+  - name: Scean
+    clip: {fileID: 8300000, guid: 680d97135b399a241b582e5dd53e534e, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    mixerGroup: {fileID: 6901553201719126753, guid: 3b81c9bdd7f7df84b8a015f132bd120e,
+      type: 2}
+    source: {fileID: 0}
+  - name: Die
+    clip: {fileID: 8300000, guid: c23f9e5048f97464eae79221143ac517, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    mixerGroup: {fileID: 6901553201719126753, guid: 3b81c9bdd7f7df84b8a015f132bd120e,
+      type: 2}
+    source: {fileID: 0}
   musicSource: {fileID: 1978928779}
   sfxSource: {fileID: 1128366595}
 --- !u!1 &1555170766
@@ -3048,7 +3072,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1a8ced0bc68d00e4fa7cf7262b2e5a2f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.793
+      value: 1.528
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1a8ced0bc68d00e4fa7cf7262b2e5a2f,
         type: 3}
@@ -3058,7 +3082,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1a8ced0bc68d00e4fa7cf7262b2e5a2f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.46481228
+      value: 0.599
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1a8ced0bc68d00e4fa7cf7262b2e5a2f,
         type: 3}

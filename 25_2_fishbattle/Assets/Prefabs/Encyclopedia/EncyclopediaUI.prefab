@@ -349,7 +349,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -402,7 +401,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -455,7 +453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -508,7 +505,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -561,7 +557,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -839,7 +834,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -967,7 +961,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -1114,7 +1107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -1167,7 +1159,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -1341,7 +1332,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -1394,7 +1384,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -1537,7 +1526,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -1682,7 +1670,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -1735,7 +1722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -2276,7 +2262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -2527,7 +2512,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -2580,7 +2564,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -2633,7 +2616,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -2686,7 +2668,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -2833,7 +2814,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -2886,7 +2866,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -3123,7 +3102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -3176,7 +3154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -3304,7 +3281,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -3357,7 +3333,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -3410,7 +3385,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -4034,7 +4008,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -4451,7 +4424,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -4504,7 +4476,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -4737,7 +4708,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -4880,7 +4850,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5004,8 +4973,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8987657641212855877}
   m_HandleRect: {fileID: 693466485643312773}
   m_Direction: 2
-  m_Value: 0.9999995
-  m_Size: 0.22720283
+  m_Value: 1.000001
+  m_Size: 0.22720282
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5149,7 +5118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5202,7 +5170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5255,7 +5222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5488,7 +5454,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5541,7 +5506,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5594,7 +5558,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5647,7 +5610,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5700,7 +5662,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5753,7 +5714,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -5806,7 +5766,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -6268,7 +6227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -6456,7 +6414,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -6873,7 +6830,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -7110,7 +7066,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -7360,7 +7315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 4a254f00ec1f3f54b908ddf848c0a811, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7635,7 +7590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -7778,7 +7732,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -7925,7 +7878,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}
   _encyclopediaGroup: {fileID: 8135393914687445308}
+  _collectionGroup: {fileID: 0}
   _contentTransform: {fileID: 5060798684195599400}
+  _scrollViewport: {fileID: 0}
   _learnMoreGroup: {fileID: 8913629724237808625}
   _detailModelViewer: {fileID: 7369052699364056617}
   _nameText: {fileID: 7596040955826856677}
@@ -8265,7 +8220,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -8408,7 +8362,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -9121,7 +9074,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -9354,7 +9306,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -9497,7 +9448,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -9550,7 +9500,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -9693,7 +9642,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -9961,7 +9909,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -10014,7 +9961,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -10067,7 +10013,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -10120,7 +10065,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -10353,7 +10297,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -10406,7 +10349,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -10549,7 +10491,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -10692,7 +10633,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -11185,7 +11125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -11328,7 +11267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -11381,7 +11319,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -11434,7 +11371,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -11487,7 +11423,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -11814,7 +11749,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -12212,7 +12146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -12265,7 +12198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -12502,7 +12434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -12819,7 +12750,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -12872,7 +12802,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32
@@ -12925,7 +12854,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modelContainer: {fileID: 0}
-  _modelScale: 100
   _uiLayer:
     serializedVersion: 2
     m_Bits: 32

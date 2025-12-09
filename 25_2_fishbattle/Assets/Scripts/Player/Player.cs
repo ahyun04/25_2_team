@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     private NPC_AI_Controller _nearbyNPC;           // 상호작용 가능한 범위 내의 NPC
     private NPC_AI_Controller _activeDialogueNPC;   // 현재 대화 중인 NPC
     private bool _isInDialogue = false;
+    public AudioClip Footstep;
 
     [System.Serializable]
     public class PlayerEvents 
@@ -80,6 +81,9 @@ public class Player : MonoBehaviour
         }
 
         HandleInputAndAnimation();
+
+        
+
     }
 
     private void FixedUpdate()
@@ -144,6 +148,7 @@ public class Player : MonoBehaviour
         _isMoving = true;
         WalkAnimator();
         playerEvents.OnMoveStarted?.Invoke();
+        AudioManager.instance.PlaySFX("Footstep");
     }
 
     private void StopMoving()
@@ -151,6 +156,8 @@ public class Player : MonoBehaviour
         _isMoving = false;
         IdleAnimator();
         playerEvents.OnMoveStoped?.Invoke();
+
+       
     }
 
     private void WalkAnimator()
@@ -158,6 +165,7 @@ public class Player : MonoBehaviour
         _animator.SetBool("Walk", true);
         /*_buketAnimator.SetBool("Walk", true);
         _fishStickAnimator.SetBool("Walk", true);*/
+        AudioManager.instance.PlaySFX("Footstep");
     }
 
     public void IdleAnimator()

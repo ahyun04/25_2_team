@@ -448,6 +448,7 @@ GameObject:
   - component: {fileID: 8292586892921302852}
   - component: {fileID: -4121361482484095621}
   - component: {fileID: -3248198150770397433}
+  - component: {fileID: -5885738692408767582}
   m_Layer: 0
   m_Name: Fish_Stripe_Gray
   m_TagString: Untagged
@@ -550,6 +551,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 3, z: 7}
   m_Center: {x: 0, y: 0, z: -2}
+--- !u!95 &-5885738692408767582
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7116904272180932046}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 1c4bd02de87a34b4089fe4ac2846969b, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6c492cb7571f5864ba4ed1384ba91bce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7299235125573501464
 GameObject:
   m_ObjectHideFlags: 0

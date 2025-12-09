@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 2007772369591231654}
   - component: {fileID: 526995572769682802}
   - component: {fileID: 1963896607315738477}
+  - component: {fileID: 7755691386757056011}
   m_Layer: 0
   m_Name: Fish_Spotted_Gray
   m_TagString: Untagged
@@ -306,6 +307,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 3, z: 7}
   m_Center: {x: 0, y: 0, z: -2}
+--- !u!95 &7755691386757056011
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920948736629280836}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 1c4bd02de87a34b4089fe4ac2846969b, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6c492cb7571f5864ba4ed1384ba91bce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7293070878310162545
 GameObject:
   m_ObjectHideFlags: 0

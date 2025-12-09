@@ -12,13 +12,15 @@ public class EncyclopediaUI : MonoBehaviour
 
     [Header("UI Groups")]
     [SerializeField] private GameObject _encyclopediaGroup; // 전체 UI (O키로 토글)
+    [SerializeField] private GameObject _collectionGroup;
     [SerializeField] private Transform _contentTransform;
+    [SerializeField] private RectTransform _scrollViewport;
 
     [Header("Detail Panel (Learn More)")]
     [SerializeField] private GameObject _learnMoreGroup;    // Learn more Image 그룹
 
     [Header("Detail Info Elements")]
-    [SerializeField] private Image _detailFishImage;        // FishImage
+    [SerializeField] private UIModelViewer _detailModelViewer;
     [SerializeField] private TextMeshProUGUI _nameText;     // Name
     [SerializeField] private TextMeshProUGUI _countText;    // Count (??마리 잡음)
     [SerializeField] private TextMeshProUGUI _hpText;       // HP (체력 : ??)
@@ -35,7 +37,7 @@ public class EncyclopediaUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _moreFishText; // More Fish....
 
     #endregion
-
+    private List<CollectionSlot_UI> _uiSlots = new List<CollectionSlot_UI>();
     private List<FishSO> _allFishes = new List<FishSO>();
     private List<FishSO> _collectedOnlyList = new List<FishSO>();   
     private List<FishSO> CurrentList => _isViewAllMode ? _allFishes : _collectedOnlyList;
@@ -60,6 +62,32 @@ public class EncyclopediaUI : MonoBehaviour
         if (_fishDatabase != null)
         {
             _allFishes = _fishDatabase.fishItems;
+        }
+
+        InitializeSlots();
+    }
+
+    private void InitializeSlots()
+    {
+        _uiSlots.Clear();
+
+        List<Image> allSlotImages = new List<Image>();
+        _contentTransform.GetComponentsInChildren<Image>(true, allSlotImages);
+
+        Image contentImage = _contentTransform.GetComponent<Image>();
+        if (contentImage != null && allSlotImages.Contains(contentImage))
+        {
+            allSlotImages.Remove(contentImage);
+        }
+
+        foreach (var img in allSlotImages)
+        {
+            CollectionSlot_UI slotUI = img.GetComponent<CollectionSlot_UI>();
+            if (slotUI == null)
+            {
+                slotUI = img.gameObject.AddComponent<CollectionSlot_UI>();
+            }
+            _uiSlots.Add(slotUI);
         }
     }
 
@@ -88,40 +116,23 @@ public class EncyclopediaUI : MonoBehaviour
 
     private void RefreshGrid()
     {
-        List<Image> allSlotImages = new List<Image>();
-        _contentTransform.GetComponentsInChildren<Image>(true, allSlotImages);
-
-        Image contentImage = _contentTransform.GetComponent<Image>();
-        if (contentImage != null && allSlotImages.Contains(contentImage))
-        {
-            allSlotImages.Remove(contentImage);
-        }
-
         int fishCount = _allFishes.Count;
 
-        for (int i = 0; i < allSlotImages.Count; i++)
+        for (int i = 0; i < _uiSlots.Count; i++)
         {
-            GameObject slotObj = allSlotImages[i].gameObject;
+            CollectionSlot_UI slotUI = _uiSlots[i];
 
-            // 데이터가 더 이상 없으면 해당 슬롯(이미지) 끄기
             if (i >= fishCount)
             {
-                slotObj.SetActive(false);
+                slotUI.gameObject.SetActive(false);
                 continue;
             }
 
-            slotObj.SetActive(true);
+            slotUI.gameObject.SetActive(true);
             FishSO fish = _allFishes[i];
-
-            CollectionSlot_UI slotUI = slotObj.GetComponent<CollectionSlot_UI>();
-            if (slotUI == null)
-            {
-                slotUI = slotObj.AddComponent<CollectionSlot_UI>();
-            }
-
             bool isCollected = CollectionManager.Instance.IsFishCollected(fish);
 
-            slotUI.SetupSlot(fish, isCollected, this);
+            slotUI.SetupSlot(fish, isCollected, this, _scrollViewport);
         }
     }
 
@@ -130,6 +141,11 @@ public class EncyclopediaUI : MonoBehaviour
     #region 탭 버튼 기능 (Tab Logic)
     private void OnCollectionTabClicked()
     {
+        if (_detailModelViewer != null) _detailModelViewer.ClearModel();
+
+        if (_collectionGroup != null) _collectionGroup.SetActive(true);
+        if (_learnMoreGroup != null) _learnMoreGroup.SetActive(false);
+
         RefreshGrid();
 
         _encyclopediaGroup.SetActive(true);
@@ -144,6 +160,9 @@ public class EncyclopediaUI : MonoBehaviour
         _isViewAllMode = true;
 
         _currentIndex = 0;
+
+        if (_learnMoreGroup != null) _learnMoreGroup.SetActive(true);
+        if (_collectionGroup != null) _collectionGroup.SetActive(false);
 
         _learnMoreGroup.SetActive(true);
         SetButtonChildActive(_collectionTabButton, false);
@@ -178,7 +197,9 @@ public class EncyclopediaUI : MonoBehaviour
             _currentIndex = 0;
         }
 
-        _learnMoreGroup.SetActive(true);
+        if (_learnMoreGroup != null) _learnMoreGroup.SetActive(true);
+        if (_collectionGroup != null) _collectionGroup.SetActive(false);
+
         SetButtonChildActive(_collectionTabButton, false);
         SetButtonChildActive(_learnMoreTabButton, true);
 
@@ -212,8 +233,7 @@ public class EncyclopediaUI : MonoBehaviour
 
         if (!isCollected)
         {
-            _detailFishImage.color = Color.black;
-            _detailFishImage.sprite = fish.Icon;
+            _detailModelViewer.ClearModel();
             _nameText.text = "???";
             _hpText.text = "???";
             _countText.text = "???";
@@ -222,8 +242,7 @@ public class EncyclopediaUI : MonoBehaviour
         }
         else
         {
-            _detailFishImage.sprite = fish.Icon;
-            _detailFishImage.color = Color.white;
+            _detailModelViewer.ShowCollectionModel(fish.Prefab);
             _nameText.text = fish.Skill_name;
             _hpText.text = $"체력 : {fish.Hp}";
             _countText.text = $"{fishCount}마리 잡음";

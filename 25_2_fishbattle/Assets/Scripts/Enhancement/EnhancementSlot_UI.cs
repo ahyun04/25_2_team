@@ -7,7 +7,7 @@ public class EnhancementSlot_UI : MonoBehaviour, IDropHandler, IPointerClickHand
 {
     #region 레퍼런스
     [Header("UI 레퍼런스")]
-    [SerializeField] private Image _itemImage;
+    [SerializeField] private UIModelViewer _modelViewer;
     [SerializeField] private TextMeshProUGUI _itemNameText;
 
     public int SlotIndex { get; private set; }
@@ -71,8 +71,7 @@ public class EnhancementSlot_UI : MonoBehaviour, IDropHandler, IPointerClickHand
 
         if (item != null)
         {
-            _itemImage.sprite = item.Icon;
-            _itemImage.color = Color.white;
+            _modelViewer.ShowEnchancementModel(item.Prefab);
             if (_itemNameText != null) _itemNameText.text = item.Name;
         }
         else
@@ -89,8 +88,7 @@ public class EnhancementSlot_UI : MonoBehaviour, IDropHandler, IPointerClickHand
     private void ClearSlotUI()
     {
         _currentItem = null;
-        _itemImage.sprite = null;
-        _itemImage.color = new Color(1, 1, 1, 0);
+        _modelViewer.ClearModel();
         if (_itemNameText != null) _itemNameText.text = "";
     }
     #endregion

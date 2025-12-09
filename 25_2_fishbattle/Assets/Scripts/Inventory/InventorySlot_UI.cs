@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class InventorySlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     #region 레퍼런스
-    [SerializeField] private Image _itemImage;
+    [SerializeField] private UIModelViewer _modelViewer;
     [SerializeField] private TextMeshProUGUI _itemCountText;
     [SerializeField] private TextMeshProUGUI _itemNameText;
 
@@ -43,17 +43,15 @@ public class InventorySlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         if (item != null)
         {
-            _itemImage.sprite = item.Icon;
-            _itemImage.enabled = true;
-            _itemImage.raycastTarget = true; // 드래그를 위해 Raycast Target을 켜야 합니다.
+            if (_modelViewer != null) _modelViewer.ShowInventoryModel(item.Prefab);
+
             _itemCountText.text = _stackSize > 1 ? _stackSize.ToString() : "";
             _itemNameText.text = item.Skill_name;
         }
         else
         {
-            _itemImage.sprite = null;
-            _itemImage.enabled = false;
-            _itemImage.raycastTarget = false; // 빈 슬롯은 반응하지 않도록 합니다.
+            if (_modelViewer != null) _modelViewer.ClearModel();
+
             _itemCountText.text = "";
             _itemNameText.text = "";
         }

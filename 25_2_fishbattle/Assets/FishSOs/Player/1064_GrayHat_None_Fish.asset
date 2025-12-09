@@ -21,7 +21,7 @@ MonoBehaviour:
   Heal: 0
   Hp: 70
   AbilityToAct: 1
-  HabitatType: 0
+  HabitatType: 3
   Probability: 20
   MaxStackSize: 99
   IsPlayerCard: 1

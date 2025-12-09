@@ -113,7 +113,7 @@ public class EnhancementManager : MonoBehaviour
     private void SetResultSlot(FishSO item)
     {
         _pendingResultItem = item;
-        _resultSlotUI.SetItem(item.Icon);
+        _resultSlotUI.SetItem(item);
     }
 
     private void ClearResultSlot()

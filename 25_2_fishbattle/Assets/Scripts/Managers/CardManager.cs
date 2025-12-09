@@ -268,6 +268,15 @@ public class CardManager : SingletonMono<CardManager>
         deck.RemoveAt(0);
         hand.Add(cd);
 
+        if (isPlayer)
+        {
+            if (cd.FishId >= 1010 && cd.FishId <= 1013)
+            {
+                TurnManager.Instance.TriggerInstantWin();
+                return;
+            }
+        }
+
         if (cd.Prefab == null)
         {
             Debug.LogError($"FishSO '{cd.Name}'에 물고기 프리팹이 연결되지 않았습니다!");
@@ -336,9 +345,11 @@ public class CardManager : SingletonMono<CardManager>
         {
             foreach (var cardObj in benchArea.GetOccupiedCards())
             {
-                if (cardObj != null)
+                if (cardObj != null && cardObj.TryGetComponent<FishUnit>(out var unit))
                 {
-                    if (cardObj.TryGetComponent<FishUnit>(out var unit) && unit.CardData.Position == Position.Heal)
+                    bool isBuffer = unit.CardData.FishId >= 1060 && unit.CardData.FishId <= 1064;
+
+                    if (unit.CardData.Position == Position.Heal || isBuffer)
                     {
                         cardObj.layer = 9;
                     }

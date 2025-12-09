@@ -13,6 +13,9 @@ public class FishUnit : MonoBehaviour
     private int _currentHp;
     public int CurrentHp => _currentHp;
 
+    public int CurrentDamage { get; private set; }
+    public int CurrentHeal { get; private set; }
+
     private CardSlotArea _slotArea;
 
     public bool IsPlayerUnit { get; private set; }
@@ -25,6 +28,9 @@ public class FishUnit : MonoBehaviour
         _cardData = data;
         _currentHp = _cardData.Hp;
         IsPlayerUnit = isPlayer;
+        _currentHp = _cardData.Hp;
+        CurrentDamage = _cardData.Damage;
+        CurrentHeal = _cardData.Heal;
 
         _slotArea = GetComponentInParent<CardSlotArea>();
         if (_slotArea == null)
@@ -36,6 +42,40 @@ public class FishUnit : MonoBehaviour
     #endregion
 
     #region 전투 로직
+    public void ApplyDoubleStatsBuff()
+    {
+        Position pos = _cardData.Position;
+
+        switch (pos)
+        {
+            case Position.Attack:
+                CurrentDamage *= 2;
+                Debug.Log($"<color=cyan>[버프]</color> {_cardData.Name}(Attack)의 공격력이 2배가 되었습니다! ({CurrentDamage})");
+                break;
+
+            case Position.Heal:
+                CurrentHeal *= 2;
+                Debug.Log($"<color=cyan>[버프]</color> {_cardData.Name}(Heal)의 힐량이 2배가 되었습니다! ({CurrentHeal})");
+                break;
+
+            case Position.Defence:
+                _currentHp *= 2;
+                Debug.Log($"<color=cyan>[버프]</color> {_cardData.Name}(Defence)의 체력이 2배가 되었습니다! ({_currentHp})");
+                UpdateTooltipHp(); // 체력이 바뀌었으니 툴팁 갱신
+                break;
+
+            default:
+                // 그 외 포지션(Support 등)은 기본적으로 체력이나 공격력 중 하나를 올려주거나 생략
+                // 여기선 일단 공격력을 올려주는 것으로 예시
+                CurrentDamage *= 2;
+                Debug.Log($"<color=cyan>[버프]</color> {_cardData.Name}({pos})의 공격력이 2배가 되었습니다! ({CurrentDamage})");
+                break;
+        }
+
+        // (선택사항) 버프 이펙트 재생
+        // EffectManager.Instance.PlayBuffEffect(transform.position);
+    }
+
     public void TakeDamage(int damage)
     {
         if (IsDead) return;

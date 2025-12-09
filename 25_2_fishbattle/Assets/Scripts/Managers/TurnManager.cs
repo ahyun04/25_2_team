@@ -241,7 +241,7 @@ public class TurnManager : SingletonMono<TurnManager>
             if (targetObj.TryGetComponent<FishUnit>(out var targetUnit))
             {
                 Debug.Log($"{attackerUnit.CardData.Name}이(가) {targetUnit.CardData.Name}을(를) 공격! (소모 AP: {attackerUnit.CardData.AbilityToAct})");
-                targetUnit.TakeDamage(attackerUnit.CardData.Damage);
+                targetUnit.TakeDamage(attackerUnit.CurrentDamage);
             }
 
             yield return new WaitForSeconds(0.5f); // 공격 사이의 딜레이
@@ -343,6 +343,19 @@ public class TurnManager : SingletonMono<TurnManager>
         }
 
         _uiManager.UpdateKillCountText(); // CardManager의 UI 업데이트 메서드 호출
+    }
+
+    public void TriggerInstantWin()
+    {
+        Debug.Log("<color=yellow>★ 특수 승리 조건 달성! (전설의 물고기 획득) ★</color>");
+
+        IsGameStarted = false;
+
+        // UIManager를 통해 승리 화면 출력
+        if (_uiManager != null)
+        {
+            _uiManager.TriggerGameWin();
+        }
     }
 
     #endregion

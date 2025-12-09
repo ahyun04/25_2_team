@@ -102,16 +102,18 @@ public class CardDisplay : MonoBehaviour
         }
         else if (isFromBench)
         {
-            Debug.Log($"-> [상태] 벤치에 있는 카드입니다. (포지션: {fishData.Position})");
+            bool isBuffer = fishData.FishId >= 1060 && fishData.FishId <= 1064;
 
-            if (fishData.Position == Position.Heal)
+            if (fishData.Position == Position.Heal || isBuffer)
             {
-                Debug.Log("<color=green>[허용]</color> 힐러 유닛이므로 드래그 가능!");
+                Debug.Log($"[Bench] 특수 유닛({fishData.Name}) 드래그 허용");
             }
             else if (gameObject.layer != 9)
             {
-                Debug.Log("<color=red>[차단]</color> 힐러가 아니며, 배틀필드에 빈 자리가 없어 이동 불가.");
-                return; // 드래그 중단
+                if (fishData.FishId == 1032) Debug.Log("이 물고기는 능력이 없습니다.");
+
+                Debug.Log("이동 불가.");
+                return;
             }
             else
             {
@@ -156,7 +158,9 @@ public class CardDisplay : MonoBehaviour
 
         isDragging = false;
 
-        if (fishData.Position == Position.Heal)
+        bool isBuffer = fishData.FishId >= 1060 && fishData.FishId <= 1064;
+
+        if (fishData.Position == Position.Heal || isBuffer)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits = Physics.RaycastAll(ray);
@@ -172,26 +176,44 @@ public class CardDisplay : MonoBehaviour
 
                     if (isAlly && isBattleUnit && !targetUnit.IsDead)
                     {
-                        if (targetUnit.CurrentHp >= targetUnit.CardData.Hp)
+                        // AP 확인
+                        if (!TurnManager.Instance.SpendAP(true, fishData.AbilityToAct))
                         {
-                            Debug.Log("대상은 이미 체력이 가득 찼습니다.");
-                            ReturnToOriginalPosition("체력 Full");
-                            return;
-                        }
-                        if (TurnManager.Instance.SpendAP(true, fishData.AbilityToAct))
-                        {
-                            int healAmount = fishData.Heal;
-                            targetUnit.Heal(healAmount);
-
-                            Debug.Log($"<color=green>[힐 성공]</color> {targetUnit.CardData.Name}의 체력을 회복했습니다.");
-
-                            ReturnToOriginalPosition("힐 스킬 사용 완료");
-                            return;
-                        }
-                        else
-                        {
-                            Debug.Log("AP가 부족하여 힐을 할 수 없습니다.");
                             ReturnToOriginalPosition("AP 부족");
+                            return;
+                        }
+
+                        // A. 힐러 로직
+                        if (fishData.Position == Position.Heal)
+                        {
+                            if (targetUnit.CurrentHp >= targetUnit.CardData.Hp)
+                            {
+                                TurnManager.Instance.AddAP(true, fishData.AbilityToAct); // AP 환불
+                                ReturnToOriginalPosition("체력 Full");
+                                return;
+                            }
+                            if (TryGetComponent<FishUnit>(out var myUnit))
+                            {
+                                // 내 현재 힐량(CurrentHeal)으로 힐 실행
+                                targetUnit.Heal(myUnit.CurrentHeal);
+                                ReturnToOriginalPosition("힐 완료");
+                                return;
+                            }
+                        }
+                        // B. 버퍼 로직 (1060~1064)
+                        else if (isBuffer)
+                        {
+                            // [제약] 같은 심해어(1060~1064)끼리는 사용 불가
+                            if (targetUnit.CardData.FishId >= 1060 && targetUnit.CardData.FishId <= 1064)
+                            {
+                                Debug.Log("같은 심해어끼리는 버프를 줄 수 없습니다.");
+                                TurnManager.Instance.AddAP(true, fishData.AbilityToAct); // AP 환불
+                                ReturnToOriginalPosition("대상 제한");
+                                return;
+                            }
+
+                            targetUnit.ApplyDoubleStatsBuff();
+                            ReturnToOriginalPosition("버프 완료");
                             return;
                         }
                     }

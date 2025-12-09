@@ -230,6 +230,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void TriggerGameWin()
+    {
+        ShowEndGameUI(true);
+    }
+
     private void ClosePanle()
     {
         _inventoryPanel.SetActive(false);

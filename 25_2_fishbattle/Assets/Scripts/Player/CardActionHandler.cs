@@ -89,8 +89,8 @@ public class CardActionHandler : MonoBehaviour
         }
 
         Quaternion rotation;
-        Quaternion battleRotation = isPlayer ? Quaternion.Euler(-90, 0, 90) : Quaternion.Euler(90, 0, 90);
-        Quaternion benchRotation = isPlayer ? Quaternion.Euler(-90, 0, 90) : Quaternion.Euler(90, 0, 90);
+        Quaternion battleRotation = isPlayer ? Quaternion.Euler(-90, 0, -90) : Quaternion.Euler(90, 0, 90);
+        Quaternion benchRotation = isPlayer ? Quaternion.Euler(-90, 0, -90) : Quaternion.Euler(90, 0, 90);
 
         if (chosenArea is BattlePos)
         {

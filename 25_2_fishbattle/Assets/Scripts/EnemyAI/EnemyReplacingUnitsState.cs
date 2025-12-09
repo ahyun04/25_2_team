@@ -27,23 +27,30 @@ public class EnemyReplacingUnitsState : EnemyBaseState
                     {
                         foreach (var benchSlot in benchArea.slots)
                         {
-                            var occupiedPair = benchArea.GetFirstOccupiedSlotAndUnit();
-
-                            if (occupiedPair.Value != null)
+                            if (benchSlot.childCount > 0)
                             {
-                                // 힐러인지 확인
-                                if (occupiedPair.Value.TryGetComponent<FishUnit>(out var unit) && unit.CardData.Description.ToLower().Contains("healer"))
+                                Transform unitTrans = benchSlot.GetChild(0);
+                                if (unitTrans != null && unitTrans.TryGetComponent<FishUnit>(out var unit))
                                 {
-                                    continue; // 힐러는 건너뛰고 다음 슬롯을 확인
-                                }
+                                    bool isBattleReadyUnit = unit.CardData.Position != Position.Defence &&
+                                                             unit.CardData.Position != Position.Heal &&
+                                                             unit.CardData.Position != Position.Support;
 
-                                unitToMove = occupiedPair.Value;
-                                sourceArea = benchArea;
-                                sourceSlot = occupiedPair.Key;
-                                break;
+                                    if (isBattleReadyUnit)
+                                    {
+                                        unitToMove = unit.gameObject;
+                                        sourceArea = benchArea;
+                                        sourceSlot = benchSlot;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        // 배틀에 못 나가는 유닛은 건너뜀
+                                        continue;
+                                    }
+                                }
                             }
                         }
-
                         if (unitToMove != null) break;
                     }
 

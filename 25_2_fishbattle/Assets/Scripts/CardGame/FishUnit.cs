@@ -15,7 +15,7 @@ public class FishUnit : MonoBehaviour
 
     private CardSlotArea _slotArea;
 
-    private bool _isPlayerUnit;
+    public bool IsPlayerUnit { get; private set; }
     public bool IsDead { get; private set; } = false;
     #endregion
 
@@ -24,7 +24,7 @@ public class FishUnit : MonoBehaviour
     {
         _cardData = data;
         _currentHp = _cardData.Hp;
-        _isPlayerUnit = isPlayer;
+        IsPlayerUnit = isPlayer;
 
         _slotArea = GetComponentInParent<CardSlotArea>();
         if (_slotArea == null)
@@ -40,8 +40,31 @@ public class FishUnit : MonoBehaviour
     {
         if (IsDead) return;
 
+        if (CardData.Position != Position.Defence)
+        {
+            FishUnit benchTanker = CardManager.Instance.GetBenchTanker(this.IsPlayerUnit);
+
+            if (benchTanker != null && !benchTanker.IsDead)
+            {
+                Debug.Log($"<color=green>[방어 발동]</color> {benchTanker.CardData.Name}(벤치)가 {CardData.Name} 대신 {damage} 데미지를 입습니다!");
+
+                benchTanker.TakeDirectDamage(damage);
+
+                // 이펙트 효과 (선택사항)
+                // EffectManager.Instance.PlayEffect("ShieldBlock", transform.position); 
+                return;
+            }
+        }
+
+        TakeDirectDamage(damage);
+    }
+
+    public void TakeDirectDamage(int damage)
+    {
+        if (IsDead) return;
+
         _currentHp -= damage;
-        Debug.Log($"{_cardData.Name}이(가) {damage}의 데미지를 받아 현재 HP: {_currentHp}");
+        Debug.Log($"{_cardData.Name} ({(IsPlayerUnit ? "Player" : "Enemy")}) 피격! 남은 체력: {_currentHp}");
 
         UpdateTooltipHp();
 
@@ -49,6 +72,19 @@ public class FishUnit : MonoBehaviour
         {
             Die();
         }
+    }
+
+    // 힐 받는 함수
+    public void Heal(int amount)
+    {
+        if (IsDead) return;
+
+        int prevHp = _currentHp;
+        _currentHp = Mathf.Min(_currentHp + amount, _cardData.Hp);
+
+        Debug.Log($"<color=yellow>[회복]</color> {_cardData.Name} 체력 회복! ({prevHp} -> {_currentHp})");
+
+        UpdateTooltipHp();
     }
 
     private void UpdateTooltipHp()
@@ -64,7 +100,7 @@ public class FishUnit : MonoBehaviour
         if (IsDead) return; // Die()가 중복 호출되는 것을 방지
         IsDead = true;
 
-        if (_isPlayerUnit)
+        if (IsPlayerUnit)
         {
             TurnManager.Instance.AddKill(false);
         }

@@ -146,15 +146,18 @@ public class CardDisplay : MonoBehaviour
         // 유효한 슬롯에 드롭했는지 확인
         if (_currentSlotArea != null && _currentSlotArea.IsCardInside)
         {
+            bool isBenchOnlyUnit = fishData.Position == Position.Defence ||
+                               fishData.Position == Position.Heal ||
+                               fishData.Position == Position.Support;
+
+            if (_currentSlotArea is BattlePos && isBenchOnlyUnit)
+            {
+                ReturnToOriginalPosition($"[{fishData.Position}] 포지션은 배틀 필드에 배치할 수 없습니다. (벤치 전용)");
+                return;
+            }
+
             if (_originalParent == _cardManager.playerHandPosition.transform)
             {
-                // 힐러는 배틀 슬롯에 올릴 수 없도록 확인 (필요시)
-                if (_currentSlotArea is BattlePos && fishData.Description.ToLower().Contains("healer"))
-                {
-                    ReturnToOriginalPosition("힐러는 배틀 위치에 올릴 수 없습니다.");
-                    return;
-                }
-
                 if (!TurnManager.Instance.IsGameStarted)
                 {
                     _cardManager.SetupInitialPlayerCard(this.cardIndex);
@@ -171,9 +174,9 @@ public class CardDisplay : MonoBehaviour
             {
                 if (_currentSlotArea is BattlePos)
                 {
-                    if (fishData.Description.ToLower().Contains("healer"))
+                    if (isBenchOnlyUnit)
                     {
-                        ReturnToOriginalPosition("힐러는 배틀 위치에 올릴 수 없습니다.");
+                        ReturnToOriginalPosition($"[{fishData.Position}] 유닛은 배틀 필드로 이동할 수 없습니다.");
                         return;
                     }
 
@@ -290,7 +293,14 @@ public class CardDisplay : MonoBehaviour
 
                 if (isActive)
                 {
-                    tooltipObject.transform.localRotation = Quaternion.Euler(180, -90, -90);
+                    if (fishData.IsPlayerCard)
+                    {
+                        tooltipObject.transform.localRotation = Quaternion.Euler(180, -90, -90);
+                    }
+                    else
+                    {
+                        tooltipObject.transform.localRotation = Quaternion.Euler(0, 90, -90);
+                    }
 
                     if (tooltipObject.TryGetComponent<Tooltip>(out var tooltip))
                     {

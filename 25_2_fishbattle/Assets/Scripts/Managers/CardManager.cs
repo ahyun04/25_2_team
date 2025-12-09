@@ -142,21 +142,25 @@ public class CardManager : SingletonMono<CardManager>
     {
         var hand = isPlayer ? _playerHandCards : _enemyHandCards;
         var handObjs = isPlayer ? playerCardObjects : enemyCardObjects;
-        var battleAreas = isPlayer ? playerBattleAreas : enemyBattleAreas;
+        //var battleAreas = isPlayer ? playerBattleAreas : enemyBattleAreas;
 
         if (handIndex < 0 || handIndex >= hand.Count) return;
 
         FishSO card = hand[handIndex];
 
-        if (card.Description.ToLower().Contains("healer"))
-        {
-            Debug.Log($"[{card.Name}]은 힐러라서 배틀 슬롯에는 올릴 수 없습니다.");
-            return;
-        }
+        bool isBenchOnly = card.Position == Position.Defence ||
+                       card.Position == Position.Heal ||
+                       card.Position == Position.Support;
 
+        CardSlotArea chosenArea = null;
         Transform chosenSlot = null;
-        BattlePos chosenArea = null;
-        foreach (var area in battleAreas)
+
+        // 아까 수정한 배열 선언
+        CardSlotArea[] targetAreas = isBenchOnly
+            ? (CardSlotArea[])(isPlayer ? playerBenchAreas : enemyBenchAreas)
+            : (CardSlotArea[])(isPlayer ? playerBattleAreas : enemyBattleAreas);
+
+        foreach (var area in targetAreas)
         {
             var slot = area.GetNearestEmptySlot(Vector3.zero);
             if (slot != null)
@@ -169,7 +173,8 @@ public class CardManager : SingletonMono<CardManager>
 
         if (chosenSlot == null)
         {
-            Debug.Log("빈 배틀 슬롯이 없어 초기 카드 배치를 할 수 없습니다.");
+            string zoneName = isBenchOnly ? "벤치" : "배틀 필드";
+            Debug.Log($"빈 {zoneName} 슬롯이 없어 카드를 배치할 수 없습니다: {card.Name} ({card.Position})");
             return;
         }
 
@@ -192,7 +197,7 @@ public class CardManager : SingletonMono<CardManager>
         }
 
         // 물고기 생성될때 플레이어/적 rotation값 지정
-        Quaternion rotation = isPlayer ? Quaternion.Euler(-90, 0, 90) : Quaternion.Euler(90, 0, 90);
+        Quaternion rotation = isPlayer ? Quaternion.Euler(-90, 0, -90) : Quaternion.Euler(90, 0, 90);
 
         GameObject newFishObject = Instantiate(fishPrefab, chosenSlot.position, rotation);
         newFishObject.transform.SetParent(chosenArea.transform);
@@ -337,6 +342,66 @@ public class CardManager : SingletonMono<CardManager>
                 }
             }
         }
+    }
+
+    #endregion
+
+    #region 룰 관련 헬퍼 메서드
+
+    // 아군 벤치에 살아있는 탱커가 있는지 확인하고 반환
+    public FishUnit GetBenchTanker(bool isPlayer)
+    {
+        var benchAreas = isPlayer ? playerBenchAreas : enemyBenchAreas;
+
+        // 벤치 슬롯을 순회하며 유닛을 찾음
+        foreach (var area in benchAreas)
+        {
+            var cards = area.GetOccupiedCards();
+            foreach (var cardObj in cards)
+            {
+                if (cardObj != null && cardObj.TryGetComponent<FishUnit>(out var unit))
+                {
+                    // 죽지 않았고, 포지션이 Tanker인 경우
+                    if (!unit.IsDead && unit.CardData.Position == Position.Defence)
+                    {
+                        return unit;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public FishUnit GetMostInjuredBattleUnit(bool isPlayer)
+    {
+        var battleAreas = isPlayer ? playerBattleAreas : enemyBattleAreas;
+        FishUnit mostInjuredUnit = null;
+        int lowestHp = int.MaxValue;
+
+        foreach (var area in battleAreas)
+        {
+            // 부모 클래스(CardSlotArea)의 GetOccupiedCards 사용
+            foreach (var cardObj in area.GetOccupiedCards())
+            {
+                if (cardObj != null && cardObj.TryGetComponent<FishUnit>(out var unit))
+                {
+                    // 1. 이미 죽은 유닛 제외
+                    if (unit.IsDead) continue;
+
+                    // 2. 풀피(Full HP)인 유닛 제외 (치료할 필요 없음)
+                    if (unit.CurrentHp >= unit.CardData.Hp) continue;
+
+                    // 3. 현재 체력이 가장 낮은 유닛을 찾음 (위급한 순서)
+                    if (unit.CurrentHp < lowestHp)
+                    {
+                        lowestHp = unit.CurrentHp;
+                        mostInjuredUnit = unit;
+                    }
+                }
+            }
+        }
+
+        return mostInjuredUnit;
     }
 
     #endregion

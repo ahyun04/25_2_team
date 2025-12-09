@@ -296,6 +296,21 @@ public class TurnManager : SingletonMono<TurnManager>
         StartCoroutine(PlayerAttackRoutine());
     }
 
+    public void OnHealButtonClicked()
+    {
+        if (CurrentTurn != TeamTurn.Player)
+        {
+            Debug.Log("지금은 플레이어 턴이 아닙니다.");
+            return;
+        }
+
+        if (_isSwitchingTurns)
+        {
+            Debug.Log("턴 전환 중에는 공격할 수 없습니다.");
+            return;
+        }
+    }
+
     public void EndTurn()
     {
         // 코루틴 정리

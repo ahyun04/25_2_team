@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -39,11 +40,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button _attackButton;
     [SerializeField] private GameObject _attackLockOverlay;
 
+    [Header("Èú ¹öÆ°")]
+    [SerializeField] private Button _healButton;
+
     #endregion
 
     #region ÃÊ±âÈ­
     void Start()
     {
+        if (_healButton != null)
+        {
+            _healButton.gameObject.SetActive(false); // ½ÃÀÛÇÒ ¶© ¼û±è
+        }
+
         if (_mainCamera == null) _mainCamera = Camera.main;
 
         if (_mainCanvas != null && _mainCamera != null)
@@ -226,5 +235,6 @@ public class UIManager : MonoBehaviour
         _inventoryPanel.SetActive(false);
         ReleaseManager.Instance.CloseReleasePanle();
     }
+
     #endregion
 }

@@ -1414,10 +1414,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec43bb94818b2e74081706d99fed1060, type: 2}
   - {fileID: 11400000, guid: 64ffd7db0c0eeb142a85a7cfa8e3447d, type: 2}
   - {fileID: 11400000, guid: abd05d27bf210194a802ab9a8ee57c0d, type: 2}
-  - {fileID: 11400000, guid: e7d069655525b574fb5495b609a272aa, type: 2}
-  - {fileID: 11400000, guid: 148675e8251ae014d8d519fea10986e4, type: 2}
-  - {fileID: 11400000, guid: 719cfb73ea6675949bf5569c20dbceee, type: 2}
-  - {fileID: 11400000, guid: 9f9173b2c4f4ec1488440dc7c68c3acb, type: 2}
   - {fileID: 11400000, guid: 6c91b26d7c815354b82ce69607d661e7, type: 2}
   - {fileID: 11400000, guid: 8263f234837553642bf6d26d770567fd, type: 2}
   - {fileID: 11400000, guid: a0c89a1fd729b1b489fbb623f7a7c3b2, type: 2}
@@ -2668,6 +2664,7 @@ MonoBehaviour:
   _endTurnLockOverlay: {fileID: 771044108}
   _attackButton: {fileID: 1342451506}
   _attackLockOverlay: {fileID: 2018439535}
+  _healButton: {fileID: 0}
 --- !u!1 &1385981172
 GameObject:
   m_ObjectHideFlags: 0

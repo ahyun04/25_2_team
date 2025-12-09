@@ -68,7 +68,7 @@ public class CardSlotArea : MonoBehaviour
     #endregion
 
     #region ½½·Ô °ü¸®
-    public Transform GetNearestEmptySlot(Vector3 cardPos)
+    public virtual Transform GetNearestEmptySlot(Vector3 cardPos)
     {
         Transform nearest = null;
         float minDist = Mathf.Infinity;
@@ -87,24 +87,24 @@ public class CardSlotArea : MonoBehaviour
         return nearest;
     }
 
-    public void OccupySlot(Transform slot, GameObject card)
+    public virtual void OccupySlot(Transform slot, GameObject card)
     {
         if (slot != null)
             slotOccupants[slot] = card;
     }
 
-    public void ReleaseSlot(Transform slot)
+    public virtual void ReleaseSlot(Transform slot)
     {
         if (slot != null && slotOccupants.ContainsKey(slot))
             slotOccupants[slot] = null;
     }
 
-    public bool IsSlotOccupied(Transform slot)
+    public virtual bool IsSlotOccupied(Transform slot)
     {
         return slotOccupants.ContainsKey(slot) && slotOccupants[slot] != null;
     }
 
-    public List<GameObject> GetOccupiedCards()
+    public virtual List<GameObject> GetOccupiedCards()
     {
         List<GameObject> occupiedCards = new List<GameObject>();
         foreach (var occupant in slotOccupants.Values)

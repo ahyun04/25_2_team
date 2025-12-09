@@ -4973,8 +4973,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8987657641212855877}
   m_HandleRect: {fileID: 693466485643312773}
   m_Direction: 2
-  m_Value: 1.000001
-  m_Size: 0.22720282
+  m_Value: 0.9999995
+  m_Size: 0.22720283
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7878,9 +7878,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fishDatabase: {fileID: 11400000, guid: 9ed1fa5de722ca14dafa4943fb696e56, type: 2}
   _encyclopediaGroup: {fileID: 8135393914687445308}
-  _collectionGroup: {fileID: 0}
+  _collectionGroup: {fileID: 2543617529748279709}
   _contentTransform: {fileID: 5060798684195599400}
-  _scrollViewport: {fileID: 0}
+  _scrollViewport: {fileID: 37882724282716268}
   _learnMoreGroup: {fileID: 8913629724237808625}
   _detailModelViewer: {fileID: 7369052699364056617}
   _nameText: {fileID: 7596040955826856677}

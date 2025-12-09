@@ -9743,7 +9743,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 40
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -9769,8 +9769,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19321074, y: -0.12434999, z: 0.02469417, w: 0.97293216}
-  m_LocalPosition: {x: -15.969999, y: 7.8310003, z: -59.469997}
+  m_LocalRotation: {x: 0.33969072, y: 0, z: 0, w: 0.9405373}
+  m_LocalPosition: {x: -17.88, y: 8.024901, z: -56.73532}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14405,8 +14405,8 @@ Canvas:
   m_GameObject: {fileID: 530112763}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1945646235}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -49417,6 +49417,80 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 1, z: 5}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!1001 &1945646234
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 712.66986
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 460.0752
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1588
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809112005289755256, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8100433875655168240, guid: 6d4641e30359d8c48865091972e837b9,
+        type: 3}
+      propertyPath: m_Name
+      value: Canvas Camera
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6d4641e30359d8c48865091972e837b9, type: 3}
+--- !u!20 &1945646235 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 455880069969865896, guid: 6d4641e30359d8c48865091972e837b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1945646234}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1946520491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54617,6 +54691,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1329153778}
   - {fileID: 330585546}
+  - {fileID: 1945646234}
   - {fileID: 2013566378}
   - {fileID: 1650439842}
   - {fileID: 1555170767}

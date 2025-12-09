@@ -172,5 +172,36 @@ public class CardActionHandler : MonoBehaviour
         }
     }
 
+    public bool DeployCardToBench(bool isPlayer, int cardIndex)
+    {
+        var handDataList = isPlayer ? _cardManager._playerHandCards : _cardManager._enemyHandCards;
+        var handObjList = isPlayer ? _cardManager.playerCardObjects : _cardManager.enemyCardObjects;
+
+        if (cardIndex < 0 || cardIndex >= handDataList.Count) return false;
+
+        FishSO cardData = handDataList[cardIndex];
+
+        if (!TurnManager.Instance.SpendAP(isPlayer, cardData.AbilityToAct))
+        {
+            Debug.Log("AP가 부족하여 벤치에 배치할 수 없습니다.");
+            return false;
+        }
+
+        handDataList.RemoveAt(cardIndex);
+        handObjList.RemoveAt(cardIndex);
+
+        for (int i = 0; i < handObjList.Count; i++)
+        {
+            if (handObjList[i].TryGetComponent<CardDisplay>(out var display))
+            {
+                display.cardIndex = i;
+            }
+        }
+
+        RearrangeHand(isPlayer);
+
+        return true;
+    }
+
     #endregion
 }

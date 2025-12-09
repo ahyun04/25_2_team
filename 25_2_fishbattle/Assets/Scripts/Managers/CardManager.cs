@@ -338,7 +338,14 @@ public class CardManager : SingletonMono<CardManager>
             {
                 if (cardObj != null)
                 {
-                    cardObj.layer = layer;
+                    if (cardObj.TryGetComponent<FishUnit>(out var unit) && unit.CardData.Position == Position.Heal)
+                    {
+                        cardObj.layer = 9;
+                    }
+                    else
+                    {
+                        cardObj.layer = layer;
+                    }
                 }
             }
         }

@@ -79,7 +79,7 @@ public class NetFishing : MonoBehaviour
         float waitTime = Random.Range(_minWaitTime, _maxWaitTime);
         yield return new WaitForSeconds(waitTime);
 
-        _statusText.text = "물고기 떼가 그물에 걸렸다! 지금이야!";
+        _statusText.text = "물고기 떼가 그물에 걸렸다!\n Space클릭!";
 
         yield return StartCoroutine(WaitForInitialInput());
     }
@@ -147,7 +147,7 @@ public class NetFishing : MonoBehaviour
                 }
             }
 
-            _mashCountText.text = $"연타: {_currentMashCount} / {_mashTarget}";
+            _mashCountText.text = $"Space연타: {_currentMashCount} / {_mashTarget}";
             _timerText.text = $"남은 시간: {timer:F2}초";
 
             timer -= Time.deltaTime;

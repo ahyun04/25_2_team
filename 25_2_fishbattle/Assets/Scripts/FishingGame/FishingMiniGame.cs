@@ -146,7 +146,7 @@ public class FishingMiniGame : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         _bobberHitText.gameObject.SetActive(true);
-        _bobberHitText.text = "물고기가 찌를 물었다!";
+        _bobberHitText.text = "물고기가 찌를 물었다! Space 클릭!";
         _isBobberHit = true;
 
         yield return StartCoroutine(WaitForPlayerInput());
